@@ -24,7 +24,8 @@ Puppet::Type.type(:graylog_input).provide(:graylog_api, parent: Puppet::Provider
     aws_cloudwatch: 'org.graylog.aws.inputs.cloudwatch.CloudWatchLogsInput', 
     aws_flow_logs: 'org.graylog.aws.inputs.flowlogs.FlowLogsInput',
     netflow_udp: 'org.graylog.plugins.netflow.inputs.NetFlowUdpInput',
-    beats: 'org.graylog.plugins.beats.BeatsInput', 
+    beats: 'org.graylog.plugins.beats.BeatsInput',
+    beats2: 'org.graylog.plugins.beats.Beats2Input',
     json_path: 'org.graylog2.inputs.misc.jsonpath.JsonPathInput', 
     fake: 'org.graylog2.inputs.random.FakeHttpMessageInput',
   }
