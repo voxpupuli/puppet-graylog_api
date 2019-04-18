@@ -4,9 +4,16 @@ Puppet::Type.type(:graylog_pipeline).provide(:graylog_api, parent: Puppet::Provi
 
   mk_resource_methods
 
+  def self.api_prefix
+    major_version == 2 ? 'plugins/org.graylog.plugins.pipelineprocessor/' : ''
+  end
+  def api_prefix
+    self.class.api_prefix
+  end
+
   def self.instances
-    pipelines = get('plugins/org.graylog.plugins.pipelineprocessor/system/pipelines/pipeline')
-    connections = get('plugins/org.graylog.plugins.pipelineprocessor/system/pipelines/connections')
+    pipelines = get("#{api_prefix}system/pipelines/pipeline")
+    connections = get("#{api_prefix}system/pipelines/connections")
     pipelines.map do |data|
       connected_streams = connections.select {|conn| conn['pipeline_ids'].include?(data['id']) }.map do |conn|
         stream_id = conn['stream_id']
@@ -30,7 +37,7 @@ Puppet::Type.type(:graylog_pipeline).provide(:graylog_api, parent: Puppet::Provi
   end
 
   def flush
-    simple_flush('plugins/org.graylog.plugins.pipelineprocessor/system/pipelines/pipeline',{
+    simple_flush("#{api_prefix}system/pipelines/pipeline",{
       title: resource[:name],
       description: resource[:description],
       source: resource[:source],
@@ -41,7 +48,7 @@ Puppet::Type.type(:graylog_pipeline).provide(:graylog_api, parent: Puppet::Provi
       raise "Could not find stream named #{stream_name}" unless stream
       stream['id']
     end
-    post('plugins/org.graylog.plugins.pipelineprocessor/system/pipelines/connections/to_pipeline',{
+    post("#{api_prefix}system/pipelines/connections/to_pipeline",{
       pipeline_id: self.rest_id,
       stream_ids: connected_stream_ids,
     })

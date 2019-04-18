@@ -40,4 +40,5 @@ Puppet::Type.newtype(:graylog_api) do
       true
     end
   end
+
 end

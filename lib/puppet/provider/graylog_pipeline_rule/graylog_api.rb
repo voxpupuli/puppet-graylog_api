@@ -4,8 +4,15 @@ Puppet::Type.type(:graylog_pipeline_rule).provide(:graylog_api, parent: Puppet::
 
   mk_resource_methods
 
+  def self.api_prefix
+    major_version == 2 ? 'plugins/org.graylog.plugins.pipelineprocessor/' : ''
+  end
+  def api_prefix
+    self.class.api_prefix
+  end
+
   def self.instances
-    results = get('plugins/org.graylog.plugins.pipelineprocessor/system/pipelines/rule')
+    results = get("#{api_prefix}system/pipelines/rule")
     results.map do |data|
       item = new(
         ensure: :present,
@@ -19,7 +26,7 @@ Puppet::Type.type(:graylog_pipeline_rule).provide(:graylog_api, parent: Puppet::
   end
 
   def flush
-    simple_flush('plugins/org.graylog.plugins.pipelineprocessor/system/pipelines/rule',{
+    simple_flush("#{api_prefix}system/pipelines/rule",{
       title: resource[:name],
       description: resource[:description],
       source: resource[:source],

@@ -1,10 +1,12 @@
 require 'httparty' if Puppet.features.httparty?
 require 'json' if Puppet.features.json?
+require 'retries' if Puppet.features.retries?
 
 class Puppet::Provider::GraylogAPI < Puppet::Provider
 
   confine feature: :json
   confine feature: :httparty
+  confine feature: :retries
 
   class << self
     attr_writer :api_password, :api_port
@@ -15,6 +17,14 @@ class Puppet::Provider::GraylogAPI < Puppet::Provider
 
     def api_port
       @api_port || ENV['GRAYLOG_API_PORT']
+    end
+
+    def version
+      get('system')['version']
+    end
+
+    def major_version
+      version.split('.').first.to_i
     end
 
     def request(method,path,params={})
@@ -138,7 +148,7 @@ class Puppet::Provider::GraylogAPI < Puppet::Provider
     end
   end
 
-  [:request, :get, :put, :post, :delete, :symbolize].each do |m|
+  [:request, :get, :put, :post, :delete, :symbolize, :version, :major_version].each do |m|
     method = self.method(m)
     define_method(m) {|*args| method.call(*args) }
   end
