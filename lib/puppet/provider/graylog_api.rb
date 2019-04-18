@@ -20,11 +20,11 @@ class Puppet::Provider::GraylogAPI < Puppet::Provider
     end
 
     def version
-      get('system')['version']
+      @version ||= get('system')['version']
     end
 
     def major_version
-      version.split('.').first.to_i
+      @major_version ||= version.split('.').first.to_i
     end
 
     def request(method,path,params={})
