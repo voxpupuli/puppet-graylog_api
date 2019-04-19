@@ -40,7 +40,7 @@ Puppet::Type.type(:graylog_input).provide(:graylog_api, parent: Puppet::Provider
         name: data['title'],
         type: data['type'],
         scope: (data['global'] ? 'global' : 'local'),
-        configuration: data['attributes'],
+        configuration: recursive_undef_to_nil(data['attributes']),
       )
       input.rest_id = data['id']
       input

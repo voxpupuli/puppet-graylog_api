@@ -28,7 +28,8 @@ Puppet::Type.type(:graylog_stream).provide(:graylog_api, parent: Puppet::Provide
 
   RULE_TYPES = %w{equals matches greater_than less_than field_presence contain always_match}
 
-  def self.rule_from_data(data)
+  def self.rule_from_data(d)
+    data = recursive_undef_to_nil(d)
     {
       'field'       => data['field'],
       'description' => data['description'],
