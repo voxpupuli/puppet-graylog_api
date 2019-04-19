@@ -5,7 +5,7 @@ Puppet::Type.type(:graylog_lookup_cache).provide(:graylog_api, parent: Puppet::P
   mk_resource_methods
 
   def self.instances
-    results = get('system/lookup/cache')
+    results = get('system/lookup/caches')
     results['caches'].map do |data|
       cache = new(
         ensure: :present,
@@ -20,7 +20,7 @@ Puppet::Type.type(:graylog_lookup_cache).provide(:graylog_api, parent: Puppet::P
   end
 
   def flush
-    simple_flush("system/lookup/cache",{
+    simple_flush("system/lookup/caches",{
       name: resource[:name],
       title: resource[:display_name],
       description: resource[:description],
