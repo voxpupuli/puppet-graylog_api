@@ -134,7 +134,7 @@ class Puppet::Provider::GraylogAPI < Puppet::Provider
   end
 
   # Under Puppet Apply, undef in puppet-lang becomes :undef instead of nil
-  def recursive_undef_to_nil(data)
+  def self.recursive_undef_to_nil(data)
     return data unless Puppet.settings[:name] == 'apply'
     case data
     when :undef
@@ -148,7 +148,7 @@ class Puppet::Provider::GraylogAPI < Puppet::Provider
     end
   end
 
-  [:request, :get, :put, :post, :delete, :symbolize, :version, :major_version].each do |m|
+  [:request, :get, :put, :post, :delete, :symbolize, :version, :major_version, :recursive_undef_to_nil].each do |m|
     method = self.method(m)
     define_method(m) {|*args| method.call(*args) }
   end
