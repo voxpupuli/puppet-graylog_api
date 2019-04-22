@@ -1,5 +1,25 @@
 Puppet::Type.newtype(:graylog_lookup_cache) do
 
+  @doc = <<-END_OF_DOC
+    Creates a Lookup Table Cache.
+
+    Example:
+
+      graylog_lookup_cache { 'example-cache':
+        ensure        => present,
+        display_name  => 'Example Data',
+        description   => 'A cache of example data.',
+        configuration => {
+          type                     => 'guava_cache',
+          max_size                 => 1000,
+          expire_after_access      => 60,
+          expire_after_access_unit => 'SECONDS',
+          expire_after_write       => 0,
+          expire_after_write_unit  => undef,
+        },
+      }
+  END_OF_DOC
+  
   ensurable
 
   newparam(:name) do
@@ -10,15 +30,15 @@ Puppet::Type.newtype(:graylog_lookup_cache) do
   end
 
   newproperty(:display_name) do
-    desc 'The display name (Graylog calls this "title") of the Lookup Cache'
+    desc 'The display name (Graylog calls this "title") of the Lookup Cache.'
   end
 
   newproperty(:description) do
-    desc 'A description of the Lookup Cache'
+    desc 'A description of the Lookup Cache.'
   end
 
   newproperty(:configuration) do
-    desc 'The configuration of the Lookup Cache'
+    desc 'A hash of configuration for the Lookup Cache. The exact properties will vary depending on the type of cache being managed.'
   end
 
   autorequire('graylog_api') {'api'}

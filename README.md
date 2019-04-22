@@ -1,15 +1,4 @@
-
 # graylog_api
-
-Welcome to your new module. A short overview of the generated parts can be found in the PDK documentation at https://puppet.com/pdk/latest/pdk_generating_modules.html .
-
-The README template below provides a starting point with details about what information to include in your README.
-
-
-
-
-
-
 
 #### Table of Contents
 
@@ -24,72 +13,164 @@ The README template below provides a starting point with details about what info
 
 ## Description
 
-Briefly tell users why they might want to use your module. Explain what your module does and what kind of problems users can solve with it.
-
-This should be a fairly short description helps the user decide if your module is what they want.
-
+This module allows you to use Graylog's REST API to adjust its configuration.
+It picks up where the official graylog module leaves off.
 
 ## Setup
 
-### What graylog_api affects **OPTIONAL**
+### What graylog_api affects
 
-If it's obvious what your module touches, you can skip this section. For example, folks can probably figure out that your mysql_instance module affects their MySQL instances.
+This module manages configuration aspects of Graylog that can only be adjusted
+via the REST API. This includes:
 
-If there's more that they should know about, though, this is the place to mention:
+* LDAP Authentication
+* User roles
+* Inputs
+* Streams
+* Pipelines and Pipeline rules
+* Lookup Tables, Data Adapters and Caches
+* Grok Patterns
 
-* Files, packages, services, or operations that the module will alter, impact, or execute.
-* Dependencies that your module automatically installs.
-* Warnings or other important notices.
+More components of Graylog configuration are in scope for this module, but they
+have not been implemented yet.
 
-### Setup Requirements **OPTIONAL**
+### Setup Requirements
 
-If your module requires anything extra before setting up (pluginsync enabled, another module, etc.), mention it here.
+The Ruby installation used by the Puppet agent on the Graylog server will need
+to have the `httparty` and `retries` gems installed. The easiest way to manage
+this is to use a `package` resource with the `puppet_gem` provider:
 
-If your most recent release breaks compatibility or requires particular steps for upgrading, you might want to include an additional "Upgrading" section here.
+```puppet
+package { ['httparty','retries']:
+  ensure   => present,
+  provider => 'puppet_gem',
+}
+```
+
+The server will also need to have Graylog installed, of course. For this we
+recommend the official graylog-graylog module.
 
 ### Beginning with graylog_api
 
-The very basic steps needed for a user to get the module up and running. This can include setup steps, if necessary, or it can be an example of the most basic use of the module.
+In order to use any of the resources contained in this module, you first need
+to supply the credentials the module should use to access the REST API. In
+general, this should be the root credentials. Provide these through the
+`graylog_api` resource.
+
+```puppet
+graylog_api { 'api':
+  username => 'admin',
+  password => $password,
+  port     => 9000,
+}
+```
+
+The resource title here _must_ be `'api'`.
+
+#### Supplying the password
+This module requires the graylog root password in cleartext in order to be able
+to authenticate to the API. The official graylog module, on the other hand,
+only needs the password hash. Rather than storing both the password and the
+hash, we recommend storing the password in Hiera using EYAML, and computing the
+hash using Puppet's built-in `sha256` function.
 
 ## Usage
 
-Include usage examples for common use cases in the **Usage** section. Show your users how to use your module to solve problems, and be sure to include code examples. Include three to five examples of the most important or common tasks a user can accomplish with your module. Show users how to accomplish more complex tasks that involve different types, classes, and functions working in tandem.
+### Configure the default index set
 
-## Reference
-
-This section is deprecated. Instead, add reference information to your code as Puppet Strings comments, and then use Strings to generate a REFERENCE.md in your module. For details on how to add code comments and generate documentation with Strings, see the Puppet Strings [documentation](https://puppet.com/docs/puppet/latest/puppet_strings.html) and [style guide](https://puppet.com/docs/puppet/latest/puppet_strings_style.html)
-
-If you aren't ready to use Strings yet, manually create a REFERENCE.md in the root of your module directory and list out each of your module's classes, defined types, facts, functions, Puppet tasks, task plans, and resource types and providers, along with the parameters for each.
-
-For each element (class, defined type, function, and so on), list:
-
-  * The data type, if applicable.
-  * A description of what the element does.
-  * Valid values, if the data type doesn't make it obvious.
-  * Default value, if any.
-
-For example:
-
+```puppet
+graylog_index_set { 'Default index set':
+  description                => 'The Graylog default index set',
+  prefix                     => 'graylog',
+  shards                     => 1,
+  replicas                   => 0,
+  rotation_strategy          => 'size',
+  rotation_strategy_details  => {
+    max_size => '10 GB'.to_bytes,
+  },
+  retention_strategy         => 'delete',
+  retention_strategy_details => {
+    max_number_of_indices => 10,
+  },
+}
 ```
-### `pet::cat`
 
-#### Parameters
+### Configure inputs
 
-##### `meow`
+```puppet
+# Default properties are often acceptable
+graylog_api::input::gelf_tcp { 'A GELF TCP Input': }
 
-Enables vocalization in your cat. Valid options: 'string'.
+# But you can customize if you want
+graylog_api::input::gelf_tcp { 'A GELF TCP Input with TLS':
+  port          => 12202,
+  tls_cert_file => '/etc/graylog/server/tls/cert.pem',
+  tls_enable    => true,
+  tls_key_file  => '/etc/graylog/server/tls/key.pem',
+}
+```
 
-Default: 'medium-loud'.
+### Load Grok Patterns
+
+```puppet
+# Load a single pattern
+graylog_grok_pattern { 'SOMEFORMAT':
+  pattern => '%{WORD:username} %{IP:ipaddress} %{GREEDYDATA:message}',
+}
+
+# Or load a bunch of patterns from a pattern file
+graylog_api::grok::pattern_file { 'common patterns':
+  content => file('profile/graylog/patterns/common),
+}
+```
+
+### Set up processing pipelines
+
+```puppet
+# First set up some rules
+graylog_api::pipeline::rule { 'copy message to full_message':
+  description => 'Copy the message field to the full_message field before performing extraction',
+  condition   => 'has_field("message") && has_field("log_format") && !has_field("full_message")',
+  action      => 'set_field("full_message",$message.message);',
+}
+
+graylog_api::pipeline::rule { 'parse log format':
+  description => 'Parse log via GROK if log_format field is provided',
+  condition   => 'has_field("log_format")',
+  action      => @(END_OF_ACTION),
+                 let format_name = uppercase(to_string($message.log_format));
+                 let pattern = concat(concat("%{",format_name),"}");
+                 let map = grok(pattern: pattern, value: to_string($message.message), only_named_captures: true);
+                 remove_field("log_format");
+                 set_fields(map);
+                 |-END_OF_ACTION
+}
+
+# Then put those rules in a pipeline
+graylog_api::pipeline { 'custom log formats':
+  description       => "Parse custom log formats",
+  stages            => [
+    'copy message to full_message',
+    'parse log format'
+  ],
+  connected_streams => ['All messages'],
+}
 ```
 
 ## Limitations
 
-In the Limitations section, list any incompatibilities, known issues, or other warnings.
+There are a lot of different settings in Graylog that this module cannot yet
+manage. Essentially it only manages those settings that we've needed so far
+ourselves.
 
-## Development
+This module aims for compatibility with both Graylog 2.x and Graylog 3.x, but
+has not been heavily tested on 3.x at this time.
 
-In the Development section, tell other users the ground rules for contributing to your project and how they should submit their work.
+If you discover any issues, please report them at
+https://github.com/philomory/puppet-graylog_api/issues
 
-## Release Notes/Contributors/Etc. **Optional**
+## License and Authorship
 
-If you aren't using changelog, put your release notes here (though you should consider using changelog). You can also add any additional sections you feel are necessary or important to include here. Please use the `## ` header.
+This module was authored by Adam Gardner, and is Copyright (c) 2019 Magic Memories (USA) LLC. 
+
+It is distributed under the terms of the Apache-2.0 license; see the LICENSE file for details.

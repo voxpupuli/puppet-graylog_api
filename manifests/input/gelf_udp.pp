@@ -1,3 +1,30 @@
+# @summary
+#   Defines an input accepting GELF over UDP.
+#
+# @param ensure
+#   Whether this input should exist.
+#
+# @param bind_address
+#   The IP address to listen on. Defaults to 0.0.0.0.
+#
+# @param decompress_size_limit
+#   The maximum number of bytes of decompressed message data will be accepted
+#   in a single POST. Defaults to 8 megabytes.
+#
+# @param override_source
+#   The source is a hostname derived from the received packet by default. Set
+#   this if you want to override it with a custom string.
+#
+# @param port
+#   The port to listen on. Defaults to 12280.
+#
+# @param recv_buffer_size
+#   The size in bytes of the recvBufferSize for network connections to this
+#   input. Defaults to 256 kilobytes.
+#
+# @param scope
+#   Whether this input is defined on all nodes ('global') or just this node
+#   ('local'). Default is global.
 define graylog_api::input::gelf_udp(
   Enum['present','absent']  $ensure                    = 'present',
   String                    $bind_address              = '0.0.0.0',

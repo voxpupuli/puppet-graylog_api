@@ -1,5 +1,23 @@
 Puppet::Type.newtype(:graylog_lookup_table) do
 
+  @doc = <<-END_OF_DOC
+    Configures a Lookup Table.
+
+    Example:
+
+      graylog_lookup_table { 'example-data':
+        ensure                    => present,
+        display_name              => "Example Lookup Table",
+        description               => 'A ookup table of example data.',
+        adapter                   => 'example-adapter',
+        cache                     => 'example-cache',
+        default_single_value      => 'foo',
+        default_single_value_type => 'STRING',
+        default_multi_value       => '',
+        default_multi_value_type  => 'NULL',
+      }
+  END_OF_DOC
+
   ensurable
 
   newparam(:name) do
@@ -10,35 +28,35 @@ Puppet::Type.newtype(:graylog_lookup_table) do
   end
 
   newproperty(:display_name) do
-    desc 'The display name (Graylog calls this "title") of the Lookup Table'
+    desc 'The display name (Graylog calls this "title") of the Lookup Table.'
   end
 
   newproperty(:description) do
-    desc 'A description of the Lookup Table'
+    desc 'A description of the Lookup Table.'
   end
 
   newproperty(:default_single_value) do
-    desc 'The default value for a single-value lookup'
+    desc 'The default value for a single-value lookup.'
   end
 
   newproperty(:default_single_value_type) do
-    desc 'The default value type for a single-value lookup'
+    desc 'The default value type for a single-value lookup.'
   end
 
   newproperty(:default_multi_value) do
-    desc 'The default value for a multi-value lookup'
+    desc 'The default value for a multi-value lookup.'
   end
 
   newproperty(:default_multi_value_type) do
-    desc 'The default value type for a multi-value lookup'
+    desc 'The default value type for a multi-value lookup.'
   end
 
   newproperty(:adapter) do
-    desc 'The name of the Lookup Adapter used for this Lookup Table'
+    desc 'The name of the Lookup Adapter used for this Lookup Table.'
   end
 
   newproperty(:cache) do
-    desc 'The name of the Lookup Cache used for this Lookup Table'
+    desc 'The name of the Lookup Cache used for this Lookup Table.'
   end
 
   autorequire('graylog_api') {'api'}
