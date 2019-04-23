@@ -1,6 +1,6 @@
 Puppet::Type.newtype(:graylog_lookup_cache) do
 
-  @doc = <<-END_OF_DOC
+  desc <<-END_OF_DOC
     Creates a Lookup Table Cache.
 
     Example:

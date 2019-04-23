@@ -2,7 +2,7 @@ require 'puppet/property/boolean'
 
 Puppet::Type.newtype(:graylog_pipeline_rule) do
 
-  @doc = <<-END_OF_DOC
+  desc <<-END_OF_DOC
     Creates a Pipeline Rule. Note that the rule name given in the rule source
     must match the name of the resource as well. You may opt to use the
     graylog_api::pipeline::rule defined type instead, which manages that

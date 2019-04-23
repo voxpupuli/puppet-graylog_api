@@ -2,7 +2,7 @@ require 'puppet/property/boolean'
 
 Puppet::Type.newtype(:graylog_pipeline) do
 
-  @doc = <<-END_OF_DOC
+  desc <<-END_OF_DOC
     Creates a processing pipeline. This type takes the pipeline definition as
     source text; note that the pipeline name in the source text must match the
     resource title. Overall, you may find it more convenient to use the

@@ -1,5 +1,5 @@
 Puppet::Type.newtype(:graylog_grok_pattern) do
-  @doc = <<~END_OF_DOC
+  desc <<~END_OF_DOC
     Installs a Grok pattern. Note that when representing Grok patterns in
     Puppet code or YAML-formatted Hiera data, extra escaping is necessary for
     many regex characters. Thus, it is often more convenient to use the

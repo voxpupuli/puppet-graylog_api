@@ -1,6 +1,6 @@
 Puppet::Type.newtype(:graylog_lookup_table) do
 
-  @doc = <<-END_OF_DOC
+  desc <<-END_OF_DOC
     Configures a Lookup Table.
 
     Example:

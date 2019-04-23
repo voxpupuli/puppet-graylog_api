@@ -2,7 +2,7 @@ require 'puppet/property/boolean'
 
 Puppet::Type.newtype(:graylog_stream) do
 
-  @doc = <<-END_OF_DOC
+  desc <<-END_OF_DOC
     Creates a Stream configuration.
 
     Example:

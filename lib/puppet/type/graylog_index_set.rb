@@ -2,7 +2,7 @@ require 'puppet/property/boolean'
 
 Puppet::Type.newtype(:graylog_index_set) do
 
-  @doc = <<-END_OF_DOC
+  desc <<-END_OF_DOC
     Creates and configures an Index Set. Use the name 'Default index set' to
     configure the pre-existing default index set created for new installations.
 

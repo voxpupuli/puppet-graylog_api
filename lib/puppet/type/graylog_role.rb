@@ -1,6 +1,6 @@
 Puppet::Type.newtype(:graylog_role) do
 
-  @doc = <<-END_OF_DOC
+  desc <<-END_OF_DOC
     A user role definition. Note that the Admin and Reader roles are built-in
     and cannot be modified.
 

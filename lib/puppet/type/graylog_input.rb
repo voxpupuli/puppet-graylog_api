@@ -1,6 +1,6 @@
 Puppet::Type.newtype(:graylog_input) do
 
-  @doc = <<-END_OF_DOC
+  desc <<-END_OF_DOC
     Creates a new input. This type covers the raw API and is agnostic to the
     type of input being created. In most cases, you should declare inputs using
     the graylog_api::input::* defined types, which wrap this type and provide
