@@ -1,6 +1,8 @@
 # @summary
 #   Define a processing pipeline. A convenience wrapper around graylog_pipeline
 #   which prevents certain errors.
+#
+#  @note
 #   NOTE: This class is a work in progress in many ways. It's probably smarter
 #   to use graylog_pipeline directly until this has been fleshed out more.
 #   The main problem is that this defined type doesn't allow assigning stages
