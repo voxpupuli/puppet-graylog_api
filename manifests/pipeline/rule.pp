@@ -3,8 +3,7 @@
 #   which ensures no mismatch between the name in the rule source and the name
 #   of the resource.
 #
-# @example
-#
+# @example Creating a pipeline rule
 #   graylog_api::pipeline::rule { 'example':
 #     description => 'an example rule',
 #     condition   => 'has_field("foo")',

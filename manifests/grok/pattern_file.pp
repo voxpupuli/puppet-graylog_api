@@ -8,7 +8,7 @@
 #   a pattern with the same name, this will lead to a duplicate declaration
 #   error.
 #
-# @example
+# @example Loading a patterns file
 #   graylog_api::grok::pattern_file { 'example patterns': 
 #     contents => file('profile/graylog/patterns/example_patterns'),
 #   }

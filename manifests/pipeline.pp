@@ -7,18 +7,40 @@
 #   an explicit priority, insteading giving them priority in order counting
 #   from 1.
 #
-# @example
-#
+# @example Creating a pipeline where each stage is a single rule
 #   graylog_api::pipeline { 'example',
 #     description => 'an example pipeline',
 #     stages      => [
-#       'a single rule gets its own stage',
-#       [ 'an array of rules', 'that make up the next stage', 'using match all'],
+#       'rule 1',
+#       'rule 2',
+#     ],
+#     streams     => ['All messages'],
+#   }
+#
+# @example Creating a pipeline where each stage has multiple rules
+#   graylog_api::pipeline { 'example': 
+#     description => 'an example pipeline',
+#     stages      => [
+#       ['rule 1a', 'rule 1b'],
+#       ['rule 2a', 'rule 2b'],
+#     ],
+#     streams     => ['All messages'],
+#   }
+#
+# @example Creating a pipeline where stages have explicit match types
+#   graylog_api::pipeline { 'example': 
+#     description => 'an example pipeline', 
+#     stages      => [
+#       {
+#         match => 'all',
+#         rules => ['rule 1a', 'rule 1b'],
+#       },
 #       {
 #         match => 'either',
-#         rules => ['another stage', 'with explicit', 'match type'],
+#         rules => ['rule 2a', 'rule 2b'],
 #       },
 #     ],
+#     streams     => ['All messages'],
 #   }
 #
 # @param description
