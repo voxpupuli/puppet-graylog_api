@@ -9,7 +9,7 @@ class Puppet::Provider::GraylogAPI < Puppet::Provider
   confine feature: :retries
 
   class << self
-    attr_writer :api_password, :api_port
+    attr_writer :api_password, :api_port, :api_username
 
     def api_password
       @api_password || ENV['GRAYLOG_API_PASSWORD']
@@ -17,6 +17,10 @@ class Puppet::Provider::GraylogAPI < Puppet::Provider
 
     def api_port
       @api_port || ENV['GRAYLOG_API_PORT']
+    end
+
+    def api_username
+      @api_username || ENV['GRAYLOG_API_USERNAME']
     end
 
     def version
@@ -54,7 +58,7 @@ class Puppet::Provider::GraylogAPI < Puppet::Provider
           method,
           "http://localhost:#{api_port}/api/#{path}",
           basic_auth: {
-            username: 'admin',
+            username: api_username,
             password: api_password,
           },
           headers: headers,
