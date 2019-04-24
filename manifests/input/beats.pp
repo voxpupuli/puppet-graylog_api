@@ -1,10 +1,9 @@
 # @summary
 #   Defines a Beats input.
 #
-# @note
-#   This is the Beats input from Graylog 2.x, still available in Graylog 3.x as
-#  'Beats (deprecated)'. For the new Beats input introduced in Graylog 3.0, see
-#   graylog_api::input::beats2
+# This is the Beats input from Graylog 2.x, still available in Graylog 3.x as
+# 'Beats (deprecated)'. For the new Beats input introduced in Graylog 3.0, see
+# graylog_api::input::beats2
 #
 # @param ensure
 #   Whether this input should exist.

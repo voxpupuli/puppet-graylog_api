@@ -1,10 +1,10 @@
 # @summary
 #   Loads a full file worth of Grok patterns into Graylog.
 #
-# @note
-#   Since Grok patterns can contain numerous characters that would require
-#   escaping in either Hiera data or Puppet code, it's usually more convienient
-#   to keep them in their own dedicated files.
+# This loads a full file worth of Grok patterns into Graylog. Since Grok
+# patterns can contain numerous characters that would require escaping in
+# either Hiera data or Puppet code, it's usually more convienient to keep them
+# in their own dedicated files.
 #
 # @note
 #   Note that if you load multiple files, and more than one such file defines

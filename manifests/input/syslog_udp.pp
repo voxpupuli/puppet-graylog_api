@@ -1,5 +1,7 @@
 # @summary
-#   Defines an input accepting Syslog messages over UDP.
+#   Defines a Syslog-UDP input.   
+#
+# Defines an input accepting Syslog messages over UDP.
 #
 # @param ensure
 #   Whether this input should exist.

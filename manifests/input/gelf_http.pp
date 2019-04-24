@@ -1,5 +1,7 @@
 # @summary
-#   Defines an input accepting GELF-formatted JSON over HTTP POST.
+#   Defines a GELF-HTTP input.
+#
+# Defines an input accepting GELF-formatted JSON over HTTP POST.
 #
 # @param ensure
 #   Whether this input should exist.

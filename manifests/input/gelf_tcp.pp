@@ -1,5 +1,7 @@
 # @summary
-#   Defines an input accepting GELF over TCP, optionally encrypted with TLS.
+#   Defines a GELF-TCP input.
+#
+# Defines an input accepting GELF over TCP, optionally encrypted with TLS.
 #
 # @param ensure
 #   Whether this input should exist.

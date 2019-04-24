@@ -8,12 +8,11 @@
 * [`graylog_api::grok::pattern_file`](#graylog_apigrokpattern_file): Loads a full file worth of Grok patterns into Graylog.
 * [`graylog_api::input::beats`](#graylog_apiinputbeats): Defines a Beats input.
 * [`graylog_api::input::beats2`](#graylog_apiinputbeats2): Defines a Beats input.
-* [`graylog_api::input::gelf_http`](#graylog_apiinputgelf_http): Defines an input accepting GELF-formatted JSON over HTTP POST.
-* [`graylog_api::input::gelf_tcp`](#graylog_apiinputgelf_tcp): Defines an input accepting GELF over TCP, optionally encrypted with TLS.
-* [`graylog_api::input::gelf_udp`](#graylog_apiinputgelf_udp): Defines an input accepting GELF over UDP.
-* [`graylog_api::input::syslog_udp`](#graylog_apiinputsyslog_udp): Defines an input accepting Syslog messages over UDP.
-* [`graylog_api::pipeline`](#graylog_apipipeline): Define a processing pipeline. A convenience wrapper around graylog_pipeline
-which prevents certain errors.
+* [`graylog_api::input::gelf_http`](#graylog_apiinputgelf_http): Defines a GELF-HTTP input.
+* [`graylog_api::input::gelf_tcp`](#graylog_apiinputgelf_tcp): Defines a GELF-TCP input.
+* [`graylog_api::input::gelf_udp`](#graylog_apiinputgelf_udp): Defines a GELF-UDP input.
+* [`graylog_api::input::syslog_udp`](#graylog_apiinputsyslog_udp): Defines a Syslog-UDP input.
+* [`graylog_api::pipeline`](#graylog_apipipeline): Define a processing pipeline.
 * [`graylog_api::pipeline::rule`](#graylog_apipipelinerule): Defines a pipeline rule.
 
 **Resource types**
@@ -35,11 +34,14 @@ which prevents certain errors.
 
 ### graylog_api::grok::pattern_file
 
-Loads a full file worth of Grok patterns into Graylog.
+This loads a full file worth of Grok patterns into Graylog. Since Grok
+patterns can contain numerous characters that would require escaping in
+either Hiera data or Puppet code, it's usually more convienient to keep them
+in their own dedicated files.
 
-* **Note** Since Grok patterns can contain numerous characters that would require
-escaping in either Hiera data or Puppet code, it's usually more convienient
-to keep them in their own dedicated files.
+* **Note** Note that if you load multiple files, and more than one such file defines
+a pattern with the same name, this will lead to a duplicate declaration
+error.
 
 #### Examples
 
@@ -67,10 +69,9 @@ Graylog documentation for a full description of the Grok pattern format.
 
 ### graylog_api::input::beats
 
+This is the Beats input from Graylog 2.x, still available in Graylog 3.x as
 'Beats (deprecated)'. For the new Beats input introduced in Graylog 3.0, see
-  graylog_api::input::beats2
-
-* **Note** This is the Beats input from Graylog 2.x, still available in Graylog 3.x as
+graylog_api::input::beats2
 
 #### Parameters
 
@@ -197,9 +198,7 @@ Default value: ''
 
 ### graylog_api::input::beats2
 
-Defines a Beats input.
-
-* **Note** This is the new Beats input introduced in Graylog 3. For the prior Beats
+This is the new Beats input introduced in Graylog 3. For the prior Beats
 input (still available in as 'Beats (deprecated)'), see
 graylog_api::input::beats.
 
@@ -812,12 +811,14 @@ Default value: `true`
 
 ### graylog_api::pipeline
 
-@note
-  NOTE: This class is a work in progress in many ways. It's probably smarter
-  to use graylog_pipeline directly until this has been fleshed out more.
-  The main problem is that this defined type doesn't allow assigning stages
-  an explicit priority, insteading giving them priority in order counting
-  from 1.
+This is a convenience wrapper around graylog_pipeline, which prevents frees
+you from worrying about pipeline syntax.
+
+* **Note** This class is a work in progress in many ways. It's probably smarter
+to use graylog_pipeline directly until this has been fleshed out more.
+The main problem is that this defined type doesn't allow assigning stages
+an explicit priority, insteading giving them priority in order counting
+from 1.
 
 #### Examples
 
@@ -908,9 +909,7 @@ Default value: []
 
 ### graylog_api::pipeline::rule
 
-Defines a pipeline rule.
-
-* **Note** This is a convenience wrapper around graylog_pipeline_rule which ensures no
+This is a convenience wrapper around graylog_pipeline_rule which ensures no
 mismatch between the name in the rule source and the name of the resource.
 
 #### Examples

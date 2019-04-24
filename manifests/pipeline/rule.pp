@@ -1,9 +1,8 @@
 # @summary
 #   Defines a pipeline rule.
 #
-# @note
-#   This is a convenience wrapper around graylog_pipeline_rule which ensures no
-#   mismatch between the name in the rule source and the name of the resource.
+# This is a convenience wrapper around graylog_pipeline_rule which ensures no
+# mismatch between the name in the rule source and the name of the resource.
 #
 # @example Creating a pipeline rule
 #   graylog_api::pipeline::rule { 'example':

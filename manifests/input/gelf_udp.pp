@@ -1,5 +1,7 @@
 # @summary
-#   Defines an input accepting GELF over UDP.
+#   Defines a GELF-UDP input.
+#
+# Defines an input accepting GELF over UDP.
 #
 # @param ensure
 #   Whether this input should exist.
