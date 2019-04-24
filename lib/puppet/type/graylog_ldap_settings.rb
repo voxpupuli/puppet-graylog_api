@@ -3,12 +3,15 @@ require 'puppet/property/boolean'
 Puppet::Type.newtype(:graylog_ldap_settings) do
 
   desc <<-END_OF_DOC
-    Configures LDAP authentication, include the mapping between LDAP Groups and
-    Graylog Roles. Make sure you also configure the Graylog Roles themselves
-    using the graylog_role type.
+    @summary Configures LDAP authentication.
 
-    Example:
+    Configures LDAP authentication, including the mapping between LDAP Groups
+    and Graylog Roles. Make sure you also configure the Graylog Roles
+    themselves using the graylog_role type.
 
+    @see graylog_role
+
+    @example
       graylog_ldap_settings { 'ldap':
         enabled                   => true,
         system_username           => 'CN=Graylog,OU=ServiceAccounts,DC=example,DC=com',

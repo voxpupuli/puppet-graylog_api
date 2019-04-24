@@ -3,14 +3,18 @@ require 'puppet/property/boolean'
 Puppet::Type.newtype(:graylog_pipeline) do
 
   desc <<-END_OF_DOC
+    @summary
+      Creates a processing pipleine.
+    
     Creates a processing pipeline. This type takes the pipeline definition as
     source text; note that the pipeline name in the source text must match the
     resource title. Overall, you may find it more convenient to use the
     graylog_api::pipeline defined type, which can take care of this for you, as
     well as accepting e.g. an array of rules to apply rather than source text.
 
-    Example:
+    @see graylog_api::pipeline
 
+    @example
       graylog_pipeline { 'example pipeline':
         description       => 'An example processing pipleine',
         source            => @(END_OF_PIPELINE),

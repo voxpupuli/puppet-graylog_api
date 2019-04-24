@@ -1,11 +1,13 @@
 Puppet::Type.newtype(:graylog_role) do
 
   desc <<-END_OF_DOC
+    @summary
+      Creates a user role.
+
     A user role definition. Note that the Admin and Reader roles are built-in
     and cannot be modified.
 
-    Example:
-    
+    @example
       graylog_role { 'example':
         description => 'An example user role',
         permissions => [

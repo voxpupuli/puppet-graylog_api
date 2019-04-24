@@ -1,14 +1,14 @@
 Puppet::Type.newtype(:graylog_lookup_table) do
 
   desc <<-END_OF_DOC
-    Configures a Lookup Table.
+    @summary
+      Configures a Lookup Table.
 
-    Example:
-
+    @example
       graylog_lookup_table { 'example-data':
         ensure                    => present,
         display_name              => "Example Lookup Table",
-        description               => 'A ookup table of example data.',
+        description               => 'A lookup table of example data.',
         adapter                   => 'example-adapter',
         cache                     => 'example-cache',
         default_single_value      => 'foo',

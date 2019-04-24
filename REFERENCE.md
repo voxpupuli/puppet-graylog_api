@@ -6,8 +6,8 @@
 **Defined types**
 
 * [`graylog_api::grok::pattern_file`](#graylog_apigrokpattern_file): Loads a full file worth of Grok patterns into Graylog.
-* [`graylog_api::input::beats`](#graylog_apiinputbeats): Defines a Beats input.
-* [`graylog_api::input::beats2`](#graylog_apiinputbeats2): Defines a Beats input.
+* [`graylog_api::input::beats`](#graylog_apiinputbeats): Defines a (old-style) Beats input.
+* [`graylog_api::input::beats2`](#graylog_apiinputbeats2): Defines a (new-style) Beats input.
 * [`graylog_api::input::gelf_http`](#graylog_apiinputgelf_http): Defines a GELF-HTTP input.
 * [`graylog_api::input::gelf_tcp`](#graylog_apiinputgelf_tcp): Defines a GELF-TCP input.
 * [`graylog_api::input::gelf_udp`](#graylog_apiinputgelf_udp): Defines a GELF-UDP input.
@@ -17,18 +17,18 @@
 
 **Resource types**
 
-* [`graylog_api`](#graylog_api): This sets the API credentials used by the rest of the types in the module to communicate with the Graylog API. It does not actually represent
-* [`graylog_grok_pattern`](#graylog_grok_pattern): Installs a Grok pattern. Note that when representing Grok patterns in Puppet code or YAML-formatted Hiera data, extra escaping is necessary f
-* [`graylog_index_set`](#graylog_index_set): Creates and configures an Index Set. Use the name 'Default index set' to configure the pre-existing default index set created for new install
-* [`graylog_input`](#graylog_input): Creates a new input. This type covers the raw API and is agnostic to the type of input being created. In most cases, you should declare input
-* [`graylog_ldap_settings`](#graylog_ldap_settings): Configures LDAP authentication, include the mapping between LDAP Groups and Graylog Roles. Make sure you also configure the Graylog Roles the
-* [`graylog_lookup_adapter`](#graylog_lookup_adapter): Creates a Lookup Table Data Adapter.  Example:    graylog_lookup_adapter { 'example-adapter':     ensure        => present,     display_name 
-* [`graylog_lookup_cache`](#graylog_lookup_cache): Creates a Lookup Table Cache.  Example:    graylog_lookup_cache { 'example-cache':     ensure        => present,     display_name  => 'Exampl
-* [`graylog_lookup_table`](#graylog_lookup_table): Configures a Lookup Table.  Example:    graylog_lookup_table { 'example-data':     ensure                    => present,     display_name    
-* [`graylog_pipeline`](#graylog_pipeline): Creates a processing pipeline. This type takes the pipeline definition as source text; note that the pipeline name in the source text must ma
-* [`graylog_pipeline_rule`](#graylog_pipeline_rule): Creates a Pipeline Rule. Note that the rule name given in the rule source must match the name of the resource as well. You may opt to use the
-* [`graylog_role`](#graylog_role): A user role definition. Note that the Admin and Reader roles are built-in and cannot be modified.  Example:    graylog_role { 'example':     
-* [`graylog_stream`](#graylog_stream): Creates a Stream configuration.  Example:    graylog_stream { 'example':     description => 'An example stream.',     rules       => [       
+* [`graylog_api`](#graylog_api): Sets the API credentials used by the rest of the types in the module.
+* [`graylog_grok_pattern`](#graylog_grok_pattern): Installs a Grok pattern.
+* [`graylog_index_set`](#graylog_index_set): Defines an Index Set.
+* [`graylog_input`](#graylog_input): Creates an Input.
+* [`graylog_ldap_settings`](#graylog_ldap_settings): Configures LDAP authentication.
+* [`graylog_lookup_adapter`](#graylog_lookup_adapter): Creates a Lookup Table Data Adapter.
+* [`graylog_lookup_cache`](#graylog_lookup_cache): Creates a Lookup Table Cache.
+* [`graylog_lookup_table`](#graylog_lookup_table): Configures a Lookup Table.
+* [`graylog_pipeline`](#graylog_pipeline): Creates a processing pipleine.
+* [`graylog_pipeline_rule`](#graylog_pipeline_rule): Creates a Pipeline Rule.
+* [`graylog_role`](#graylog_role): Creates a user role.
+* [`graylog_stream`](#graylog_stream): Creates a Stream configuration.
 
 ## Defined types
 
@@ -89,7 +89,7 @@ Default value: 'present'
 
 Data type: `String`
 
-The IP address to listen on. Defaults to 0.0.0.0.
+The IP address to listen on.
 
 Default value: '0.0.0.0'
 
@@ -106,7 +106,7 @@ Default value: `undef`
 
 Data type: `Stdlib::Port`
 
-The port to listen on. Defaults to 5044.
+The port to listen on.
 
 Default value: 5044
 
@@ -124,7 +124,7 @@ Default value: .to_bytes
 Data type: `Enum['global','local']`
 
 Whether this input is defined on all nodes ('global') or just this node
-('local'). Default is global.
+('local').
 
 Default value: 'global'
 
@@ -132,7 +132,7 @@ Default value: 'global'
 
 Data type: `Boolean`
 
-Whether to enable TCP keepalive packets. Default is false.
+Whether to enable TCP keepalive packets.
 
 Default value: `false`
 
@@ -141,7 +141,8 @@ Default value: `false`
 Data type: `String`
 
 The path to the server certificate to use when securing the connection with
-TLS. Has no effect unless tls_enable is true. Defaults to the empty string.
+TLS. Has no effect unless tls_enable is true.
+
 Note that this must be the entire certificate chain, and that Graylog is
 sensitive to exact formatting of PEM certificates, e.g. there must be a
 trailing newline.
@@ -153,7 +154,7 @@ Default value: ''
 Data type: `String`
 
 Whether to use TLS to authenticate clients. Can be 'disabled', 'optional',
-or 'required'. Defaults to 'disabled'.
+or 'required'.
 
 Default value: 'disabled'
 
@@ -163,7 +164,7 @@ Data type: `String`
 
 The path to the file (or directory) which stores the certificates of
 trusted clients. Has no effect if tls_client_auth is 'disabled' or
-tls_enable is false. Defaults to the empty string.
+tls_enable is false.
 
 Default value: ''
 
@@ -180,9 +181,10 @@ Default value: `false`
 Data type: `String`
 
 The path to the private key which corresponds to the tls_cert_file. Has no
-effect if tls_enable is false. Defaults to the empty string. Note that
-for PEM private keys, Graylog is sensitive to exact formatting, e.g. there
-must be a trailing newline.
+effect if tls_enable is false.
+
+Note that for PEM private keys, Graylog is sensitive to exact formatting,
+e.g. there must be a trailing newline.
 
 Default value: ''
 
@@ -191,8 +193,7 @@ Default value: ''
 Data type: `String`
 
 The password to decrypt to private key specified in tls_key_file. Leave
-blank if not using TLS, or if the key is not encrypted. Defaults to the
-empty string.
+blank if not using TLS, or if the key is not encrypted.
 
 Default value: ''
 
@@ -218,7 +219,7 @@ Default value: 'present'
 
 Data type: `String`
 
-The IP address to listen on. Defaults to 0.0.0.0.
+The IP address to listen on.
 
 Default value: '0.0.0.0'
 
@@ -235,7 +236,7 @@ Default value: `undef`
 
 Data type: `Stdlib::Port`
 
-The port to listen on. Defaults to 5044.
+The port to listen on.
 
 Default value: 5044
 
@@ -253,7 +254,7 @@ Default value: .to_bytes
 Data type: `Enum['global','local']`
 
 Whether this input is defined on all nodes ('global') or just this node
-('local'). Default is global.
+('local').
 
 Default value: 'global'
 
@@ -261,7 +262,7 @@ Default value: 'global'
 
 Data type: `Boolean`
 
-Whether to enable TCP keepalive packets. Default is false.
+Whether to enable TCP keepalive packets.
 
 Default value: `false`
 
@@ -270,7 +271,8 @@ Default value: `false`
 Data type: `String`
 
 The path to the server certificate to use when securing the connection with
-TLS. Has no effect unless tls_enable is true. Defaults to the empty string.
+TLS. Has no effect unless tls_enable is true.
+
 Note that this must be the entire certificate chain, and that Graylog is
 sensitive to exact formatting of PEM certificates, e.g. there must be a
 trailing newline.
@@ -282,7 +284,7 @@ Default value: ''
 Data type: `String`
 
 Whether to use TLS to authenticate clients. Can be 'disabled', 'optional',
-or 'required'. Defaults to 'disabled'.
+or 'required'.
 
 Default value: 'disabled'
 
@@ -292,7 +294,7 @@ Data type: `String`
 
 The path to the file (or directory) which stores the certificates of
 trusted clients. Has no effect if tls_client_auth is 'disabled' or
-tls_enable is false. Defaults to the empty string.
+tls_enable is false.
 
 Default value: ''
 
@@ -309,9 +311,10 @@ Default value: `false`
 Data type: `String`
 
 The path to the private key which corresponds to the tls_cert_file. Has no
-effect if tls_enable is false. Defaults to the empty string. Note that
-for PEM private keys, Graylog is sensitive to exact formatting, e.g. there
-must be a trailing newline.
+effect if tls_enable is false.
+
+Note that for PEM private keys, Graylog is sensitive to exact formatting,
+e.g. there must be a trailing newline.
 
 Default value: ''
 
@@ -320,8 +323,7 @@ Default value: ''
 Data type: `String`
 
 The password to decrypt to private key specified in tls_key_file. Leave
-blank if not using TLS, or if the key is not encrypted. Defaults to the
-empty string.
+blank if not using TLS, or if the key is not encrypted.
 
 Default value: ''
 
@@ -345,7 +347,7 @@ Default value: 'present'
 
 Data type: `String`
 
-The IP address to listen on. Defaults to 0.0.0.0.
+The IP address to listen on.
 
 Default value: '0.0.0.0'
 
@@ -363,7 +365,7 @@ Default value: .to_bytes
 Data type: `Boolean`
 
 Whether the input should send CORS headers to satisfy browser security
-policies. Defaults to true.
+policies.
 
 Default value: `true`
 
@@ -373,7 +375,6 @@ Data type: `Integer`
 
 How long the server should wait to receive additional messages from the
 client before closing the connection, in seconds. Set to 0 to disable.
-Default value is 60 seconds.
 
 Default value: 60
 
@@ -382,7 +383,6 @@ Default value: 60
 Data type: `Integer`
 
 The maximum HTTP chunk size in bytes (e. g. length of HTTP request body).
-Default value is 65536 bytes.
 
 Default value: 65536
 
@@ -399,7 +399,7 @@ Default value: `undef`
 
 Data type: `Stdlib::Port`
 
-The port to listen on. Defaults to 12280.
+The port to listen on.
 
 Default value: 12280
 
@@ -408,7 +408,7 @@ Default value: 12280
 Data type: `Integer`
 
 The size in bytes of the recvBufferSize for network connections to this
-input. Defaults to 1 MB.
+input.
 
 Default value: .to_bytes
 
@@ -417,7 +417,7 @@ Default value: .to_bytes
 Data type: `Enum['global','local']`
 
 Whether this input is defined on all nodes ('global') or just this node
-('local'). Default is global.
+('local').
 
 Default value: 'global'
 
@@ -425,7 +425,7 @@ Default value: 'global'
 
 Data type: `Boolean`
 
-Whether to enable TCP keepalive packets. Default is false.
+Whether to enable TCP keepalive packets.
 
 Default value: `false`
 
@@ -434,7 +434,8 @@ Default value: `false`
 Data type: `String`
 
 The path to the server certificate to use when securing the connection with
-TLS. Has no effect unless tls_enable is true. Defaults to the empty string.
+TLS. Has no effect unless tls_enable is true.
+
 Note that this must be the entire certificate chain, and that Graylog is
 sensitive to exact formatting of PEM certificates, e.g. there must be a
 trailing newline.
@@ -446,7 +447,7 @@ Default value: ''
 Data type: `String`
 
 Whether to use TLS to authenticate clients. Can be 'disabled', 'optional',
-or 'required'. Defaults to 'disabled'.
+or 'required'.
 
 Default value: 'disabled'
 
@@ -456,7 +457,7 @@ Data type: `String`
 
 The path to the file (or directory) which stores the certificates of
 trusted clients. Has no effect if tls_client_auth is 'disabled' or
-tls_enable is false. Defaults to the empty string.
+tls_enable is false.
 
 Default value: ''
 
@@ -473,9 +474,10 @@ Default value: `false`
 Data type: `String`
 
 The path to the private key which corresponds to the tls_cert_file. Has no
-effect if tls_enable is false. Defaults to the empty string. Note that
-for PEM private keys, Graylog is sensitive to exact formatting, e.g. there
-must be a trailing newline.
+effect if tls_enable is false.
+
+Note that for PEM private keys, Graylog is sensitive to exact formatting,
+e.g. there must be a trailing newline.
 
 Default value: ''
 
@@ -484,8 +486,7 @@ Default value: ''
 Data type: `String`
 
 The password to decrypt to private key specified in tls_key_file. Leave
-blank if not using TLS, or if the key is not encrypted. Defaults to the
-empty string.
+blank if not using TLS, or if the key is not encrypted.
 
 Default value: ''
 
@@ -509,7 +510,7 @@ Default value: 'present'
 
 Data type: `String`
 
-The IP address to listen on. Defaults to 0.0.0.0.
+The IP address to listen on.
 
 Default value: '0.0.0.0'
 
@@ -518,7 +519,7 @@ Default value: '0.0.0.0'
 Data type: `Integer`
 
 The maximum number of bytes of decompressed message data will be accepted
-in a single POST. Defaults to 8 megabytes.
+in a single POST.
 
 Default value: .to_bytes
 
@@ -543,7 +544,7 @@ Default value: `undef`
 
 Data type: `Stdlib::Port`
 
-The port to listen on. Defaults to 12280.
+The port to listen on.
 
 Default value: 12201
 
@@ -561,7 +562,7 @@ Default value: .to_bytes
 Data type: `Enum['global','local']`
 
 Whether this input is defined on all nodes ('global') or just this node
-('local'). Default is global.
+('local').
 
 Default value: 'global'
 
@@ -569,7 +570,7 @@ Default value: 'global'
 
 Data type: `Boolean`
 
-Whether to enable TCP keepalive packets. Default is false.
+Whether to enable TCP keepalive packets.
 
 Default value: `false`
 
@@ -590,7 +591,7 @@ Default value: ''
 Data type: `String`
 
 Whether to use TLS to authenticate clients. Can be 'disabled', 'optional',
-or 'required'. Defaults to 'disabled'.
+or 'required'.
 
 Default value: 'disabled'
 
@@ -600,7 +601,7 @@ Data type: `String`
 
 The path to the file (or directory) which stores the certificates of
 trusted clients. Has no effect if tls_client_auth is 'disabled' or
-tls_enable is false. Defaults to the empty string.
+tls_enable is false.
 
 Default value: ''
 
@@ -617,9 +618,9 @@ Default value: `false`
 Data type: `String`
 
 The path to the private key which corresponds to the tls_cert_file. Has no
-effect if tls_enable is false. Defaults to the empty string. Note that
-for PEM private keys, Graylog is sensitive to exact formatting, e.g. there
-must be a trailing newline.
+effect if tls_enable is false.
+Note that for PEM private keys, Graylog is sensitive to exact formatting,
+e.g. there must be a trailing newline.
 
 Default value: ''
 
@@ -628,8 +629,7 @@ Default value: ''
 Data type: `String`
 
 The password to decrypt to private key specified in tls_key_file. Leave
-blank if not using TLS, or if the key is not encrypted. Defaults to the
-empty string.
+blank if not using TLS, or if the key is not encrypted.
 
 Default value: ''
 
@@ -638,7 +638,7 @@ Default value: ''
 Data type: `Boolean`
 
 Whether to use a null byte as a frame delimiter. If false, a newline is
-used as the delimiter instead. Defaults to true.
+used as the delimiter instead.
 
 Default value: `true`
 
@@ -962,13 +962,17 @@ This sets the API credentials used by the rest of the types in the module
 to communicate with the Graylog API. It does not actually represent a
 concrete resource on the target system.
 
-Example:
+#### Examples
 
-  graylog_api { 'api':
-    password => $password,
-    port     => 9000,
-    username => 'admin',
-  }
+##### 
+
+```puppet
+graylog_api { 'api':
+  password => $password,
+  port     => 9000,
+  username => 'admin',
+}
+```
 
 #### Properties
 
@@ -1008,9 +1012,18 @@ many regex characters. Thus, it is often more convenient to use the
 graylog_api::grok::pattern_file defined type to define Grok patterns in
 their own dedicated file.
 
-Example:
+* **See also**
+graylog_api::grok::pattern
 
-  graylog_grok_pattern { 'EXAMPLE' }
+#### Examples
+
+##### 
+
+```puppet
+graylog_grok_pattern { 'EXAMPLE':
+  pattern => '%{TIMESTAMP_ISO8601:timestamp} %{LOGLEVEL:level_name} %{GREEDYDATA:message}',
+}
+```
 
 #### Properties
 
@@ -1043,22 +1056,26 @@ The token that represents the pattern. Must be in all-caps.
 Creates and configures an Index Set. Use the name 'Default index set' to
 configure the pre-existing default index set created for new installations.
 
-Example:
+#### Examples
 
-  graylog_index_set { 'Default index set':
-    description                => 'The Graylog default index set',
-    prefix                     => 'graylog',
-    shards                     => 1,
-    replicas                   => 0,
-    rotation_strategy          => 'size',
-    rotation_strategy_details  => {
-      max_size => '10 GB'.to_bytes,
-    },
-    retention_strategy         => 'delete',
-    retention_strategy_details => {
-      max_number_of_indices => 10,
-    },
-  }
+##### 
+
+```puppet
+graylog_index_set { 'Default index set':
+  description                => 'The Graylog default index set',
+  prefix                     => 'graylog',
+  shards                     => 1,
+  replicas                   => 0,
+  rotation_strategy          => 'size',
+  rotation_strategy_details  => {
+    max_size => '10 GB'.to_bytes,
+  },
+  retention_strategy         => 'delete',
+  retention_strategy_details => {
+    max_number_of_indices => 10,
+  },
+}
+```
 
 #### Properties
 
@@ -1138,32 +1155,36 @@ The name of the Index Set
 
 ### graylog_input
 
-Creates a new input. This type covers the raw API and is agnostic to the
-type of input being created. In most cases, you should declare inputs using
-the graylog_api::input::* defined types, which wrap this type and provide
+This type covers the raw API and is agnostic to the type of input being
+created. In most cases, you should declare inputs using the
+graylog_api::input::* defined types, which wrap this type and provide
 properties for input-type-specific configuration. You can use this type
 directly to configure an input type that doesn't have an existing wrapper.
 
-Example:
+#### Examples
 
-  graylog_input { 'Example Beats input':
-    ensure        => present,
-    type          => 'org.graylog.plugins.beats.BeatsInput',
-    scope         => 'global',
-    configuration => {
-      bind_address              => '0.0.0.0',
-      recv_buffer_size          => '8 MB'.to_bytes,
-      override_source           => 'Example override',
-      port                      => 5044,
-      tcp_keepalive             => false,
-      tls_cert_file             => '',
-      tls_client_auth           => false,
-      tls_client_auth_cert_file => '',
-      tls_enable                => false,
-      tls_key_file              => '',
-      tls_key_password          => '',
-    },
-  }
+##### 
+
+```puppet
+graylog_input { 'Example Beats input':
+  ensure        => present,
+  type          => 'org.graylog.plugins.beats.BeatsInput',
+  scope         => 'global',
+  configuration => {
+    bind_address              => '0.0.0.0',
+    recv_buffer_size          => '8 MB'.to_bytes,
+    override_source           => 'Example override',
+    port                      => 5044,
+    tcp_keepalive             => false,
+    tls_cert_file             => '',
+    tls_client_auth           => false,
+    tls_client_auth_cert_file => '',
+    tls_enable                => false,
+    tls_key_file              => '',
+    tls_key_password          => '',
+  },
+}
+```
 
 #### Properties
 
@@ -1205,33 +1226,40 @@ The name of the Input Source
 
 ### graylog_ldap_settings
 
-Configures LDAP authentication, include the mapping between LDAP Groups and
-Graylog Roles. Make sure you also configure the Graylog Roles themselves
-using the graylog_role type.
+Configures LDAP authentication, including the mapping between LDAP Groups
+and Graylog Roles. Make sure you also configure the Graylog Roles
+themselves using the graylog_role type.
 
-Example:
+* **See also**
+graylog_role
 
-  graylog_ldap_settings { 'ldap':
-    enabled                   => true,
-    system_username           => 'CN=Graylog,OU=ServiceAccounts,DC=example,DC=com',
-    system_password           => $password,
-    ldap_uri                  => "ldap://1.2.3.4:389/",
-    use_start_tls             => true,
-    trust_all_certificates    => false,
-    active_directory          => false,
-    search_base               => 'OU=People,DC=example,DC=com',
-    search_pattern            => '(&(objectClass=person)(uid={0}))',
-    display_name_attribute    => 'displayName',
-    default_group             => 'Reader',
-    group_search_base         => 'OU=Groups,DC=example,DC=com',
-    group_id_attribute        => 'cn',
-    additional_default_groups => [],
-    group_search_pattern      => '(objectClass=group)',
-    group_mapping             => {
-      'GraylogAdmins' => 'Admin',
-      'Developers'    => 'PowerUser',
-    },
-  }
+#### Examples
+
+##### 
+
+```puppet
+graylog_ldap_settings { 'ldap':
+  enabled                   => true,
+  system_username           => 'CN=Graylog,OU=ServiceAccounts,DC=example,DC=com',
+  system_password           => $password,
+  ldap_uri                  => "ldap://1.2.3.4:389/",
+  use_start_tls             => true,
+  trust_all_certificates    => false,
+  active_directory          => false,
+  search_base               => 'OU=People,DC=example,DC=com',
+  search_pattern            => '(&(objectClass=person)(uid={0}))',
+  display_name_attribute    => 'displayName',
+  default_group             => 'Reader',
+  group_search_base         => 'OU=Groups,DC=example,DC=com',
+  group_id_attribute        => 'cn',
+  additional_default_groups => [],
+  group_search_pattern      => '(objectClass=group)',
+  group_mapping             => {
+    'GraylogAdmins' => 'Admin',
+    'Developers'    => 'PowerUser',
+  },
+}
+```
 
 #### Properties
 
@@ -1315,26 +1343,32 @@ Must be "ldap", only one instance of the graylog_ldap_settings type is allowed.
 
 ### graylog_lookup_adapter
 
-Creates a Lookup Table Data Adapter.
+Creates a Data Adapter for use with a Lookup table. At present all
+configuration must be done manually, there are not yet any convenience
+wrappers for specific adapter types.
 
-Example:
+#### Examples
 
-  graylog_lookup_adapter { 'example-adapter':
-    ensure        => present,
-    display_name  => "Example Data",
-    description   => "A CSV file of Example Data.",
-    configuration => {
-      type => 'csvfile',
-      path => '/etc/graylog/lookup-table.csv',
-      separator => ',',
-      quotechar => '"',
-      key_column => 'foo',
-      value_column => 'bar',
-      check_interval => 60,
-      case_insensitive_lookup => true,
-    },
-    require     => File['/etc/graylog/lookup-table.csv'],
-  }
+##### 
+
+```puppet
+graylog_lookup_adapter { 'example-adapter':
+  ensure        => present,
+  display_name  => "Example Data",
+  description   => "A CSV file of Example Data.",
+  configuration => {
+    type => 'csvfile',
+    path => '/etc/graylog/lookup-table.csv',
+    separator => ',',
+    quotechar => '"',
+    key_column => 'foo',
+    value_column => 'bar',
+    check_interval => 60,
+    case_insensitive_lookup => true,
+  },
+  require     => File['/etc/graylog/lookup-table.csv'],
+}
+```
 
 #### Properties
 
@@ -1372,23 +1406,29 @@ The unique name of the Data Adapter. Must consist of only letters, numbers and d
 
 ### graylog_lookup_cache
 
-Creates a Lookup Table Cache.
+Creates a Cache for use with a Lookup Table. By default Graylog only
+supports two cache types, a noop cache called "none" and an in-memory
+cache called "guava_cache".
 
-Example:
+#### Examples
 
-  graylog_lookup_cache { 'example-cache':
-    ensure        => present,
-    display_name  => 'Example Data',
-    description   => 'A cache of example data.',
-    configuration => {
-      type                     => 'guava_cache',
-      max_size                 => 1000,
-      expire_after_access      => 60,
-      expire_after_access_unit => 'SECONDS',
-      expire_after_write       => 0,
-      expire_after_write_unit  => undef,
-    },
-  }
+##### 
+
+```puppet
+graylog_lookup_cache { 'example-cache':
+  ensure        => present,
+  display_name  => 'Example Data',
+  description   => 'A cache of example data.',
+  configuration => {
+    type                     => 'guava_cache',
+    max_size                 => 1000,
+    expire_after_access      => 60,
+    expire_after_access_unit => 'SECONDS',
+    expire_after_write       => 0,
+    expire_after_write_unit  => undef,
+  },
+}
+```
 
 #### Properties
 
@@ -1428,19 +1468,23 @@ The unique name of the Lookup Cache. Must consist of only letters, numbers and d
 
 Configures a Lookup Table.
 
-Example:
+#### Examples
 
-  graylog_lookup_table { 'example-data':
-    ensure                    => present,
-    display_name              => "Example Lookup Table",
-    description               => 'A ookup table of example data.',
-    adapter                   => 'example-adapter',
-    cache                     => 'example-cache',
-    default_single_value      => 'foo',
-    default_single_value_type => 'STRING',
-    default_multi_value       => '',
-    default_multi_value_type  => 'NULL',
-  }
+##### 
+
+```puppet
+graylog_lookup_table { 'example-data':
+  ensure                    => present,
+  display_name              => "Example Lookup Table",
+  description               => 'A lookup table of example data.',
+  adapter                   => 'example-adapter',
+  cache                     => 'example-cache',
+  default_single_value      => 'foo',
+  default_single_value_type => 'STRING',
+  default_multi_value       => '',
+  default_multi_value_type  => 'NULL',
+}
+```
 
 #### Properties
 
@@ -1504,21 +1548,28 @@ resource title. Overall, you may find it more convenient to use the
 graylog_api::pipeline defined type, which can take care of this for you, as
 well as accepting e.g. an array of rules to apply rather than source text.
 
-Example:
+* **See also**
+graylog_api::pipeline
 
-  graylog_pipeline { 'example pipeline':
-    description       => 'An example processing pipleine',
-    source            => @(END_OF_PIPELINE),
-                        pipeline "everity"
-                        stage 3 match either
-                          rule "foo";
-                          rule "bar";
-                        stage 5 match all
-                          rule "baz";
-                        end
-                        |-END_OF_PIPELINE
-    connected_streams => ['All messages'],
-  }
+#### Examples
+
+##### 
+
+```puppet
+graylog_pipeline { 'example pipeline':
+  description       => 'An example processing pipleine',
+  source            => @(END_OF_PIPELINE),
+                      pipeline "everity"
+                      stage 3 match either
+                        rule "foo";
+                        rule "bar";
+                      stage 5 match all
+                        rule "baz";
+                      end
+                      |-END_OF_PIPELINE
+  connected_streams => ['All messages'],
+}
+```
 
 #### Properties
 
@@ -1564,19 +1615,26 @@ must match the name of the resource as well. You may opt to use the
 graylog_api::pipeline::rule defined type instead, which manages that
 automatically.
 
-Example:
+* **See also**
+graylog_api::pipeline::rule
 
-  graylog_pipeline_rule { 'example':
-    description => 'An example rule',
-    source      => @(END_OF_RULE),
-                   rule "example"
-                   when
-                     has_field("foo")
-                   then
-                     set_field("bar","baz");
-                   end
-                   |-END_OF
-  }
+#### Examples
+
+##### 
+
+```puppet
+graylog_pipeline_rule { 'example':
+  description => 'An example rule',
+  source      => @(END_OF_RULE),
+                 rule "example"
+                 when
+                   has_field("foo")
+                 then
+                   set_field("bar","baz");
+                 end
+                 |-END_OF
+}
+```
 
 #### Properties
 
@@ -1613,23 +1671,27 @@ The name of the pipeline rule.
 A user role definition. Note that the Admin and Reader roles are built-in
 and cannot be modified.
 
-Example:
+#### Examples
 
-  graylog_role { 'example':
-    description => 'An example user role',
-    permissions => [
-      'dashboards:create',
-      'dashboards:edit',
-      'dashboards:read',
-      'savedsearches:read',
-      'savedsearches:edit',
-      'savedsearches:create',
-      'searches:relative',
-      'searches:keyword',
-      'searches:absolute',
-      'streams:read',
-    ],
-  }
+##### 
+
+```puppet
+graylog_role { 'example':
+  description => 'An example user role',
+  permissions => [
+    'dashboards:create',
+    'dashboards:edit',
+    'dashboards:read',
+    'savedsearches:read',
+    'savedsearches:edit',
+    'savedsearches:create',
+    'searches:relative',
+    'searches:keyword',
+    'searches:absolute',
+    'streams:read',
+  ],
+}
+```
 
 #### Properties
 
@@ -1665,18 +1727,22 @@ The name of the role
 
 Creates a Stream configuration.
 
-Example:
+#### Examples
 
-  graylog_stream { 'example':
-    description => 'An example stream.',
-    rules       => [
-      {
-        field => 'foo',
-        type  => 'equals',
-        value => 'bar',
-      },
-    ],
-  }
+##### 
+
+```puppet
+graylog_stream { 'example':
+  description => 'An example stream.',
+  rules       => [
+    {
+      field => 'foo',
+      type  => 'equals',
+      value => 'bar',
+    },
+  ],
+}
+```
 
 #### Properties
 

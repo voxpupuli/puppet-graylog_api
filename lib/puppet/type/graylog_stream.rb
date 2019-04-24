@@ -3,10 +3,10 @@ require 'puppet/property/boolean'
 Puppet::Type.newtype(:graylog_stream) do
 
   desc <<-END_OF_DOC
-    Creates a Stream configuration.
+    @summary
+      Creates a Stream configuration.
 
-    Example:
-
+    @example
       graylog_stream { 'example':
         description => 'An example stream.',
         rules       => [

@@ -1,10 +1,14 @@
 Puppet::Type.newtype(:graylog_lookup_adapter) do
 
   desc <<-END_OF_DOC
-    Creates a Lookup Table Data Adapter.
+    @summary 
+      Creates a Lookup Table Data Adapter.
 
-    Example:
+    Creates a Data Adapter for use with a Lookup table. At present all
+    configuration must be done manually, there are not yet any convenience
+    wrappers for specific adapter types.
 
+    @example
       graylog_lookup_adapter { 'example-adapter':
         ensure        => present,
         display_name  => "Example Data",

@@ -8,12 +8,14 @@ require_relative '../provider/graylog_api'
 Puppet::Type.newtype(:graylog_api) do
 
   desc <<-END_OF_DOC
+    @summary 
+      Sets the API credentials used by the rest of the types in the module.
+    
     This sets the API credentials used by the rest of the types in the module
     to communicate with the Graylog API. It does not actually represent a
     concrete resource on the target system.
 
-    Example:
-
+    @example
       graylog_api { 'api':
         password => $password,
         port     => 9000,

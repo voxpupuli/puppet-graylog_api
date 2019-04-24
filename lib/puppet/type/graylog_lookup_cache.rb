@@ -1,10 +1,14 @@
 Puppet::Type.newtype(:graylog_lookup_cache) do
 
   desc <<-END_OF_DOC
-    Creates a Lookup Table Cache.
+    @summary
+      Creates a Lookup Table Cache.
 
-    Example:
+    Creates a Cache for use with a Lookup Table. By default Graylog only
+    supports two cache types, a noop cache called "none" and an in-memory
+    cache called "guava_cache".
 
+    @example
       graylog_lookup_cache { 'example-cache':
         ensure        => present,
         display_name  => 'Example Data',
