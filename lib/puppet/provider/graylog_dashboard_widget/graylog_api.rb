@@ -49,7 +49,7 @@ Puppet::Type.type(:graylog_dashboard_widget).provide(:graylog_api, parent: Puppe
       old_position = dashboard['positions'][self.rest_id]
       if new_position != old_position
         new_position['id'] = self.rest_id
-        put("dashboards/${dashboard_id}/positions",{
+        put("dashboards/#{dashboard_id}/positions",{
           positions: [ new_position ],
         })
       end
