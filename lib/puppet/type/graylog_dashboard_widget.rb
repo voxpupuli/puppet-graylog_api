@@ -56,7 +56,7 @@ Puppet::Type.newtype(:graylog_dashboard_widget) do
     validate do |value|
       if value
         raise ArgumentError, "Position must have a width key." unless value.has_key?('width')
-        raise ArgumentError, "Position must have a col key." unless value.hash_key?('col')
+        raise ArgumentError, "Position must have a col key." unless value.has_key?('col')
         raise ArgumentError, "Position must have a row key." unless value.has_key?('row')
         raise Argumenterror, "Position must have a height key." unless value.has_key?('height')
       end
