@@ -55,5 +55,4 @@ Puppet::Type.type(:graylog_dashboard_widget).provide(:graylog_api, parent: Puppe
       end
     end
   end
-
 end
