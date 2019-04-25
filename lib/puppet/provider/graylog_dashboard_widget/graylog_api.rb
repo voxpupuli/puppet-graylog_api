@@ -14,7 +14,7 @@ Puppet::Type.type(:graylog_dashboard_widget).provide(:graylog_api, parent: Puppe
       dashboard['widgets'].each do |data|
         widget = new(
           ensure: :present,
-          dashboard: dashboard_name
+          dashboard: dashboard_name,
           description: data['description'],
           cache_time: data['cache_time'],
           config: data['config'],
