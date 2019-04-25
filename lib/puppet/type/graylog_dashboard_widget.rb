@@ -51,6 +51,18 @@ Puppet::Type.newtype(:graylog_dashboard_widget) do
     desc 'The type of widget.'
   end
 
+  newproperty(:position) do
+    desc 'A hash describinging the position of the widget on the dashboard.'
+    validate do |value|
+      if value
+        raise ArgumentError, "Position must have a width key." unless position.has_key?('width')
+        raise ArgumentError, "Position must have a col key." unless position.hash_key?('col')
+        raise ArgumentError, "Position must have a row key." unless position.has_key?('row')
+        raise Argumenterror, "Position must have a height key." unless position.has_key?('height')
+      end
+    end
+  end
+
 
   def self.title_patterns
     [ [ /(.*)/m, [ [:name] ] ] ]
