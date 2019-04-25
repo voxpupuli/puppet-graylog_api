@@ -22,7 +22,6 @@ Puppet::Type.newtype(:graylog_dashboard_widget) do
           },
           query          => 'foo:bar',
         },
-        description   => 'Example Dashboard Widget',
         dashboard     => "Example Dashboard",
         type          => 'QUICKVALUES_HISTOGRAM',
       }
@@ -30,7 +29,7 @@ Puppet::Type.newtype(:graylog_dashboard_widget) do
 
   ensurable
 
-  newparam(:description) do
+  newparam(:name) do
     desc 'The name of the Dashboard.'
     isnamevar
   end
@@ -54,7 +53,7 @@ Puppet::Type.newtype(:graylog_dashboard_widget) do
 
 
   def self.title_patterns
-    [ [ /(.*)/m, [ [:description] ] ] ]
+    [ [ /(.*)/m, [ [:name] ] ] ]
   end
 
   autorequire('graylog_api') {'api'}
