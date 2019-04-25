@@ -1,4 +1,4 @@
-Puppet::Type.newtype(:graylog_dashboard) do
+Puppet::Type.newtype(:graylog_dashboard_widget) do
 
   desc <<-END_OF_DOC
     @summary
