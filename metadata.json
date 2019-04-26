@@ -2,7 +2,7 @@
   "name": "philomory-graylog_api",
   "version": "0.1.0",
   "author": "Adam Gardner",
-  "summary": "",
+  "summary": "Puppet module for configuring Graylog via its REST API",
   "license": "Apache-2.0",
   "source": "https://github.com/philomory/puppet-graylog_api",
   "dependencies": [

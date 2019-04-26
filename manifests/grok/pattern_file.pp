@@ -29,7 +29,7 @@ define graylog_api::grok::pattern_file(
     if $line =~ /^\s*#/ { next() }
     if $line =~ /^\s*$/ { next() }
     if $line =~ /^([A-Z0-9_]+) (.+)$/ {
-      graylog_grok_pattern { "${1}":
+      graylog_grok_pattern { "${1}": # lint:ignore:only_variable_string
         pattern => $2,
       }
     } else {
