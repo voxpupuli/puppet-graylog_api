@@ -22,7 +22,6 @@ Puppet::Type.type(:graylog_dashboard_widget).provide(:graylog_api, parent: Puppe
       dashboard_name = dashboard['title']
       dashboard['widgets'].each do |data|
         id = data['id']
-        position = dashboard['positions'][id]
         widget = new(
           ensure: :present,
           name: data['description'],
@@ -30,7 +29,6 @@ Puppet::Type.type(:graylog_dashboard_widget).provide(:graylog_api, parent: Puppe
           cache_time: data['cache_time'],
           config: data['config'],
           type: data['type'],
-          position: position,
         )
         widget.rest_id = id
         all_widgets << widget
@@ -54,14 +52,5 @@ Puppet::Type.type(:graylog_dashboard_widget).provide(:graylog_api, parent: Puppe
       config: resource[:config],
       type: resource[:type],
     })
-    if new_position = resource[:position].dup
-      old_position = dashboard['positions'][self.rest_id]
-      if new_position != old_position
-        new_position['id'] = self.rest_id
-        put("dashboards/#{dashboard_id}/positions",{
-          positions: [ new_position ],
-        })
-      end
-    end
   end
 end

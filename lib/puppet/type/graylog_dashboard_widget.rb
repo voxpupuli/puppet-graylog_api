@@ -3,12 +3,15 @@ Puppet::Type.newtype(:graylog_dashboard_widget) do
   desc <<-END_OF_DOC
     @summary
       Creates an Dashboard Widget.
+
+    The title of this resource should be the name of the dashboard on which the
+    widget appears, followed by !!!, followed by the name of the widget.
       
     @see graylog_dashboard
     @see graylog_dashboard_layout
 
     @example
-      graylog_dashboard_widget { 'Example Dashboard Widget':
+      graylog_dashboard_widget { 'Example Dashboard!!!Example Widget':
         ensure        => present,
         cache_time    => 10,
         config        => {
@@ -22,7 +25,6 @@ Puppet::Type.newtype(:graylog_dashboard_widget) do
           },
           query          => 'foo:bar',
         },
-        dashboard     => "Example Dashboard",
         type          => 'QUICKVALUES_HISTOGRAM',
       }
   END_OF_DOC
@@ -34,7 +36,7 @@ Puppet::Type.newtype(:graylog_dashboard_widget) do
   end
 
   newparam(:name) do
-    desc 'The name of the Dashboard.'
+    desc 'The name of the dashboard widget.'
     isnamevar
   end
 
@@ -53,18 +55,6 @@ Puppet::Type.newtype(:graylog_dashboard_widget) do
 
   newproperty(:type) do
     desc 'The type of widget.'
-  end
-
-  newproperty(:position) do
-    desc 'A hash describinging the position of the widget on the dashboard.'
-    validate do |value|
-      if value
-        raise ArgumentError, "Position must have a width key." unless value.has_key?('width')
-        raise ArgumentError, "Position must have a col key." unless value.has_key?('col')
-        raise ArgumentError, "Position must have a row key." unless value.has_key?('row')
-        raise Argumenterror, "Position must have a height key." unless value.has_key?('height')
-      end
-    end
   end
 
   def self.title_patterns
