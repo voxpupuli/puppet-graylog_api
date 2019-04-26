@@ -25,6 +25,8 @@ Puppet::Type.type(:graylog_dashboard_layout).provide(:graylog_api, parent: Puppe
         }
       end
 
+      Puppet.debug("Final Layout for '#{dashboard_name}': #{positions.inspect}")
+
       new(
         name: dashboard_name,
         positions: positions,
@@ -37,12 +39,10 @@ Puppet::Type.type(:graylog_dashboard_layout).provide(:graylog_api, parent: Puppe
     dashboard = dashboards.find {|db| db['title'] == resource[:name] }
     dashboard_id = dashboard['id']
 
-    positions_data = {}
-    resource[:positions].each_pair do |widget_name,position|
+    positions_data = resource[:positions].map do |widget_name,position|
       widget_data = dashboard['widgets'].find {|widget| widget['description'] == widget_name }
-      widget_id = widget_data['id']
-
-      positions_data[widget_id] = {
+      {
+        id: widget_data['id'],
         col: position['x'],
         row: position['y'],
         width: position['w'],
