@@ -31,18 +31,11 @@ Puppet::Type.newtype(:graylog_dashboard_widget) do
 
   ensurable
 
-  def name
-    "#{self[:dashboard]}!!!#{self[:name]}"
-  end
-
   newparam(:name) do
-    desc 'The name of the dashboard widget.'
-    isnamevar
-  end
-
-  newparam(:dashboard) do
-    desc 'The dashboard on which this widget appears.'
-    isnamevar
+    desc 'The name of the dashboard on which this widget appears, followed by !!!, followed by the name of the widget.'
+    validate do |value|
+      raise ArgumentError, "name parameter must include both dashboard name and widget name, separated by !!!" unless value =~ /.!!!./
+    end
   end
 
   newproperty(:cache_time) do
@@ -57,16 +50,7 @@ Puppet::Type.newtype(:graylog_dashboard_widget) do
     desc 'The type of widget.'
   end
 
-  def self.title_patterns
-    [
-      [ /(^(?!.*!!!))/m,
-        [ [:name] ] ],
-      [ /^(.+)!!!(.+)$/,
-        [ [:dashboard], [:name] ]
-      ]
-    ]
-  end
 
   autorequire('graylog_api') {'api'}
-  autorequire('graylog_dashboard') { self[:dashboard] }
+  autorequire('graylog_dashboard') { self[:name].split('!!!',2).first }
 end

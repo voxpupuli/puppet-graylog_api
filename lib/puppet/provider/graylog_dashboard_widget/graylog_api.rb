@@ -24,8 +24,7 @@ Puppet::Type.type(:graylog_dashboard_widget).provide(:graylog_api, parent: Puppe
         id = data['id']
         widget = new(
           ensure: :present,
-          name: data['description'],
-          dashboard: dashboard_name,
+          name: "#{dashboard_name}!!!#{data['description']}",
           cache_time: data['cache_time'],
           config: data['config'],
           type: data['type'],
@@ -43,11 +42,12 @@ Puppet::Type.type(:graylog_dashboard_widget).provide(:graylog_api, parent: Puppe
 
   def flush
     dashboards = get("dashboards")['dashboards']
-    dashboard = dashboards.find {|db| db['title'] == resource[:dashboard] }
+    dashboard_name, widget_name = resource[:name].split('!!!',2)
+    dashboard = dashboards.find {|db| db['title'] == dashboard_name }
     dashboard_id = dashboard['id']
 
     simple_flush("dashboards/#{dashboard_id}/widgets",{
-      description: resource[:name],
+      description: widget_name,
       cache_time: resource[:cache_time],
       config: resource[:config],
       type: resource[:type],
