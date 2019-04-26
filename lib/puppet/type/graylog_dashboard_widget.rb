@@ -68,7 +68,13 @@ Puppet::Type.newtype(:graylog_dashboard_widget) do
   end
 
   def self.title_patterns
-    [ [ /(.*)!!!(.*)/m, [ [:dashboard], [:name] ] ] ]
+    [
+      [ /(^(?!.*!!!))/m,
+        [ [:name] ] ],
+      [ /^(.+)!!!(.+)$/,
+        [ [:dashboard], [:name] ]
+      ]
+    ]
   end
 
   autorequire('graylog_api') {'api'}
