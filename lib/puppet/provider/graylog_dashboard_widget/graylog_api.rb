@@ -4,6 +4,15 @@ Puppet::Type.type(:graylog_dashboard_widget).provide(:graylog_api, parent: Puppe
 
   mk_resource_methods
 
+  def self.prefetch(resources)
+    items = instances
+    resources.each_pair do |name,resource|
+      if provider = items.find { |item| item.name == name.to_s && item.dashboard == resource[:dashboard].to_s }
+        resource.provider = provider
+      end
+    end
+  end
+
   def self.instances
     dashboards = get('dashboards')['dashboards']
     
