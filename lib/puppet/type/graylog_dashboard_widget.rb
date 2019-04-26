@@ -67,6 +67,6 @@ Puppet::Type.newtype(:graylog_dashboard_widget) do
     ]
   end
 
-  autorequire('file') { 'graylog_api_config.yaml' }
+  autorequire('graylog_api') {'api'}
   autorequire('graylog_dashboard') { self[:dashboard] }
 end

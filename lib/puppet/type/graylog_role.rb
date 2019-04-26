@@ -46,5 +46,5 @@ Puppet::Type.newtype(:graylog_role) do
     end
   end
 
-  autorequire('file') { 'graylog_api_config.yaml' }
+  autorequire('graylog_api') {'api'}
 end

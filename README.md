@@ -55,19 +55,17 @@ recommend the official graylog-graylog module.
 In order to use any of the resources contained in this module, you first need
 to supply the credentials the module should use to access the REST API. In
 general, this should be the root credentials. Provide these through the
-`graylog_api` class.
+`graylog_api` resource.
 
 ```puppet
-class { 'graylog_api':
+graylog_api { 'api':
   username => 'admin',
   password => $password,
   port     => 9000,
 }
 ```
 
-These get stored in a file `${confdir}/graylog_api_config.yaml`; you could
-manage this file manually, however using the class can be cleaner since the
-file will be autorequired by the other resource types.
+The resource title here _must_ be `'api'`.
 
 #### Supplying the password
 This module requires the graylog root password in cleartext in order to be able

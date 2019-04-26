@@ -12,15 +12,15 @@ class Puppet::Provider::GraylogAPI < Puppet::Provider
     attr_writer :api_password, :api_port, :api_username
 
     def api_password
-      @api_password ||= config['password']
+      @api_password || ENV['GRAYLOG_API_PASSWORD']
     end
 
     def api_port
-      @api_port ||= config['port']
+      @api_port || ENV['GRAYLOG_API_PORT'] || 9000
     end
 
     def api_username
-      @api_username ||= config['username']
+      @api_username || ENV['GRAYLOG_API_USERNAME'] || 'admin'
     end
 
     def version
@@ -35,7 +35,7 @@ class Puppet::Provider::GraylogAPI < Puppet::Provider
       api_password = Puppet::Provider::GraylogAPI.api_password
       api_port = Puppet::Provider::GraylogAPI.api_port
       api_username = Puppet::Provider::GraylogAPI.api_username
-      fail "No Graylog API Configuration found!" unless api_password && api_port && api_username
+      fail "No Graylog_api['api'] resource defined!" unless api_password && api_port # It would be nicer to do this in the Type, but I don't see how without writing it over and over again for each type.
       case method
       when :get, :delete
         headers = { 
@@ -116,20 +116,6 @@ class Puppet::Provider::GraylogAPI < Puppet::Provider
         if provider = items.find { |item| item.name == name.to_s }
           resource.provider = provider
         end
-      end
-    end
-
-    private
-    def config
-      @config ||= YAML.load_file(config_path)
-    end
-
-    def config_path
-      if ENV['GRAYLOG_API_CONFIG_PATH'] and not ENV['GRAYLOG_API_CONFIG_PATH'].empty?
-        ENV['GRAYLOG_API_CONFIG_PATH']
-      else
-        Puppet.initialize_settings unless Puppet[:confdir]
-        File.join(Puppet[:confdir], 'graylog_api_config.yaml')
       end
     end
   end

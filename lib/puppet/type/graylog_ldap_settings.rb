@@ -104,6 +104,6 @@ Puppet::Type.newtype(:graylog_ldap_settings) do
     desc "The attribute for user display names."
   end
 
-  autorequire('file') { 'graylog_api_config.yaml' }
+  autorequire('graylog_api') {'api'}
   autorequire('graylog_role') { self[:group_mapping].values + [self[:default_group]] }
 end

@@ -3,10 +3,6 @@
 
 ## Table of Contents
 
-**Classes**
-
-* [`graylog_api`](#graylog_api): Sets the API credentials used by the rest of the types in the module.
-
 **Defined types**
 
 * [`graylog_api::grok::pattern_file`](#graylog_apigrokpattern_file): Loads a full file worth of Grok patterns into Graylog.
@@ -21,6 +17,7 @@
 
 **Resource types**
 
+* [`graylog_api`](#graylog_api): Sets the API credentials used by the rest of the types in the module.
 * [`graylog_dashboard`](#graylog_dashboard): Creates an Dashboard.
 * [`graylog_dashboard_layout`](#graylog_dashboard_layout): Lays out the widgets on a dashboard.
 * [`graylog_dashboard_widget`](#graylog_dashboard_widget): Creates an Dashboard Widget.
@@ -35,40 +32,6 @@
 * [`graylog_pipeline_rule`](#graylog_pipeline_rule): Creates a Pipeline Rule.
 * [`graylog_role`](#graylog_role): Creates a user role.
 * [`graylog_stream`](#graylog_stream): Creates a Stream configuration.
-
-## Classes
-
-### graylog_api
-
-This sets the API credentials used by the rest of the types in the module
-to communicate with the Graylog API. These are stored on-disk in
-${confdir}/graylog_api_config.yaml
-
-#### Parameters
-
-The following parameters are available in the `graylog_api` class.
-
-##### `password`
-
-Data type: `String`
-
-The password used to authenticate with the Graylog API.
-
-##### `port`
-
-Data type: `Integer`
-
-The port on which the API can be reached.
-
-Default value: 9000
-
-##### `username`
-
-Data type: `String`
-
-The username used to authenticate with the Graylog API.
-
-Default value: 'admin'
 
 ## Defined types
 
@@ -995,6 +958,54 @@ no action is taken when the rule matches).
 Default value: ''
 
 ## Resource types
+
+### graylog_api
+
+This sets the API credentials used by the rest of the types in the module
+to communicate with the Graylog API. It does not actually represent a
+concrete resource on the target system.
+
+#### Examples
+
+##### 
+
+```puppet
+graylog_api { 'api':
+  password => $password,
+  port     => 9000,
+  username => 'admin',
+}
+```
+
+#### Properties
+
+The following properties are available in the `graylog_api` type.
+
+##### `password`
+
+The API password used to connect to the Graylog server. Should be the password for the root user.
+
+##### `username`
+
+The API username used to connect to the Graylog server. Should be the username for the root user (default 'admin').
+
+Default value: admin
+
+##### `port`
+
+the api port
+
+#### Parameters
+
+The following parameters are available in the `graylog_api` type.
+
+##### `name`
+
+Valid values: api
+
+namevar
+
+must be 'api'
 
 ### graylog_dashboard
 
