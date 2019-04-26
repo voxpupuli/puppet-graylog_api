@@ -1,3 +1,2 @@
 --relative
---ignore-paths=scratch/*
 --no-parameter_order-check
