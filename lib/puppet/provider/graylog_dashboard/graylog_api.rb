@@ -34,8 +34,8 @@ Puppet::Type.type(:graylog_dashboard).provide(:graylog_api, parent: Puppet::Prov
 
       widgets.each do |widget|
         unless widgets_in_catalog.any? {|w| w[:name] == widget[:name] }
-          Puppet.info("Purging widget '#{widget[:name]}' from Dashboard #{resource[:name]}.")
-          #delete("dashboards/#{rest_id}/widgets/#{widget[:id]}")
+          Puppet.notice("Purging widget '#{widget[:name]}' from Dashboard #{resource[:name]}.")
+          delete("dashboards/#{rest_id}/widgets/#{widget[:id]}")
         end
       end
     end
