@@ -42,5 +42,5 @@ Puppet::Type.newtype(:graylog_dashboard_layout) do
 
   autorequire('file') { 'graylog_api_config.yaml' }
   autorequire('graylog_dashboard') { self[:name] }
-  autorequire('graylog_dashboard_widget') { self[:postions].keys.map {|widget_name| "#{self[:name]}!!!#{widget_name}" } }
+  autorequire('graylog_dashboard_widget') { self[:positions].keys.map {|widget_name| "#{self[:name]}!!!#{widget_name}" } }
 end
