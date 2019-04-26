@@ -34,7 +34,7 @@ Puppet::Type.type(:graylog_dashboard_layout).provide(:graylog_api, parent: Puppe
 
   def flush
     dashboards = get("dashboards")['dashboards']
-    dashboard = dashboards.find {|db| db['title'] == resource[:dashboard] }
+    dashboard = dashboards.find {|db| db['title'] == resource[:name] }
     dashboard_id = dashboard['id']
 
     positions_data = {}
