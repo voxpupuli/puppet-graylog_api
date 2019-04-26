@@ -18,10 +18,10 @@ Puppet::Type.type(:graylog_dashboard_layout).provide(:graylog_api, parent: Puppe
         widget_data = widgets_data.find {|widget| widget['id'] == widget_id }
         widget_name = widget_data['description']
         positions[widget_name] = {
-          x: position_data['col'],
-          y: position_data['row'],
-          w: position_data['width'],
-          h: position_data['height'],
+          'x' => position_data['col'],
+          'y' => position_data['row'],
+          'w' => position_data['width'],
+          'h' => position_data['height'],
         }
       end
 
