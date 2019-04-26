@@ -48,5 +48,5 @@ Puppet::Type.newtype(:graylog_pipeline_rule) do
     fail("Name in rule source (#{inline_name}) doesn't match resource title (#{self[:name]})!") unless inline_name == self[:name]
   end
 
-  autorequire('graylog_api') {'api'}
+  autorequire('file') { 'graylog_api_config.yaml' }
 end

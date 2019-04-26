@@ -30,5 +30,5 @@ Puppet::Type.newtype(:graylog_grok_pattern) do
     desc 'The literal pattern string.'
   end
 
-  autorequire('graylog_api') {'api'}
+  autorequire('file') { 'graylog_api_config.yaml' }
 end

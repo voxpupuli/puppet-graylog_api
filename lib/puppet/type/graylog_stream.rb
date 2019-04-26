@@ -74,5 +74,5 @@ Puppet::Type.newtype(:graylog_stream) do
   # TODO: Implement outputs
 
 
-  autorequire('graylog_api') {'api'}
+  autorequire('file') { 'graylog_api_config.yaml' }
 end

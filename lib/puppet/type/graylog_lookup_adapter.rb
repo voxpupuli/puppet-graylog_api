@@ -49,5 +49,5 @@ Puppet::Type.newtype(:graylog_lookup_adapter) do
     desc 'A hash of configuration for the Data Adapter. The exact configuration properties support will vary depending on the type of adapter being used.'
   end
 
-  autorequire('graylog_api') {'api'}
+  autorequire('file') { 'graylog_api_config.yaml' }
 end

@@ -45,5 +45,5 @@ Puppet::Type.newtype(:graylog_lookup_cache) do
     desc 'A hash of configuration for the Lookup Cache. The exact properties will vary depending on the type of cache being managed.'
   end
 
-  autorequire('graylog_api') {'api'}
+  autorequire('file') { 'graylog_api_config.yaml' }
 end

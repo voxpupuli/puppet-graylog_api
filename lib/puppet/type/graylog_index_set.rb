@@ -97,5 +97,5 @@ Puppet::Type.newtype(:graylog_index_set) do
     defaultto(false)
   end
 
-  autorequire('graylog_api') {'api'}
+  autorequire('file') { 'graylog_api_config.yaml' }
 end

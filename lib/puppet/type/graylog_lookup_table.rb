@@ -59,7 +59,7 @@ Puppet::Type.newtype(:graylog_lookup_table) do
     desc 'The name of the Lookup Cache used for this Lookup Table.'
   end
 
-  autorequire('graylog_api') {'api'}
+  autorequire('file') { 'graylog_api_config.yaml' }
   autorequire('graylog_lookup_adapter') { self[:ensure] == 'absent' ? [] : self[:adapter] }
   autorequire('graylog_lookup_cache') { self[:ensure] == 'absent' ? [] : self[:cache] }
   autobefore('graylog_lookup_adapter') { self[:ensure] == 'absent' ? self[:adapter] : [] }
