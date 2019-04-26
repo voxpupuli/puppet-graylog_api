@@ -2,7 +2,7 @@ Puppet::Type.newtype(:graylog_dashboard_layout) do
 
   desc <<-END_OF_DOC
     @summary
-      Creates an Dashboard.
+      Lays out the widgets on a dashboard.
       
     @see graylog_dashboard
     @see graylog_dashboard_widget
@@ -17,9 +17,8 @@ Puppet::Type.newtype(:graylog_dashboard_layout) do
       }
   END_OF_DOC
 
-
   newparam(:name) do
-    desc 'The name of the Dashboard.'
+    desc 'The name of the Dashboard whose layout this is.'
   end
 
   newproperty(:positions) do
@@ -42,4 +41,6 @@ Puppet::Type.newtype(:graylog_dashboard_layout) do
   end
 
   autorequire('graylog_api') {'api'}
+  autorequire('graylog_dashboard') { self[:name] }
+  autorequire('graylog_dashboard_widget') { self[:postions].keys.map {|widget_name| "#{self[:name]}!!!#{widget_name}" } }
 end

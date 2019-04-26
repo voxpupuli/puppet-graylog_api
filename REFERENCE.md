@@ -18,6 +18,9 @@
 **Resource types**
 
 * [`graylog_api`](#graylog_api): Sets the API credentials used by the rest of the types in the module.
+* [`graylog_dashboard`](#graylog_dashboard): Creates an Dashboard.
+* [`graylog_dashboard_layout`](#graylog_dashboard_layout): Lays out the widgets on a dashboard.
+* [`graylog_dashboard_widget`](#graylog_dashboard_widget): Creates an Dashboard Widget.
 * [`graylog_grok_pattern`](#graylog_grok_pattern): Installs a Grok pattern.
 * [`graylog_index_set`](#graylog_index_set): Defines an Index Set.
 * [`graylog_input`](#graylog_input): Creates an Input.
@@ -1003,6 +1006,168 @@ Valid values: api
 namevar
 
 must be 'api'
+
+### graylog_dashboard
+
+Creates an Dashboard.
+
+* **See also**
+graylog_dashboard_widget
+graylog_dashboard_layout
+
+#### Examples
+
+##### 
+
+```puppet
+graylog_dashboard { 'Example Dashboard':
+  ensure        => present,
+  description   => 'An example dashboard.',
+}
+```
+
+#### Properties
+
+The following properties are available in the `graylog_dashboard` type.
+
+##### `ensure`
+
+Valid values: present, absent
+
+The basic property that the resource should be in.
+
+Default value: present
+
+##### `description`
+
+The description of the Dashboard.
+
+#### Parameters
+
+The following parameters are available in the `graylog_dashboard` type.
+
+##### `name`
+
+namevar
+
+The name of the Dashboard.
+
+### graylog_dashboard_layout
+
+Lays out the widgets on a dashboard.
+
+* **See also**
+graylog_dashboard
+graylog_dashboard_widget
+
+#### Examples
+
+##### 
+
+```puppet
+graylog_dashboard_layout { 'Example Dashboard':
+  positions => {
+    'Example Widget 1' => {x => 1, y => 1, w => 2, h => 5},
+    'Example Widget 2' => {x => 3, y => 1, w => 2, h => 5},
+    'Example Widget 3' => {x => 1, y => 6, w => 4, h => 2},
+  },
+}
+```
+
+#### Properties
+
+The following properties are available in the `graylog_dashboard_layout` type.
+
+##### `positions`
+
+A hash of hashes. Each key is the name of a widget appearing on this
+dashboard. The corresponding value is a hash with four keys:
+  * x - The horizontal position of this widget
+  * y - The vertical position of this widget
+  * w - The width of this widget
+  * h - The height of this widget
+
+#### Parameters
+
+The following parameters are available in the `graylog_dashboard_layout` type.
+
+##### `name`
+
+namevar
+
+The name of the Dashboard whose layout this is.
+
+### graylog_dashboard_widget
+
+The title of this resource should be the name of the dashboard on which the
+widget appears, followed by !!!, followed by the name of the widget.
+
+* **See also**
+graylog_dashboard
+graylog_dashboard_layout
+
+#### Examples
+
+##### 
+
+```puppet
+graylog_dashboard_widget { 'Example Dashboard!!!Example Widget':
+  ensure        => present,
+  cache_time    => 10,
+  config        => {
+    field          => 'example_field',
+    limit          => 5,
+    sort_order     => 'desc',
+    stacked_fields => '',
+    timerange      => {
+      range => 86400,
+      type  => 'relative',
+    },
+    query          => 'foo:bar',
+  },
+  type          => 'QUICKVALUES_HISTOGRAM',
+}
+```
+
+#### Properties
+
+The following properties are available in the `graylog_dashboard_widget` type.
+
+##### `ensure`
+
+Valid values: present, absent
+
+The basic property that the resource should be in.
+
+Default value: present
+
+##### `cache_time`
+
+The amount of time (in seconds) this widget should cache data before requesting new data.
+
+##### `config`
+
+A hash of configuration values for the widget. Structure of the hash varies by widget type.
+
+##### `type`
+
+The type of widget.
+
+#### Parameters
+
+The following parameters are available in the `graylog_dashboard_widget` type.
+
+##### `name`
+
+namevar
+
+The name of the dashboard widget.
+
+##### `dashboard`
+
+namevar
+
+The dashboard on which this widget appears.
 
 ### graylog_grok_pattern
 
