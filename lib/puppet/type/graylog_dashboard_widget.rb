@@ -34,7 +34,7 @@ Puppet::Type.newtype(:graylog_dashboard_widget) do
   newparam(:name) do
     desc 'The name of the dashboard on which this widget appears, followed by !!!, followed by the name of the widget.'
     validate do |value|
-      raise ArgumentError, "name parameter must include both dashboard name and widget name, separated by !!!" unless value =~ /.!!!./
+      raise ArgumentError, "name parameter must include both dashboard name and widget name, separated by !!!; instead was '#{value}'" unless value =~ /.+!!!.+/
     end
   end
 
