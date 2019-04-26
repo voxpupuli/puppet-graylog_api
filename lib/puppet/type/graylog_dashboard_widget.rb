@@ -29,6 +29,10 @@ Puppet::Type.newtype(:graylog_dashboard_widget) do
 
   ensurable
 
+  def name
+    "#{self[:dashboard]}!!!#{self[:name]}"
+  end
+
   newparam(:name) do
     desc 'The name of the Dashboard.'
     isnamevar
@@ -63,9 +67,8 @@ Puppet::Type.newtype(:graylog_dashboard_widget) do
     end
   end
 
-
   def self.title_patterns
-    [ [ /(.*)/m, [ [:name] ] ] ]
+    [ [ /(.*)!!!(.*)/m, [ [:dashboard], [:name] ] ] ]
   end
 
   autorequire('graylog_api') {'api'}

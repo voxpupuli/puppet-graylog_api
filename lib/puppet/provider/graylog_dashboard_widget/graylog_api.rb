@@ -7,7 +7,7 @@ Puppet::Type.type(:graylog_dashboard_widget).provide(:graylog_api, parent: Puppe
   def self.prefetch(resources)
     items = instances
     resources.each_pair do |name,resource|
-      if provider = items.find { |item| item.name == name.to_s && item.dashboard == resource[:dashboard].to_s }
+      if provider = items.find { |item| item.name == resource[:name].to_s && item.dashboard == resource[:dashboard].to_s }
         resource.provider = provider
       end
     end
