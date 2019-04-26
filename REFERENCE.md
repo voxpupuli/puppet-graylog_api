@@ -1052,6 +1052,10 @@ namevar
 
 The name of the Dashboard.
 
+##### `purge`
+
+Whether to remove widgets from this dashboard if they aren't declared in Puppet
+
 ### graylog_dashboard_layout
 
 Lays out the widgets on a dashboard.
