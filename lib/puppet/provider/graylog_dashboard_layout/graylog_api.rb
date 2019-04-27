@@ -16,6 +16,7 @@ Puppet::Type.type(:graylog_dashboard_layout).provide(:graylog_api, parent: Puppe
 
       positions_data.each_pair do |widget_id, position_data|
         widget_data = widgets_data.find {|widget| widget['id'] == widget_id }
+        Puppet.error("Could not find widget #{widget_id} on dashboard #{dashboard_name}") unless widget_data
         widget_name = widget_data['description']
         positions[widget_name] = {
           'x' => position_data['col'],
