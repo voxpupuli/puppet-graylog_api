@@ -24,12 +24,11 @@ Puppet::Type.newtype(:graylog_dashboard) do
     desc 'The description of the Dashboard.'
   end
 
-  newparam(:purge, boolean: true, parent: Puppet::Property::Boolean) do
+  newproperty(:purge, boolean: true, parent: Puppet::Property::Boolean) do
     desc "Whether to remove widgets from this dashboard if they aren't declared in Puppet"
-  end
-
-  def insync?(is)
-    super(is) && !provider.need_to_purge_widgets?
+    def insync?(is)
+      !provider.need_to_purge_widgets?)
+    end
   end
 
   autorequire('graylog_api') {'api'}
