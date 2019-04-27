@@ -226,6 +226,15 @@ The IP address to listen on.
 
 Default value: '0.0.0.0'
 
+##### `include_beats_prefix`
+
+Data type: `Boolean`
+
+Whether to prefix additional fields with the name of the beat type, e.g.
+source -> filebeat_source.
+
+Default value: `false`
+
 ##### `override_source`
 
 Data type: `Optional[String]`
@@ -1042,6 +1051,10 @@ Default value: present
 
 The description of the Dashboard.
 
+##### `purge`
+
+Whether to remove widgets from this dashboard if they aren't declared in Puppet
+
 #### Parameters
 
 The following parameters are available in the `graylog_dashboard` type.
@@ -1051,10 +1064,6 @@ The following parameters are available in the `graylog_dashboard` type.
 namevar
 
 The name of the Dashboard.
-
-##### `purge`
-
-Whether to remove widgets from this dashboard if they aren't declared in Puppet
 
 ### graylog_dashboard_layout
 
@@ -1165,13 +1174,7 @@ The following parameters are available in the `graylog_dashboard_widget` type.
 
 namevar
 
-The name of the dashboard widget.
-
-##### `dashboard`
-
-namevar
-
-The dashboard on which this widget appears.
+The name of the dashboard on which this widget appears, followed by !!!, followed by the name of the widget.
 
 ### graylog_grok_pattern
 

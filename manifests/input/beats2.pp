@@ -11,6 +11,10 @@
 # @param bind_address
 #   The IP address to listen on.
 #
+# @param include_beats_prefix
+#   Whether to prefix additional fields with the name of the beat type, e.g.
+#   source -> filebeat_source.
+#
 # @param override_source
 #   The source is a hostname derived from the received packet by default. Set
 #   this if you want to override it with a custom string.
@@ -62,6 +66,7 @@
 define graylog_api::input::beats2(
   Enum['present','absent']  $ensure                    = 'present',
   String                    $bind_address              = '0.0.0.0',
+  Boolean                   $include_beats_prefix      = false,
   Optional[String]          $override_source           = undef,
   Stdlib::Port              $port                      = 5044,
   Integer                   $recv_buffer_size          = '1 MB'.to_bytes,
@@ -81,6 +86,7 @@ define graylog_api::input::beats2(
     configuration => {
       bind_address              => $bind_address,
       recv_buffer_size          => $recv_buffer_size,
+      no_beats_prefix           => !$include_beats_prefix,
       override_source           => $override_source,
       port                      => $port,
       tcp_keepalive             => $tcp_keepalive,
