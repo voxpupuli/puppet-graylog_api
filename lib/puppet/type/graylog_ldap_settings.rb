@@ -50,6 +50,13 @@ Puppet::Type.newtype(:graylog_ldap_settings) do
 
   newproperty(:system_password) do
     desc "Password to bind to LDAP server with."
+    def should_to_s
+      "[REDACTED]"
+    end
+
+    def is_to_s
+      "[REDACTED]"
+    end
   end
 
   newproperty(:ldap_uri) do
