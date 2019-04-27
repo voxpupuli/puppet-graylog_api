@@ -15,7 +15,7 @@ Puppet::Type.type(:graylog_dashboard).provide(:graylog_api, parent: Puppet::Prov
         description: data['description'],
       )
       item.rest_id = data['id']
-      item.widgets = data['widgets'].map {|w| {description: w['description'], id: w['id']} }
+      item.widgets = data['widgets'].map {|w| {name: w['description'], id: w['id']} }
       item
     end
   end
