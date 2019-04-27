@@ -15,8 +15,25 @@ Puppet::Type.type(:graylog_dashboard).provide(:graylog_api, parent: Puppet::Prov
         description: data['description'],
       )
       item.rest_id = data['id']
-      item.widgets = data['widgets'].map {|w| {name: w['description'], id: w['id']} }
+      item.widgets = data['widgets'].map {|w| {description: w['description'], id: w['id']} }
       item
+    end
+  end
+
+  def need_to_purge_widgets?
+    resource[:purge] && widgets_to_purge.any?
+  end
+
+  def widgets_in_catalog
+    @widgets_in_catalog ||= resource.catalog.resources.find_all do |res|
+      res.class.to_s == 'Puppet::Type::Graylog_dashboard_widget' &&
+      res[:name].split('!!!',2).first == resource[:name]
+    end
+  end
+
+  def widgets_to_purge
+    @widgets_to_purge ||= widgets.select do |widget|
+      widgets_in_catalog.none? {|w| w[:name].split('!!!',2)[1] == widget[:name] }
     end
   end
 
@@ -25,18 +42,11 @@ Puppet::Type.type(:graylog_dashboard).provide(:graylog_api, parent: Puppet::Prov
       title: resource[:name],
       description: resource[:description],
     })
+    Puppet.debug("@action = '#{@action}'")
     if @action.nil? && resource[:purge]
-      catalog = resource.catalog
-      widgets_in_catalog = catalog.resources.find_all do |res|
-        res.class.to_s == 'Puppet::Type::Graylog_dashboard_widget' &&
-        res[:name].split('!!!',2).first == resource[:name]
-      end
-
-      widgets.each do |widget|
-        unless widgets_in_catalog.any? {|w| w[:name].split('!!!',2)[1] == widget[:name] }
-          Puppet.notice("Purging widget '#{widget[:name]}' from Dashboard #{resource[:name]}.")
-          delete("dashboards/#{rest_id}/widgets/#{widget[:id]}")
-        end
+      widgets_to_purge.each do |widget|
+        Puppet.notice("Purging widget '#{widget[:name]}' from Dashboard #{resource[:name]}.")
+        delete("dashboards/#{rest_id}/widgets/#{widget[:id]}")
       end
     end
   end

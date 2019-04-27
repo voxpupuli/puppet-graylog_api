@@ -28,5 +28,9 @@ Puppet::Type.newtype(:graylog_dashboard) do
     desc "Whether to remove widgets from this dashboard if they aren't declared in Puppet"
   end
 
+  def insync?(is)
+    super(is) && !provider.need_to_purge_widgets?
+  end
+
   autorequire('graylog_api') {'api'}
 end
