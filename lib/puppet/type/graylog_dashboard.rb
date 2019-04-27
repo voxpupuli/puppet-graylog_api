@@ -27,7 +27,7 @@ Puppet::Type.newtype(:graylog_dashboard) do
   newproperty(:purge, boolean: true, parent: Puppet::Property::Boolean) do
     desc "Whether to remove widgets from this dashboard if they aren't declared in Puppet"
     def insync?(is)
-      !provider.need_to_purge_widgets?)
+      !provider.need_to_purge_widgets?
     end
   end
 
