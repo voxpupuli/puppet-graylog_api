@@ -21,6 +21,8 @@ Puppet::Type.type(:graylog_dashboard).provide(:graylog_api, parent: Puppet::Prov
   end
 
   def need_to_purge_widgets?
+    Puppet.debug("Purge: #{resource[:purge]}")
+    Puppet.debug("Widgets to Purge: #{widgets_to_purge}")
     resource[:purge] && widgets_to_purge.any?
   end
 
