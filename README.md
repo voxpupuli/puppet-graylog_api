@@ -167,7 +167,7 @@ This module aims for compatibility with both Graylog 2.x and Graylog 3.x, but
 has not been heavily tested on 3.x at this time.
 
 If you discover any issues, please report them at
-https://github.com/philomory/puppet-graylog_api/issues
+https://github.com/magicmemories/puppet-graylog_api/issues
 
 ## License and Authorship
 

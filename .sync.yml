@@ -15,6 +15,7 @@ appveyor.yml:
 .gitlab-ci.yml:
   delete: true
 .travis.yml:
+  deploy: false
   includes:
     - env: CHECK="syntax lint metadata_lint check:symlinks check:git_ignore check:dot_underscore check:test_file rubocop"
     - env: CHECK=parallel_spec
@@ -24,6 +25,11 @@ appveyor.yml:
 .gitignore:
   paths:
     - '/scratch/'
+    - '/.vscode/'
 .pdkignore:
   paths:
     - '/scratch/'
+    - '/.vscode/'
+Rakefile:
+  extra_disabled_lint_checks:
+    - 'parameter_order'

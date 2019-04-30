@@ -4,7 +4,7 @@
   "author": "Adam Gardner",
   "summary": "Puppet module for configuring Graylog via its REST API",
   "license": "Apache-2.0",
-  "source": "https://github.com/philomory/puppet-graylog_api",
+  "source": "https://github.com/magicmemories/puppet-graylog_api",
   "dependencies": [
     {
       "name": "puppetlabs/stdlib",
