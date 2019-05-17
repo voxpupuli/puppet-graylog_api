@@ -30,6 +30,8 @@ via the REST API. This includes:
 * Pipelines and Pipeline rules
 * Lookup Tables, Data Adapters and Caches
 * Grok Patterns
+* Dashboards
+* Index Sets
 
 More components of Graylog configuration are in scope for this module, but they
 have not been implemented yet.
@@ -79,9 +81,9 @@ hash using Puppet's built-in `sha256` function.
 ### Configure the default index set
 
 ```puppet
-graylog_index_set { 'Default index set':
+graylog_index_set { 'graylog':
   description                => 'The Graylog default index set',
-  prefix                     => 'graylog',
+  display_name               => 'Default index set',
   shards                     => 1,
   replicas                   => 0,
   rotation_strategy          => 'size',

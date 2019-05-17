@@ -6,13 +6,13 @@ Puppet::Type.newtype(:graylog_index_set) do
     @summary
       Defines an Index Set.
     
-    Creates and configures an Index Set. Use the name 'Default index set' to
+    Creates and configures an Index Set. Use the title 'graylog' to
     configure the pre-existing default index set created for new installations.
 
     @example
-      graylog_index_set { 'Default index set':
+      graylog_index_set { 'graylog':
         description                => 'The Graylog default index set',
-        prefix                     => 'graylog',
+        display_name               => 'Default index set',
         shards                     => 1,
         replicas                   => 0,
         rotation_strategy          => 'size',
@@ -26,22 +26,22 @@ Puppet::Type.newtype(:graylog_index_set) do
       }
   END_OF_DOC
 
-
   ensurable
 
-  newparam(:name) do
+  newparam(:prefix) do
+    isnamevar
+    desc "A unique prefix used in Elasticsearch indices belonging to this index set. The prefix must start with a letter or number, and can only contain letters, numbers, '_', '-' and '+'."
+    validate do |value|
+      fail "The prefix must start with a letter or number, and can only contain letters, numbers, '_', '-' and '+'." unless value =~ /^[a-zA-Z0-9][a-zA-Z0-9+_-]*$/
+    end
+  end
+
+  newproperty(:display_name) do
     desc 'The name of the Index Set'
   end
 
   newproperty(:description) do
     desc "A description of the Index Set"
-  end
-
-  newproperty(:prefix) do
-    desc "A unique prefix used in Elasticsearch indices belonging to this index set. The prefix must start with a letter or number, and can only contain letters, numbers, '_', '-' and '+'."
-    validate do |value|
-      fail "The prefix must start with a letter or number, and can only contain letters, numbers, '_', '-' and '+'." unless value =~ /^[a-zA-Z0-9][a-zA-Z0-9+_-]*$/
-    end
   end
 
   newproperty(:shards) do

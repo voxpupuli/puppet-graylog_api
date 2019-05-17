@@ -1225,7 +1225,7 @@ The token that represents the pattern. Must be in all-caps.
 
 ### graylog_index_set
 
-Creates and configures an Index Set. Use the name 'Default index set' to
+Creates and configures an Index Set. Use the title 'graylog' to
 configure the pre-existing default index set created for new installations.
 
 #### Examples
@@ -1233,9 +1233,9 @@ configure the pre-existing default index set created for new installations.
 ##### 
 
 ```puppet
-graylog_index_set { 'Default index set':
+graylog_index_set { 'graylog':
   description                => 'The Graylog default index set',
-  prefix                     => 'graylog',
+  display_name               => 'Default index set',
   shards                     => 1,
   replicas                   => 0,
   rotation_strategy          => 'size',
@@ -1261,13 +1261,13 @@ The basic property that the resource should be in.
 
 Default value: present
 
+##### `display_name`
+
+The name of the Index Set
+
 ##### `description`
 
 A description of the Index Set
-
-##### `prefix`
-
-A unique prefix used in Elasticsearch indices belonging to this index set. The prefix must start with a letter or number, and can only contain letters, numbers, '_', '-' and '+'.
 
 ##### `shards`
 
@@ -1319,11 +1319,11 @@ Default value: false
 
 The following parameters are available in the `graylog_index_set` type.
 
-##### `name`
+##### `prefix`
 
 namevar
 
-The name of the Index Set
+A unique prefix used in Elasticsearch indices belonging to this index set. The prefix must start with a letter or number, and can only contain letters, numbers, '_', '-' and '+'.
 
 ### graylog_input
 
@@ -1967,7 +1967,7 @@ Default value: false
 
 ##### `index_set`
 
-The name of the index set that stream operates on.
+The prefix of the index set that stream operates on.
 
 #### Parameters
 

@@ -67,7 +67,7 @@ Puppet::Type.newtype(:graylog_stream) do
   end
 
   newproperty(:index_set) do
-    desc "The name of the index set that stream operates on."
+    desc "The prefix of the index set that stream operates on."
   end
   # TODO: Implement alert_conditions
   # TODO: Implement alert_receivers

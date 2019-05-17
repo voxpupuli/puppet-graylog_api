@@ -15,15 +15,15 @@ Puppet::Type.type(:graylog_stream).provide(:graylog_api, parent: Puppet::Provide
         enabled: !data['disabled'],
         rules: data['rules'].map {|defn| rule_from_data(defn) },
         remove_matches_from_default_stream: data['remove_matches_from_default_stream'],
-        index_set: index_set_name_from_id(data['index_set_id']),
+        index_set: index_set_prefix_from_id(data['index_set_id']),
       )
       stream.rest_id = data['id']
       stream
     end
   end
 
-  def self.index_set_name_from_id(index_set_id)
-    get("system/indices/index_sets/#{index_set_id}")['title']
+  def self.index_set_prefix_from_id(index_set_id)
+    get("system/indices/index_sets/#{index_set_id}")['prefix']
   end
 
   RULE_TYPES = %w{equals matches greater_than less_than field_presence contain always_match}
@@ -46,7 +46,7 @@ Puppet::Type.type(:graylog_stream).provide(:graylog_api, parent: Puppet::Provide
       matching_type: resource[:matching_type],
       rules: resource[:rules].map {|defn| data_from_rule(defn) },
       remove_matches_from_default_stream: resource[:remove_matches_from_default_stream],
-      index_set_id: index_set_id_from_name(resource[:index_set])
+      index_set_id: index_set_id_from_prefix(resource[:index_set])
     })
     if exists?
       if resource[:enabled]
@@ -71,10 +71,10 @@ Puppet::Type.type(:graylog_stream).provide(:graylog_api, parent: Puppet::Provide
     }
   end
 
-  def index_set_id_from_name(index_set_name)
+  def index_set_id_from_prefix(index_set_prefix)
     index_sets = get("system/indices/index_sets")['index_sets']
-    index_set = if index_set_name
-      index_sets.find {|set| set['title'] == index_set_name }
+    index_set = if index_set_prefix
+      index_sets.find {|set| set['prefix'] == index_set_prefix }
     else
       index_sets.find {|set| set['default'] }
     end

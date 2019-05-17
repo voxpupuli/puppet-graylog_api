@@ -9,7 +9,7 @@ Puppet::Type.type(:graylog_index_set).provide(:graylog_api, parent: Puppet::Prov
     results['index_sets'].map do |data|
       index_set = new(
         ensure: :present,
-        name: data['title'],
+        display_name: data['title'],
         description: data['description'],
         prefix: data['index_prefix'],
         shards: data['shards'],
@@ -31,9 +31,8 @@ Puppet::Type.type(:graylog_index_set).provide(:graylog_api, parent: Puppet::Prov
     rot_strat = Puppet::Type::Graylog_index_set::ROTATION_STRATEGIES[resource[:rotation_strategy]]
     ret_strat = Puppet::Type::Graylog_index_set::RETENTION_STRATEGIES[resource[:retention_strategy]]
     simple_flush('system/indices/index_sets',{
-      title: resource[:name],
+      title: resource[:display_name],
       description: resource[:description],
-      index_prefix: resource[:prefix],
       shards: resource[:shards],
       replicas: resource[:replicas],
       rotation_strategy_class: rot_strat,
