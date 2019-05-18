@@ -27,6 +27,10 @@ Puppet::Type.type(:graylog_index_set).provide(:graylog_api, parent: Puppet::Prov
     end
   end
 
+  def name
+    @property_hash[:prefix] || super
+  end
+
   def flush
     rot_strat = Puppet::Type::Graylog_index_set::ROTATION_STRATEGIES[resource[:rotation_strategy]]
     ret_strat = Puppet::Type::Graylog_index_set::RETENTION_STRATEGIES[resource[:retention_strategy]]
