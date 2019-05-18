@@ -6,6 +6,11 @@ This project follows [Semantic Versioning](https://semver.org/). Since it is
 currently a 0.x release, no aspect of the public API is guaranteed to be stable
 between versions, even minor versions. 
 
+## Release 0.1.2
+** Bugfixes **
+* Fixed issue introduced by namevar not being called 'name' for the
+  `graylog_index_set` property.
+
 ## Release 0.1.1
 ** Breaking Changes **
 * `graylog_index_set` now uses the `prefix` property as its namevar, and the
