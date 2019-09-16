@@ -20,12 +20,14 @@ Puppet::Type.type(:graylog_lookup_cache).provide(:graylog_api, parent: Puppet::P
   end
 
   def flush
-    simple_flush("system/lookup/caches",{
+    data = {
       name: resource[:name],
       title: resource[:display_name],
       description: resource[:description],
       config: resource[:configuration],
-    })
+    }
+    data[:id] = resource.rest_id if resource.rest_id
+    simple_flush("system/lookup/caches",)
   end
 
 end
