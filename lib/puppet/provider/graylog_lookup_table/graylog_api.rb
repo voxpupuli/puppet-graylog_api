@@ -32,7 +32,7 @@ Puppet::Type.type(:graylog_lookup_table).provide(:graylog_api, parent: Puppet::P
   def flush
     adapter_id = get("system/lookup/adapters/#{resource[:adapter]}")['id']
     cache_id   = get("system/lookup/caches/#{resource[:cache]}")['id']
-    simple_flush("system/lookup/tables",{
+    data = {
       name: resource[:name],
       title: resource[:display_name],
       description: resource[:description],
@@ -42,7 +42,9 @@ Puppet::Type.type(:graylog_lookup_table).provide(:graylog_api, parent: Puppet::P
       default_single_value_type: resource[:default_single_value_type],
       default_multi_value: resource[:default_multi_value],
       default_multi_value_type: resource[:default_multi_value_type],
-    })
+    }
+    data[:id] = rest_id if rest_id
+    simple_flush("system/lookup/tables",data)
   end
 
 end
