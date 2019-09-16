@@ -140,7 +140,7 @@ class Puppet::Provider::GraylogAPI < Puppet::Provider
 
   # Under Puppet Apply, undef in puppet-lang becomes :undef instead of nil
   def self.recursive_undef_to_nil(data)
-    return data unless Puppet.settings[:name] == 'apply'
+    #return data unless Puppet.settings[:name] == 'apply'
     case data
     when :undef
       nil
