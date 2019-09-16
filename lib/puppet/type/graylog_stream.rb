@@ -52,12 +52,12 @@ Puppet::Type.newtype(:graylog_stream) do
 
         * field       - string, the name of the field being matched
         * type        - string, the type of match being performed; one of: equals, matches, greater_than, less_than, field_presence, contain, or always_match
-        * value       - string or number, the value the field is being compared to; leave undef if no comparison is being made (e.g. for field_presence matcher)
+        * value       - string or number, the value the field is being compared to; set to empty string if no comparison is being made (e.g. for field_presence matcher)
         * inverted    - boolean, whether to negate the match condition
         * description - string, a description of the rule
     END_OF_DESC
     munge do |rule|
-      { 'field' => :undef, 'description' => '', 'type' => :undef, 'inverted' => false, 'value' => :undef }.merge(rule)
+      { 'field' => :undef, 'description' => '', 'type' => :undef, 'inverted' => false, 'value' => '' }.merge(rule)
     end
   end
 
