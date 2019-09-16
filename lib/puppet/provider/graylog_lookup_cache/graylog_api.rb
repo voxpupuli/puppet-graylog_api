@@ -27,7 +27,7 @@ Puppet::Type.type(:graylog_lookup_cache).provide(:graylog_api, parent: Puppet::P
       config: resource[:configuration],
     }
     data[:id] = rest_id if rest_id
-    simple_flush("system/lookup/caches",)
+    simple_flush("system/lookup/caches", data)
   end
 
 end
