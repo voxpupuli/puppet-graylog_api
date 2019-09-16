@@ -22,7 +22,7 @@ Puppet::Type.type(:graylog_lookup_table).provide(:graylog_api, parent: Puppet::P
         default_single_value: data['default_single_value'],
         default_single_value_type: data['default_single_value_type'],
         default_multi_value: data['default_multi_value'],
-        default_multi_value_type: data['default_multi_value'],
+        default_multi_value_type: data['default_multi_value_type'],
       )
       table.rest_id = data['id']
       table
