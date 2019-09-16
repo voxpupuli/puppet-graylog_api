@@ -1955,7 +1955,7 @@ Each rule is a hash with the following keys:
 
   * field       - string, the name of the field being matched
   * type        - string, the type of match being performed; one of: equals, matches, greater_than, less_than, field_presence, contain, or always_match
-  * value       - string or number, the value the field is being compared to; leave undef if no comparison is being made (e.g. for field_presence matcher)
+  * value       - string or number, the value the field is being compared to; set to empty string if no comparison is being made (e.g. for field_presence matcher)
   * inverted    - boolean, whether to negate the match condition
   * description - string, a description of the rule
 

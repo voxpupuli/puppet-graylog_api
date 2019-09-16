@@ -6,6 +6,11 @@ This project follows [Semantic Versioning](https://semver.org/). Since it is
 currently a 0.x release, no aspect of the public API is guaranteed to be stable
 between versions, even minor versions. 
 
+## Release 0.1.3
+** Bugfixes **
+* Fixed an issue updating Lookup Tables and Lookup Caches
+* Fixed an issue minor issue with stream rules that don't use the Value attribute.
+
 ## Release 0.1.2
 ** Bugfixes **
 * Fixed issue introduced by namevar not being called 'name' for the
