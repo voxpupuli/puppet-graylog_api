@@ -30,6 +30,9 @@
 #   Whether this input is defined on all nodes ('global') or just this node
 #   ('local').
 #
+# @param static_fields
+#   Static fields to assign to this input.
+#
 # @param tcp_keepalive
 #   Whether to enable TCP keepalive packets.
 #
@@ -71,6 +74,7 @@ define graylog_api::input::beats2(
   Stdlib::Port              $port                      = 5044,
   Integer                   $recv_buffer_size          = '1 MB'.to_bytes,
   Enum['global','local']    $scope                     = 'global',
+  Optional[Hash]            $static_fields             = undef,
   Boolean                   $tcp_keepalive             = false,
   String                    $tls_cert_file             = '',
   String                    $tls_client_auth           = 'disabled',
@@ -83,6 +87,7 @@ define graylog_api::input::beats2(
     ensure        => $ensure,
     type          => 'org.graylog.plugins.beats.Beats2Input',
     scope         => $scope,
+    static_fields => $static_fields,
     configuration => {
       bind_address              => $bind_address,
       recv_buffer_size          => $recv_buffer_size,

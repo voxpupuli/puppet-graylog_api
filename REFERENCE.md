@@ -131,6 +131,14 @@ Whether this input is defined on all nodes ('global') or just this node
 
 Default value: 'global'
 
+##### `static_fields`
+
+Data type: `Optional[Hash]`
+
+Static fields to assign to this input.
+
+Default value: `undef`
+
 ##### `tcp_keepalive`
 
 Data type: `Boolean`
@@ -269,6 +277,14 @@ Whether this input is defined on all nodes ('global') or just this node
 ('local').
 
 Default value: 'global'
+
+##### `static_fields`
+
+Data type: `Optional[Hash]`
+
+Static fields to assign to this input.
+
+Default value: `undef`
 
 ##### `tcp_keepalive`
 
@@ -433,6 +449,14 @@ Whether this input is defined on all nodes ('global') or just this node
 
 Default value: 'global'
 
+##### `static_fields`
+
+Data type: `Optional[Hash]`
+
+Static fields to assign to this input.
+
+Default value: `undef`
+
 ##### `tcp_keepalive`
 
 Data type: `Boolean`
@@ -578,6 +602,14 @@ Whether this input is defined on all nodes ('global') or just this node
 
 Default value: 'global'
 
+##### `static_fields`
+
+Data type: `Optional[Hash]`
+
+Static fields to assign to this input.
+
+Default value: `undef`
+
 ##### `tcp_keepalive`
 
 Data type: `Boolean`
@@ -722,6 +754,14 @@ Whether this input is defined on all nodes ('global') or just this node
 
 Default value: 'global'
 
+##### `static_fields`
+
+Data type: `Optional[Hash]`
+
+Static fields to assign to this input.
+
+Default value: `undef`
+
 ### graylog_api::input::syslog_udp
 
 Defines an input accepting Syslog messages over UDP.
@@ -811,6 +851,14 @@ Whether this input is defined on all nodes ('global') or just this node
 ('local'). Default is global.
 
 Default value: 'global'
+
+##### `static_fields`
+
+Data type: `Optional[Hash]`
+
+Static fields to assign to this input.
+
+Default value: `undef`
 
 ##### `store_full_message`
 
@@ -1385,6 +1433,10 @@ Default value: global
 ##### `configuration`
 
 A hash of configuration values for the input; structure varies by input type.
+
+##### `static_fields`
+
+A hash of static fields to apply to messages ingested by this input.
 
 #### Parameters
 

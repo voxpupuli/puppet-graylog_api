@@ -1,4 +1,5 @@
 require_relative '../graylog_api'
+require 'pry'
 
 Puppet::Type.type(:graylog_input).provide(:graylog_api, parent: Puppet::Provider::GraylogAPI) do
 
@@ -41,10 +42,15 @@ Puppet::Type.type(:graylog_input).provide(:graylog_api, parent: Puppet::Provider
         type: data['type'],
         scope: (data['global'] ? 'global' : 'local'),
         configuration: recursive_undef_to_nil(data['attributes']),
+        static_fields: data['static_fields'],
       )
       input.rest_id = data['id']
       input
     end
+  end
+
+  def set_rest_id_on_create(response)
+    @rest_id = response['id']
   end
 
   def flush
@@ -55,6 +61,27 @@ Puppet::Type.type(:graylog_input).provide(:graylog_api, parent: Puppet::Provider
       configuration: resource[:configuration],
       node: node,
     })
+    update_static_fields if resource[:static_fields].kind_of?(Hash) && @action != :delete
+  end
+
+  def update_static_fields
+    initial = initial_params[:static_fields]
+    fields_to_add, fields_to_remove = if initial
+      [
+        resource[:static_fields].select {|k,v| initial[k] != v },
+        initial.keys - resource[:static_fields].keys
+      ]
+    else
+      [resource[:static_fields],[]]
+    end
+
+    fields_to_add.each_pair do |key,value|
+      post("system/inputs/#{rest_id}/staticfields", {key: key, value: value})
+    end
+
+    fields_to_remove.each do |key|
+      delete("system/inputs/#{rest_id}/staticfields/#{key}")
+    end
   end
 
   def global?

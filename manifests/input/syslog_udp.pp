@@ -40,6 +40,9 @@
 #   Whether this input is defined on all nodes ('global') or just this node
 #   ('local'). Default is global.
 #
+# @param static_fields
+#   Static fields to assign to this input.
+#
 # @param store_full_message
 #   Whether to store the full original syslog message as full_message. Defaults
 #   to true.
@@ -53,12 +56,14 @@ define graylog_api::input::syslog_udp(
   Stdlib::Port              $port                      = 514,
   Integer                   $recv_buffer_size          = '256 kB'.to_bytes,
   Enum['global','local']    $scope                     = 'global',
+  Optional[Hash]            $static_fields             = undef,
   Boolean                   $store_full_message        = true,
 ){
   graylog_input { $name:
     ensure        => $ensure,
     type          => 'org.graylog2.inputs.syslog.udp.SyslogUDPInput',
     scope         => $scope,
+    static_fields => $static_fields,
     configuration => {
       allow_override_date    => $allow_override_date,
       bind_address           => $bind_address,

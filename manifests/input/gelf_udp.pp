@@ -27,6 +27,9 @@
 # @param scope
 #   Whether this input is defined on all nodes ('global') or just this node
 #   ('local'). Default is global.
+#
+# @param static_fields
+#   Static fields to assign to this input.
 define graylog_api::input::gelf_udp(
   Enum['present','absent']  $ensure                    = 'present',
   String                    $bind_address              = '0.0.0.0',
@@ -35,11 +38,13 @@ define graylog_api::input::gelf_udp(
   Stdlib::Port              $port                      = 12201,
   Integer                   $recv_buffer_size          = '256 kB'.to_bytes,
   Enum['global','local']    $scope                     = 'global',
+  Optional[Hash]            $static_fields             = undef,
 ){
   graylog_input { $name:
     ensure        => $ensure,
     type          => 'org.graylog2.inputs.gelf.udp.GELFUDPInput',
     scope         => $scope,
+    static_fields => $static_fields,
     configuration => {
       bind_address          => $bind_address,
       decompress_size_limit => $decompress_size_limit,

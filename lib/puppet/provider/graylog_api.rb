@@ -122,6 +122,13 @@ class Puppet::Provider::GraylogAPI < Puppet::Provider
 
   attr_writer :rest_id
 
+  attr_reader :initial_params
+
+  def initialize(parameters)
+    @initial_params = parameters.to_hash.dup
+    super
+  end
+
   def rest_id
     @rest_id || resource[:name]
   end

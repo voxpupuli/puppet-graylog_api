@@ -52,5 +52,9 @@ Puppet::Type.newtype(:graylog_input) do
     isrequired
   end
 
+  newproperty(:static_fields) do
+    desc "A hash of static fields to apply to messages ingested by this input."
+  end
+
   autorequire('graylog_api') {'api'}
 end
