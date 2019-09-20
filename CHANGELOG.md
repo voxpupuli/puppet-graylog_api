@@ -6,6 +6,10 @@ This project follows [Semantic Versioning](https://semver.org/). Since it is
 currently a 0.x release, no aspect of the public API is guaranteed to be stable
 between versions, even minor versions. 
 
+## Release 0.2.1
+** Bugfixes **
+* Remove leftover debugging code.
+
 ## Release 0.2.0
 ** New features **
 * graylog_input and graylog_api::input::* now support a static_fields property.
