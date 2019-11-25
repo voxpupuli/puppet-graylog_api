@@ -12,6 +12,7 @@
 * [`graylog_api::input::gelf_tcp`](#graylog_apiinputgelf_tcp): Defines a GELF-TCP input.
 * [`graylog_api::input::gelf_udp`](#graylog_apiinputgelf_udp): Defines a GELF-UDP input.
 * [`graylog_api::input::syslog_udp`](#graylog_apiinputsyslog_udp): Defines a Syslog-UDP input.
+* [`graylog_api::input::syslog_tcp`](#graylog_apiinputsyslog_tcp): Defines a Syslog-TCP input.
 * [`graylog_api::pipeline`](#graylog_apipipeline): Define a processing pipeline.
 * [`graylog_api::pipeline::rule`](#graylog_apipipelinerule): Defines a pipeline rule.
 
@@ -866,6 +867,189 @@ Data type: `Boolean`
 
 Whether to store the full original syslog message as full_message. Defaults
 to true.
+
+Default value: `true`
+
+### graylog_api::input::syslog_tcp
+
+Defines an input accepting Syslog messages over TCP.
+
+#### Parameters
+
+The following parameters are available in the `graylog_api::input::syslog_tcp` defined type.
+
+##### `ensure`
+
+Data type: `Enum['present','absent']`
+
+Whether this input should exist.
+
+Default value: 'present'
+
+##### `allow_override_date`
+
+Data type: `Boolean`
+
+Whether to allow setting the message timestamp to the current server time,
+if the timstamp in the message failed to parse. Defaults to true.
+
+Default value: `true`
+
+##### `bind_address`
+
+Data type: `String`
+
+The IP address to listen on. Defaults to 0.0.0.0.
+
+Default value: '0.0.0.0'
+
+##### `expand_structured_data`
+
+Data type: `Boolean`
+
+Whether to expand structured data elements by prefixing attributes with
+their SD-ID. Defaults to true.
+
+Default value: `true`
+
+##### `force_rdns`
+
+Data type: `Boolean`
+
+Whether to force reverse DNS resolution of sender's hostname. Use if the
+hostname in the message cannot be parsed. Default value is false.
+NOTE: Be careful with this setting if you are sending DNS server logs into
+this input as it can cause a feedback loop.
+
+Default value: `false`
+
+##### `override_source`
+
+Data type: `Optional[String]`
+
+The source is a hostname derived from the received packet by default. Set
+this if you want to override it with a custom string.
+
+Default value: `undef`
+
+##### `port`
+
+Data type: `Stdlib::Port`
+
+The port to listen on. Defaults to 514, however be aware that in many
+server setups Graylog will not be able a privileged port without additional
+configuration.
+
+Default value: 514
+
+##### `recv_buffer_size`
+
+Data type: `Integer`
+
+The size in bytes of the recvBufferSize for network connections to this
+input. Defaults to 256 kilobytes.
+
+Default value: .to_bytes
+
+##### `scope`
+
+Data type: `Enum['global','local']`
+
+Whether this input is defined on all nodes ('global') or just this node
+('local'). Default is global.
+
+Default value: 'global'
+
+##### `static_fields`
+
+Data type: `Optional[Hash]`
+
+Static fields to assign to this input.
+
+Default value: `undef`
+
+##### `store_full_message`
+
+Data type: `Boolean`
+
+Whether to store the full original syslog message as full_message. Defaults
+to true.
+
+Default value: `true`
+
+##### `tcp_keepalive`
+
+Data type: `Boolean`
+
+Whether to enable TCP keepalive packets.
+
+Default value: `false`
+
+##### `tls_cert_file`
+
+Data type: `String`
+
+The path to the server certificate to use when securing the connection with
+TLS. Has no effect unless tls_enable is true. Defaults to the empty string.
+Note that this must be the entire certificate chain, and that Graylog is
+sensitive to exact formatting of PEM certificates, e.g. there must be a
+trailing newline.
+
+Default value: ''
+
+##### `tls_client_auth`
+
+Data type: `String`
+
+Whether to use TLS to authenticate clients. Can be 'disabled', 'optional',
+or 'required'.
+
+Default value: 'disabled'
+
+##### `tls_client_auth_cert_file`
+
+Data type: `String`
+
+The path to the file (or directory) which stores the certificates of
+trusted clients. Has no effect if tls_client_auth is 'disabled' or
+tls_enable is false.
+
+Default value: ''
+
+##### `tls_enable`
+
+Data type: `Boolean`
+
+Whether to enable TLS for securing the input.
+
+Default value: `false`
+
+##### `tls_key_file`
+
+Data type: `String`
+
+The path to the private key which corresponds to the tls_cert_file. Has no
+effect if tls_enable is false.
+Note that for PEM private keys, Graylog is sensitive to exact formatting,
+e.g. there must be a trailing newline.
+
+Default value: ''
+
+##### `tls_key_password`
+
+Data type: `String`
+
+The password to decrypt to private key specified in tls_key_file. Leave
+blank if not using TLS, or if the key is not encrypted.
+
+Default value: ''
+
+##### `use_null_delimiter`
+
+Data type: `Boolean`
+
+Whether to use a null byte as a frame delimiter. If false, a newline is
+used as the delimiter instead.
 
 Default value: `true`
 
