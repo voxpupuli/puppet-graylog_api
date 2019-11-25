@@ -100,7 +100,7 @@ define graylog_api::input::syslog_tcp(
 ){
   graylog_input { $name:
     ensure        => $ensure,
-    type          => 'org.graylog2.inputs.syslog.udp.SyslogTCPInput',
+    type          => 'org.graylog2.inputs.syslog.tcp.SyslogTCPInput',
     scope         => $scope,
     static_fields => $static_fields,
     configuration => {
