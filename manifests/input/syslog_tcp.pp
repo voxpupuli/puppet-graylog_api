@@ -84,16 +84,19 @@
 #   used as the delimiter instead.
 define graylog_api::input::syslog_tcp(
   Enum['present','absent']  $ensure                    = 'present',
-  Boolean                   $allow_override_date       = true,
   String                    $bind_address              = '0.0.0.0',
-  Boolean                   $expand_structured_data    = true,
-  Boolean                   $force_rdns                = false,
   Optional[String]          $override_source           = undef,
-  Stdlib::Port              $port                      = 514,
-  Integer                   $recv_buffer_size          = '256 kB'.to_bytes,
+  Stdlib::Port              $port                      = 5044,
+  Integer                   $recv_buffer_size          = '1 MB'.to_bytes,
   Enum['global','local']    $scope                     = 'global',
   Optional[Hash]            $static_fields             = undef,
-  Boolean                   $store_full_message        = true,
+  Boolean                   $tcp_keepalive             = false,
+  String                    $tls_cert_file             = '',
+  String                    $tls_client_auth           = 'disabled',
+  String                    $tls_client_auth_cert_file = '',
+  Boolean                   $tls_enable                = false,
+  String                    $tls_key_file              = '',
+  String                    $tls_key_password          = ''
 ){
   graylog_input { $name:
     ensure        => $ensure,
