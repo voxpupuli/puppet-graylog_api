@@ -6,6 +6,10 @@ This project follows [Semantic Versioning](https://semver.org/). Since it is
 currently a 0.x release, no aspect of the public API is guaranteed to be stable
 between versions, even minor versions. 
 
+## Release 0.3.0
+** New features **
+* New graylog_api::input::syslog_tcp type [(#1)](https://github.com/magicmemories/puppet-graylog_api/pull/1)
+
 ## Release 0.2.1
 ** Bugfixes **
 * Remove leftover debugging code.
