@@ -20,7 +20,7 @@ Puppet::Type.type(:graylog_index_set).provide(:graylog_api, parent: Puppet::Prov
         retention_strategy_details: data['retention_strategy'].reject {|k,v| k == 'type' },
         index_analyzer: data['index_analyzer'],
         max_segments: data['index_optimization_max_num_segments'],
-        disable_index_optimization: data['index_optimization_disabled'],
+        disable_index_optimization: data['index_optimization_disabled']
       )
       index_set.rest_id = data['id']
       index_set
@@ -35,6 +35,7 @@ Puppet::Type.type(:graylog_index_set).provide(:graylog_api, parent: Puppet::Prov
     rot_strat = Puppet::Type::Graylog_index_set::ROTATION_STRATEGIES[resource[:rotation_strategy]]
     ret_strat = Puppet::Type::Graylog_index_set::RETENTION_STRATEGIES[resource[:retention_strategy]]
     simple_flush('system/indices/index_sets',{
+      index_prefix: resource[:prefix],
       title: resource[:display_name],
       description: resource[:description],
       shards: resource[:shards],
@@ -46,7 +47,9 @@ Puppet::Type.type(:graylog_index_set).provide(:graylog_api, parent: Puppet::Prov
       index_analyzer: resource[:index_analyzer],
       index_optimization_max_num_segments: resource[:max_segments],
       index_optimization_disabled: resource[:disable_index_optimization],
+      creation_date: '2000-01-01T00:00:00.00Z',
       writable: true,
+      field_type_refresh_interval: 5000
     })
   end
 

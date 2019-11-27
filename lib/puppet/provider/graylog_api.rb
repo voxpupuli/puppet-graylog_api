@@ -66,7 +66,16 @@ class Puppet::Provider::GraylogAPI < Puppet::Provider
           query: query,
           body: body,
         )
-        Puppet.debug("Got result #{result.body}")
+
+        if result.body
+          if result.body.include? '"type":"ApiError"'
+            Puppet.send_log(:err, "Got error response #{result.body}")
+            raise
+          end
+        
+          Puppet.debug("Got result #{result.body}")
+        end
+
       rescue HTTParty::ResponseError => e
         Puppet.send_log(:err, "Got error response #{e.response}")
         raise e
@@ -174,12 +183,33 @@ class Puppet::Provider::GraylogAPI < Puppet::Provider
     case @action
     when :destroy
       delete("#{path}/#{rest_id}")
-    when :create
+    when :create      
       response = post("#{path}",params)
       set_rest_id_on_create(response) if respond_to?(:set_rest_id_on_create)
     else
       put("#{path}/#{rest_id}",params)
     end
+  end
+
+  def idempotent_flush(path,params)
+    params = recursive_undef_to_nil(params)
+    case @action
+    when :destroy
+      delete("#{path}/#{rest_id}")
+    else
+      put("#{path}/#{rest_id}",params)
+    end
+  end
+  
+  def user_flush(params)
+    path = 'users'
+
+    if !defined?(@action)
+      params = params
+      .select { |k| ![:username, :password].include?(k) }          
+    end
+
+    simple_flush('users', params)
   end
 
 end
