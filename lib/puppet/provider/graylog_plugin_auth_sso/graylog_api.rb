@@ -4,8 +4,7 @@ Puppet::Type.type(:graylog_plugin_auth_sso).provide(:graylog_api, parent: Puppet
 
   mk_resource_methods
 
-  def
-     self.instances
+  def self.instances
       data = get('plugins/org.graylog.plugins.auth.sso/config')
       [new(
         ensure: :present,
