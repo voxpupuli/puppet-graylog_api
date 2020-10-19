@@ -1,4 +1,5 @@
 require_relative '../graylog_api'
+require 'date'
 
 Puppet::Type.type(:graylog_index_set).provide(:graylog_api, parent: Puppet::Provider::GraylogAPI) do
 
@@ -47,7 +48,7 @@ Puppet::Type.type(:graylog_index_set).provide(:graylog_api, parent: Puppet::Prov
       index_analyzer: resource[:index_analyzer],
       index_optimization_max_num_segments: resource[:max_segments],
       index_optimization_disabled: resource[:disable_index_optimization],
-      creation_date: '2000-01-01T00:00:00.00Z',
+      creation_date: DateTime.now.iso8601(3),
       writable: true,
       field_type_refresh_interval: 5000
     })
