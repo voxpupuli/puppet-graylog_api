@@ -191,14 +191,4 @@ class Puppet::Provider::GraylogAPI < Puppet::Provider
     end
   end
 
-  def idempotent_flush(path,params)
-    params = recursive_undef_to_nil(params)
-    case @action
-    when :destroy
-      delete("#{path}/#{rest_id}")
-    else
-      put("#{path}/#{rest_id}",params)
-    end
-  end
-
 end

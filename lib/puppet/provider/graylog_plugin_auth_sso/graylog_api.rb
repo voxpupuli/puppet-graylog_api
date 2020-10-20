@@ -24,7 +24,8 @@ Puppet::Type.type(:graylog_plugin_auth_sso).provide(:graylog_api, parent: Puppet
 
 
   def flush
-    idempotent_flush('plugins', {
+    Puppet.info("Flushing graylog_plugin_auth_sso")
+    put('plugins/org.graylog.plugins.auth.sso/config', {
       trusted_proxies: resource[:trusted_proxies],
       default_group: resource[:default_role],
       username_header: resource[:username_header],
@@ -37,6 +38,5 @@ Puppet::Type.type(:graylog_plugin_auth_sso).provide(:graylog_api, parent: Puppet
       roles_header: resource[:roles_header]
     })
   end
-
 
 end

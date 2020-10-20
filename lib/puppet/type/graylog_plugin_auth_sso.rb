@@ -25,7 +25,8 @@ Puppet::Type.newtype(:graylog_plugin_auth_sso) do
   ensurable
 
   newparam(:name) do
-    desc 'Resource name'
+    desc 'Must be "sso", only one instance of the graylog_plugin_auth_sso type is allowed.'
+    newvalues('sso')
   end
 
   newproperty(:trusted_proxies) do
