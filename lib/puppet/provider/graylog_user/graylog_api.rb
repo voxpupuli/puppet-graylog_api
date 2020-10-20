@@ -13,29 +13,35 @@ Puppet::Type.type(:graylog_user).provide(:graylog_api, parent: Puppet::Provider:
         name: data['username'],
         full_name: data['full_name'],
         email: data['email'],
-        roles: data['roles'],        
+        roles: data['roles'],
         permissions: data['permissions'],
         timezone: data['timezone'],
         session_timeout_ms: data['session_timeout_ms'],
-        startpage: data['startpage']        
+        startpage: data['startpage']
       )
     end
     items.compact
   end
 
-  def flush        
-    user_flush({
-      username: resource[:name],
-      password: resource[:password],
+  def flush
+    params = {
       full_name: resource[:full_name],
       email: resource[:email],
       timezone: resource[:timezone],
       session_timeout_ms: resource[:session_timeout_ms],
       startpage: resource[:startpage],
-      permissions: resource[:permissions],      
+      permissions: resource[:permissions],
       roles: resource[:roles]
-    })
-  end
+    }
 
+    if @action
+      simple_flush('users', params.merge({
+        username: resource[:name],
+        password: resource[:password]
+      }))
+    else
+      simple_flush('users', params)
+    end
+  end
 
 end

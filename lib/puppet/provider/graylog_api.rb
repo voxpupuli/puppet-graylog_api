@@ -38,7 +38,7 @@ class Puppet::Provider::GraylogAPI < Puppet::Provider
       fail "No Graylog_api['api'] resource defined!" unless api_password && api_port # It would be nicer to do this in the Type, but I don't see how without writing it over and over again for each type.
       case method
       when :get, :delete
-        headers = { 
+        headers = {
           'Accept' => 'application/json',
           'X-Requested-By' => 'puppet',
         }
@@ -72,7 +72,7 @@ class Puppet::Provider::GraylogAPI < Puppet::Provider
             Puppet.send_log(:err, "Got error response #{result.body}")
             raise
           end
-        
+
           Puppet.debug("Got result #{result.body}")
         end
 
@@ -183,7 +183,7 @@ class Puppet::Provider::GraylogAPI < Puppet::Provider
     case @action
     when :destroy
       delete("#{path}/#{rest_id}")
-    when :create      
+    when :create
       response = post("#{path}",params)
       set_rest_id_on_create(response) if respond_to?(:set_rest_id_on_create)
     else
@@ -199,17 +199,6 @@ class Puppet::Provider::GraylogAPI < Puppet::Provider
     else
       put("#{path}/#{rest_id}",params)
     end
-  end
-  
-  def user_flush(params)
-    path = 'users'
-
-    if !defined?(@action)
-      params = params
-      .select { |k| ![:username, :password].include?(k) }          
-    end
-
-    simple_flush('users', params)
   end
 
 end
