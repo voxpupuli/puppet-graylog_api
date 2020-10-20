@@ -40,8 +40,6 @@ Puppet::Type.type(:graylog_stream).provide(:graylog_api, parent: Puppet::Provide
   end
 
   def flush
-    rules = 
-
     simple_flush('streams',{
       title: resource[:name],
       description: resource[:description],
@@ -50,7 +48,7 @@ Puppet::Type.type(:graylog_stream).provide(:graylog_api, parent: Puppet::Provide
       remove_matches_from_default_stream: resource[:remove_matches_from_default_stream],
       index_set_id: index_set_id_from_prefix(resource[:index_set])
     })
-    
+
     if exists?
       update_rules()
 
@@ -69,7 +67,7 @@ Puppet::Type.type(:graylog_stream).provide(:graylog_api, parent: Puppet::Provide
   def update_rules()
     rules_res = resource[:rules].map {|defn| data_from_rule(defn) }
     rules_gl = get("streams/#{rest_id}/rules")
-    
+
     rules_res.each {|rule_res|
       rule_gl = rules_gl['stream_rules'].find {|rule_gl| rule_res['description'] == rule_gl['description']}
 
