@@ -48,7 +48,10 @@ Puppet::Type.type(:graylog_stream).provide(:graylog_api, parent: Puppet::Provide
       remove_matches_from_default_stream: resource[:remove_matches_from_default_stream],
       index_set_id: index_set_id_from_prefix(resource[:index_set])
     })
+
     if exists?
+      update_rules()
+
       if resource[:enabled]
         post("streams/#{rest_id}/resume")
       else
@@ -59,6 +62,21 @@ Puppet::Type.type(:graylog_stream).provide(:graylog_api, parent: Puppet::Provide
 
   def set_rest_id_on_create(response)
     @rest_id = response['stream_id']
+  end
+
+  def update_rules()
+    rules_res = resource[:rules].map {|defn| data_from_rule(defn) }
+    rules_gl = get("streams/#{rest_id}/rules")
+
+    rules_res.each {|rule_res|
+      rule_gl = rules_gl['stream_rules'].find {|rule_gl| rule_res['description'] == rule_gl['description']}
+
+      if rule_gl
+        put("streams/#{rest_id}/rules/#{rule_gl['id']}", rule_res)
+      else
+        post("streams/#{rest_id}/rules", rule_res)
+      end
+    }
   end
 
   def data_from_rule(rule)
@@ -74,7 +92,7 @@ Puppet::Type.type(:graylog_stream).provide(:graylog_api, parent: Puppet::Provide
   def index_set_id_from_prefix(index_set_prefix)
     index_sets = get("system/indices/index_sets")['index_sets']
     index_set = if index_set_prefix
-      index_sets.find {|set| set['prefix'] == index_set_prefix }
+      index_sets.find {|set| set['index_prefix'] == index_set_prefix }
     else
       index_sets.find {|set| set['default'] }
     end

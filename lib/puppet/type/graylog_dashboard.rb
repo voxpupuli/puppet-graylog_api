@@ -1,3 +1,5 @@
+require 'puppet/property/boolean'
+
 Puppet::Type.newtype(:graylog_dashboard) do
 
   desc <<-END_OF_DOC
