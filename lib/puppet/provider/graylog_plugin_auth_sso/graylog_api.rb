@@ -8,7 +8,7 @@ Puppet::Type.type(:graylog_plugin_auth_sso).provide(:graylog_api, parent: Puppet
       data = get('plugins/org.graylog.plugins.auth.sso/config')
       [new(
         ensure: :present,
-        name: 'org.graylog.plugins.auth.sso/config',
+        name: 'sso',
         trusted_proxies: data['trusted_proxies'],
         default_role: data['default_group'],
         username_header: data['username_header'],
