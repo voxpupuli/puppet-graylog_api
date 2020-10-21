@@ -5,14 +5,16 @@
 
 **Defined types**
 
+* [`graylog_api::extractor::regex`](#graylog_apiextractorregex): Defines a Regex extractor.
+* [`graylog_api::extractor::regex_replace`](#graylog_apiextractorregex_replace): Defines a Regex replace extractor.
 * [`graylog_api::grok::pattern_file`](#graylog_apigrokpattern_file): Loads a full file worth of Grok patterns into Graylog.
 * [`graylog_api::input::beats`](#graylog_apiinputbeats): Defines a (old-style) Beats input.
 * [`graylog_api::input::beats2`](#graylog_apiinputbeats2): Defines a (new-style) Beats input.
 * [`graylog_api::input::gelf_http`](#graylog_apiinputgelf_http): Defines a GELF-HTTP input.
 * [`graylog_api::input::gelf_tcp`](#graylog_apiinputgelf_tcp): Defines a GELF-TCP input.
 * [`graylog_api::input::gelf_udp`](#graylog_apiinputgelf_udp): Defines a GELF-UDP input.
-* [`graylog_api::input::syslog_udp`](#graylog_apiinputsyslog_udp): Defines a Syslog-UDP input.
 * [`graylog_api::input::syslog_tcp`](#graylog_apiinputsyslog_tcp): Defines a Syslog-TCP input.
+* [`graylog_api::input::syslog_udp`](#graylog_apiinputsyslog_udp): Defines a Syslog-UDP input.
 * [`graylog_api::pipeline`](#graylog_apipipeline): Define a processing pipeline.
 * [`graylog_api::pipeline::rule`](#graylog_apipipelinerule): Defines a pipeline rule.
 
@@ -22,6 +24,7 @@
 * [`graylog_dashboard`](#graylog_dashboard): Creates an Dashboard.
 * [`graylog_dashboard_layout`](#graylog_dashboard_layout): Lays out the widgets on a dashboard.
 * [`graylog_dashboard_widget`](#graylog_dashboard_widget): Creates an Dashboard Widget.
+* [`graylog_extractor`](#graylog_extractor): Creates an Extractor.
 * [`graylog_grok_pattern`](#graylog_grok_pattern): Installs a Grok pattern.
 * [`graylog_index_set`](#graylog_index_set): Defines an Index Set.
 * [`graylog_input`](#graylog_input): Creates an Input.
@@ -31,10 +34,208 @@
 * [`graylog_lookup_table`](#graylog_lookup_table): Configures a Lookup Table.
 * [`graylog_pipeline`](#graylog_pipeline): Creates a processing pipleine.
 * [`graylog_pipeline_rule`](#graylog_pipeline_rule): Creates a Pipeline Rule.
+* [`graylog_plugin_auth_sso`](#graylog_plugin_auth_sso): SSO authentication plugin configuration
 * [`graylog_role`](#graylog_role): Creates a user role.
 * [`graylog_stream`](#graylog_stream): Creates a Stream configuration.
+* [`graylog_user`](#graylog_user): Creates a internal user
 
 ## Defined types
+
+### graylog_api::extractor::regex
+
+Defines a Regex extractor.
+
+#### Parameters
+
+The following parameters are available in the `graylog_api::extractor::regex` defined type.
+
+##### `ensure`
+
+Data type: `Enum['present','absent']`
+
+Whether this input should exist.
+
+Default value: 'present'
+
+##### `input`
+
+Data type: `String`
+
+Title of the input this extractor is attached to.
+
+Default value: ''
+
+##### `source_field`
+
+Data type: `String`
+
+Source field
+
+Default value: ''
+
+##### `target_field`
+
+Data type: `String`
+
+Choose a field name to store the extracted value. It can only contain alphanumeric characters and underscores. Example: http_response_code.
+
+Default value: ''
+
+##### `regex_value`
+
+Data type: `String`
+
+Title of the input this extractor is attached to.
+
+Default value: ''
+
+##### `cut_or_copy`
+
+Data type: `Optional[String]`
+
+Do you want to copy or cut from source? You cannot use the cutting feature on standard fields like message and source.
+
+Default value: `undef`
+
+##### `condition_type`
+
+Data type: `Optional[String]`
+
+Extracting only from messages that match a certain condition helps you avoiding wrong or unnecessary extractions and can also save CPU resources.
+
+Default value: `undef`
+
+##### `condition_value`
+
+Data type: `Optional[String]`
+
+Condition value
+
+Default value: `undef`
+
+##### `converters`
+
+Data type: `Optional[Array]`
+
+A list of optional converter types which must be Java class identifiers of converters, such as org.graylog2.inputs.converters.NumericConverter.
+
+Default value: `undef`
+
+##### `order`
+
+Data type: `Optional[Integer]`
+
+Sort index for this extractor.
+
+Default value: `undef`
+
+### graylog_api::extractor::regex_replace
+
+Defines a Regex replace extractor.
+
+#### Parameters
+
+The following parameters are available in the `graylog_api::extractor::regex_replace` defined type.
+
+##### `ensure`
+
+Data type: `Enum['present','absent']`
+
+Whether this input should exist.
+
+Default value: 'present'
+
+##### `input`
+
+Data type: `String`
+
+Title of the input this extractor is attached to.
+
+Default value: ''
+
+##### `source_field`
+
+Data type: `String`
+
+Source field
+
+Default value: ''
+
+##### `target_field`
+
+Data type: `String`
+
+Choose a field name to store the extracted value. It can only contain alphanumeric characters and underscores. Example: http_response_code.
+
+Default value: ''
+
+##### `regex_value`
+
+Title of the input this extractor is attached to.
+
+##### `cut_or_copy`
+
+Data type: `Optional[String]`
+
+Do you want to copy or cut from source? You cannot use the cutting feature on standard fields like message and source.
+
+Default value: `undef`
+
+##### `condition_type`
+
+Data type: `Optional[String]`
+
+Extracting only from messages that match a certain condition helps you avoiding wrong or unnecessary extractions and can also save CPU resources.
+
+Default value: `undef`
+
+##### `condition_value`
+
+Data type: `Optional[String]`
+
+Condition value
+
+Default value: `undef`
+
+##### `converters`
+
+Data type: `Optional[Array]`
+
+A list of optional converter types which must be Java class identifiers of converters, such as org.graylog2.inputs.converters.NumericConverter.
+
+Default value: `undef`
+
+##### `order`
+
+Data type: `Optional[Integer]`
+
+Sort index for this extractor.
+
+Default value: `undef`
+
+##### `regex`
+
+Data type: `String`
+
+
+
+Default value: ''
+
+##### `replacement`
+
+Data type: `String`
+
+
+
+Default value: ''
+
+##### `replace_all`
+
+Data type: `Optional[Boolean]`
+
+
+
+Default value: `false`
 
 ### graylog_api::grok::pattern_file
 
@@ -763,6 +964,169 @@ Static fields to assign to this input.
 
 Default value: `undef`
 
+### graylog_api::input::syslog_tcp
+
+Defines an input accepting Syslog messages over TCP.
+
+#### Parameters
+
+The following parameters are available in the `graylog_api::input::syslog_tcp` defined type.
+
+##### `ensure`
+
+Data type: `Enum['present','absent']`
+
+Whether this input should exist.
+
+Default value: 'present'
+
+##### `allow_override_date`
+
+Whether to allow setting the message timestamp to the current server time,
+if the timstamp in the message failed to parse. Defaults to true.
+
+##### `bind_address`
+
+Data type: `String`
+
+The IP address to listen on. Defaults to 0.0.0.0.
+
+Default value: '0.0.0.0'
+
+##### `expand_structured_data`
+
+Whether to expand structured data elements by prefixing attributes with
+their SD-ID. Defaults to true.
+
+##### `force_rdns`
+
+Whether to force reverse DNS resolution of sender's hostname. Use if the
+hostname in the message cannot be parsed. Default value is false.
+NOTE: Be careful with this setting if you are sending DNS server logs into
+this input as it can cause a feedback loop.
+
+##### `override_source`
+
+Data type: `Optional[String]`
+
+The source is a hostname derived from the received packet by default. Set
+this if you want to override it with a custom string.
+
+Default value: `undef`
+
+##### `port`
+
+Data type: `Stdlib::Port`
+
+The port to listen on. Defaults to 514, however be aware that in many
+server setups Graylog will not be able a privileged port without additional
+configuration.
+
+Default value: 5044
+
+##### `recv_buffer_size`
+
+Data type: `Integer`
+
+The size in bytes of the recvBufferSize for network connections to this
+input. Defaults to 256 kilobytes.
+
+Default value: .to_bytes
+
+##### `scope`
+
+Data type: `Enum['global','local']`
+
+Whether this input is defined on all nodes ('global') or just this node
+('local'). Default is global.
+
+Default value: 'global'
+
+##### `static_fields`
+
+Data type: `Optional[Hash]`
+
+Static fields to assign to this input.
+
+Default value: `undef`
+
+##### `store_full_message`
+
+Whether to store the full original syslog message as full_message. Defaults
+to true.
+
+##### `tcp_keepalive`
+
+Data type: `Boolean`
+
+Whether to enable TCP keepalive packets.
+
+Default value: `false`
+
+##### `tls_cert_file`
+
+Data type: `String`
+
+The path to the server certificate to use when securing the connection with
+TLS. Has no effect unless tls_enable is true. Defaults to the empty string.
+Note that this must be the entire certificate chain, and that Graylog is
+sensitive to exact formatting of PEM certificates, e.g. there must be a
+trailing newline.
+
+Default value: ''
+
+##### `tls_client_auth`
+
+Data type: `String`
+
+Whether to use TLS to authenticate clients. Can be 'disabled', 'optional',
+or 'required'.
+
+Default value: 'disabled'
+
+##### `tls_client_auth_cert_file`
+
+Data type: `String`
+
+The path to the file (or directory) which stores the certificates of
+trusted clients. Has no effect if tls_client_auth is 'disabled' or
+tls_enable is false.
+
+Default value: ''
+
+##### `tls_enable`
+
+Data type: `Boolean`
+
+Whether to enable TLS for securing the input.
+
+Default value: `false`
+
+##### `tls_key_file`
+
+Data type: `String`
+
+The path to the private key which corresponds to the tls_cert_file. Has no
+effect if tls_enable is false.
+Note that for PEM private keys, Graylog is sensitive to exact formatting,
+e.g. there must be a trailing newline.
+
+Default value: ''
+
+##### `tls_key_password`
+
+Data type: `String`
+
+The password to decrypt to private key specified in tls_key_file. Leave
+blank if not using TLS, or if the key is not encrypted.
+
+Default value: ''
+
+##### `use_null_delimiter`
+
+Whether to use a null byte as a frame delimiter. If false, a newline is
+used as the delimiter instead.
+
 ### graylog_api::input::syslog_udp
 
 Defines an input accepting Syslog messages over UDP.
@@ -867,189 +1231,6 @@ Data type: `Boolean`
 
 Whether to store the full original syslog message as full_message. Defaults
 to true.
-
-Default value: `true`
-
-### graylog_api::input::syslog_tcp
-
-Defines an input accepting Syslog messages over TCP.
-
-#### Parameters
-
-The following parameters are available in the `graylog_api::input::syslog_tcp` defined type.
-
-##### `ensure`
-
-Data type: `Enum['present','absent']`
-
-Whether this input should exist.
-
-Default value: 'present'
-
-##### `allow_override_date`
-
-Data type: `Boolean`
-
-Whether to allow setting the message timestamp to the current server time,
-if the timstamp in the message failed to parse. Defaults to true.
-
-Default value: `true`
-
-##### `bind_address`
-
-Data type: `String`
-
-The IP address to listen on. Defaults to 0.0.0.0.
-
-Default value: '0.0.0.0'
-
-##### `expand_structured_data`
-
-Data type: `Boolean`
-
-Whether to expand structured data elements by prefixing attributes with
-their SD-ID. Defaults to true.
-
-Default value: `true`
-
-##### `force_rdns`
-
-Data type: `Boolean`
-
-Whether to force reverse DNS resolution of sender's hostname. Use if the
-hostname in the message cannot be parsed. Default value is false.
-NOTE: Be careful with this setting if you are sending DNS server logs into
-this input as it can cause a feedback loop.
-
-Default value: `false`
-
-##### `override_source`
-
-Data type: `Optional[String]`
-
-The source is a hostname derived from the received packet by default. Set
-this if you want to override it with a custom string.
-
-Default value: `undef`
-
-##### `port`
-
-Data type: `Stdlib::Port`
-
-The port to listen on. Defaults to 514, however be aware that in many
-server setups Graylog will not be able a privileged port without additional
-configuration.
-
-Default value: 514
-
-##### `recv_buffer_size`
-
-Data type: `Integer`
-
-The size in bytes of the recvBufferSize for network connections to this
-input. Defaults to 256 kilobytes.
-
-Default value: .to_bytes
-
-##### `scope`
-
-Data type: `Enum['global','local']`
-
-Whether this input is defined on all nodes ('global') or just this node
-('local'). Default is global.
-
-Default value: 'global'
-
-##### `static_fields`
-
-Data type: `Optional[Hash]`
-
-Static fields to assign to this input.
-
-Default value: `undef`
-
-##### `store_full_message`
-
-Data type: `Boolean`
-
-Whether to store the full original syslog message as full_message. Defaults
-to true.
-
-Default value: `true`
-
-##### `tcp_keepalive`
-
-Data type: `Boolean`
-
-Whether to enable TCP keepalive packets.
-
-Default value: `false`
-
-##### `tls_cert_file`
-
-Data type: `String`
-
-The path to the server certificate to use when securing the connection with
-TLS. Has no effect unless tls_enable is true. Defaults to the empty string.
-Note that this must be the entire certificate chain, and that Graylog is
-sensitive to exact formatting of PEM certificates, e.g. there must be a
-trailing newline.
-
-Default value: ''
-
-##### `tls_client_auth`
-
-Data type: `String`
-
-Whether to use TLS to authenticate clients. Can be 'disabled', 'optional',
-or 'required'.
-
-Default value: 'disabled'
-
-##### `tls_client_auth_cert_file`
-
-Data type: `String`
-
-The path to the file (or directory) which stores the certificates of
-trusted clients. Has no effect if tls_client_auth is 'disabled' or
-tls_enable is false.
-
-Default value: ''
-
-##### `tls_enable`
-
-Data type: `Boolean`
-
-Whether to enable TLS for securing the input.
-
-Default value: `false`
-
-##### `tls_key_file`
-
-Data type: `String`
-
-The path to the private key which corresponds to the tls_cert_file. Has no
-effect if tls_enable is false.
-Note that for PEM private keys, Graylog is sensitive to exact formatting,
-e.g. there must be a trailing newline.
-
-Default value: ''
-
-##### `tls_key_password`
-
-Data type: `String`
-
-The password to decrypt to private key specified in tls_key_file. Leave
-blank if not using TLS, or if the key is not encrypted.
-
-Default value: ''
-
-##### `use_null_delimiter`
-
-Data type: `Boolean`
-
-Whether to use a null byte as a frame delimiter. If false, a newline is
-used as the delimiter instead.
 
 Default value: `true`
 
@@ -1407,6 +1588,105 @@ The following parameters are available in the `graylog_dashboard_widget` type.
 namevar
 
 The name of the dashboard on which this widget appears, followed by !!!, followed by the name of the widget.
+
+### graylog_extractor
+
+This type covers the raw API and is agnostic to the type of extractor being
+created. In most cases, you should declare extractors using the
+graylog_api::extractor::* defined types, which wrap this type and provide
+properties for extractor-type-specific configuration. You can use this type
+directly to configure an extractor type that doesn't have an existing wrapper.
+
+#### Examples
+
+##### 
+
+```puppet
+graylog_extractor { 'Example Regex extractor':
+  ensure        => present,
+  input         => 'Syslog TCP',
+  type          => 'org.graylog2.inputs.extractors.RegexExtractor',
+  source_field  => 'message'
+  target_field  => 'foo'
+  configuration => {
+    value                     => '^#(.*)'
+  },
+}
+```
+
+#### Properties
+
+The following properties are available in the `graylog_extractor` type.
+
+##### `ensure`
+
+Valid values: present, absent
+
+The basic property that the resource should be in.
+
+Default value: present
+
+##### `input`
+
+Title of the input this extractor is attached to.
+
+##### `type`
+
+The type of the Extractor. Must be the Java enum constant for the extractor, such as REGEX
+
+##### `source_field`
+
+Source field
+
+##### `target_field`
+
+Choose a field name to store the extracted value. It can only contain alphanumeric characters and underscores. Example: http_response_code.
+
+##### `configuration`
+
+A hash of configuration values for the extractor; structure varies by extractor type.
+
+##### `cut_or_copy`
+
+Valid values: copy, cut
+
+Do you want to copy or cut from source? You cannot use the cutting feature on standard fields like message and source.
+
+Default value: copy
+
+##### `condition_type`
+
+Valid values: none, regex, string
+
+Extracting only from messages that match a certain condition helps you avoiding wrong or unnecessary extractions and can also save CPU resources.
+
+Default value: none
+
+##### `condition_value`
+
+Condition value
+
+Default value: ''
+
+##### `converters`
+
+A list of optional converter types which must be Java class identifiers of converters, such as org.graylog2.inputs.converters.NumericConverter
+
+Default value: {}
+
+##### `order`
+
+Sort index for this extractor
+
+#### Parameters
+
+The following parameters are available in the `graylog_extractor` type.
+
+##### `name`
+
+namevar
+
+A descriptive name for this extractor.
 
 ### graylog_grok_pattern
 
@@ -2074,6 +2354,103 @@ namevar
 
 The name of the pipeline rule.
 
+### graylog_plugin_auth_sso
+
+SSO authentication pluging configuration definition.
+
+#### Examples
+
+##### 
+
+```puppet
+graylog_auth_sso_plugin_config { 'sso':
+  trusted_proxies: '127.0.0.1/32',
+  username_header: 'REMOTE_USER'
+  require_trusted_proxies: true
+  auto_create_user: true
+  fullname_header: 'displayName'
+  email_header: 'mail'
+  default_email_domain: 'foo.bar'
+  sync_roles: true
+  roles_header: 'fooGroup'
+}
+```
+
+#### Properties
+
+The following properties are available in the `graylog_plugin_auth_sso` type.
+
+##### `ensure`
+
+Valid values: present, absent
+
+The basic property that the resource should be in.
+
+Default value: present
+
+##### `trusted_proxies`
+
+Enable this to require the request containing the SSO header as directly coming from a trusted proxy. This is highly recommended to avoid header injection.
+
+##### `username_header`
+
+HTTP header containing the implicitly trusted name of the Graylog user
+
+##### `fullname_header`
+
+HTTP header containing the full name of user to create (defaults to the user name).
+
+##### `email_header`
+
+HTTP header containing the email address of user to create
+
+##### `default_email_domain`
+
+The default domain to use if there is no email header configured
+
+##### `default_role`
+
+The default Graylog role determines whether a user created can access the entire system, or has limited access.
+
+Default value: Reader
+
+##### `require_trusted_proxies`
+
+Enable this to require the request containing the SSO header as directly coming from a trusted proxy. This is highly recommended to avoid header injection.
+The current subnet setting is: 127.0.0.1/32, 0:0:0:0:0:0:0:1/128. You can configure the setting in the Graylog server configuration file.
+
+Default value: true
+
+##### `auto_create_user`
+
+Enable this if Graylog should automatically create a user account for externally authenticated users. If disabled, an administrator needs to manually create a user account.
+
+Default value: false
+
+##### `sync_roles`
+
+Enable this if Graylog should automatically synchronize the roles of the user, with that specified in the HTTP header. Only existing roles in Graylog will be added to the user.
+
+Default value: false
+
+##### `roles_header`
+
+Prefix of the HTTP header, can contain a comma-separated list of roles in one header, otherwise all headers with that prefix will be recognized.
+
+Default value: ''
+
+#### Parameters
+
+The following parameters are available in the `graylog_plugin_auth_sso` type.
+
+##### `name`
+
+Valid values: sso
+
+namevar
+
+Must be "sso", only one instance of the graylog_plugin_auth_sso type is allowed.
+
 ### graylog_role
 
 A user role definition. Note that the Admin and Reader roles are built-in
@@ -2214,4 +2591,79 @@ The following parameters are available in the `graylog_stream` type.
 namevar
 
 The name of the stream.
+
+### graylog_user
+
+A user definition. Note that the admin user is built-in an cannot be changed.
+
+#### Examples
+
+##### 
+
+```puppet
+graylog_user { 'test':
+  password    => 'B1GnbfoNp9PND6ihXfZFjg',
+  full_name   => 'Test user',
+  email       => 'foo@bar',
+  roles => [
+    'Reader'
+  ]
+}
+```
+
+#### Properties
+
+The following properties are available in the `graylog_user` type.
+
+##### `ensure`
+
+Valid values: present, absent
+
+The basic property that the resource should be in.
+
+Default value: present
+
+##### `email`
+
+User email address
+
+##### `full_name`
+
+Full name of the user
+
+##### `roles`
+
+User roles
+
+##### `session_timeout_ms`
+
+Session timeout
+
+##### `permissions`
+
+User permissions
+
+Default value: []
+
+##### `timezone`
+
+User timezone
+
+##### `startpage`
+
+User startpage
+
+#### Parameters
+
+The following parameters are available in the `graylog_user` type.
+
+##### `name`
+
+namevar
+
+The name of the user
+
+##### `password`
+
+User password
 

@@ -4,7 +4,21 @@ All notable changes to this project will be documented in this file.
 
 This project follows [Semantic Versioning](https://semver.org/). Since it is
 currently a 0.x release, no aspect of the public API is guaranteed to be stable
-between versions, even minor versions. 
+between versions, even minor versions.
+
+## Release 0.4.0
+** New Features **
+* New graylog_extractor type [(#2)](https://github.com/magicmemories/puppet-graylog_api/pull/2)
+* New graylog_plugin_auth_sso type [(#2)](https://github.com/magicmemories/puppet-graylog_api/pull/2)
+* New graylog_user type [(#2)](https://github.com/magicmemories/puppet-graylog_api/pull/2)
+
+** Enhancements **
+* graylog_index_set type now has a `disable_index_optimization` parameter [(#2)](https://github.com/magicmemories/puppet-graylog_api/pull/2)
+* graylog_role provider now automatically maps permissions names of the form `streams:streamname`
+  rather than requiring the stream ID be embedded in the data passed in. [(#2)](https://github.com/magicmemories/puppet-graylog_api/pull/2)
+
+** Bugfixes **
+* Updating rules for existing streams now works properly [(#2)](https://github.com/magicmemories/puppet-graylog_api/pull/2)
 
 ## Release 0.3.0
 ** New features **
