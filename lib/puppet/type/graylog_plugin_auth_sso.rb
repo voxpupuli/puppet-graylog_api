@@ -9,7 +9,7 @@ Puppet::Type.newtype(:graylog_plugin_auth_sso) do
     SSO authentication pluging configuration definition.
 
     @example
-      graylog_auth_sso_plugin_config { 'org.graylog.plugins.foo/config':
+      graylog_auth_sso_plugin_config { 'sso':
         trusted_proxies: '127.0.0.1/32',
         username_header: 'REMOTE_USER'
         require_trusted_proxies: true
