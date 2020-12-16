@@ -10,6 +10,7 @@
 * [`graylog_api::grok::pattern_file`](#graylog_apigrokpattern_file): Loads a full file worth of Grok patterns into Graylog.
 * [`graylog_api::input::beats`](#graylog_apiinputbeats): Defines a (old-style) Beats input.
 * [`graylog_api::input::beats2`](#graylog_apiinputbeats2): Defines a (new-style) Beats input.
+* [`graylog_api::input::cef_tcp`](#graylog_apiinputcef_tcp): Defines a CEF-UDP input.
 * [`graylog_api::input::gelf_http`](#graylog_apiinputgelf_http): Defines a GELF-HTTP input.
 * [`graylog_api::input::gelf_tcp`](#graylog_apiinputgelf_tcp): Defines a GELF-TCP input.
 * [`graylog_api::input::gelf_udp`](#graylog_apiinputgelf_udp): Defines a GELF-UDP input.
@@ -556,6 +557,108 @@ The password to decrypt to private key specified in tls_key_file. Leave
 blank if not using TLS, or if the key is not encrypted.
 
 Default value: ''
+
+### graylog_api::input::cef_tcp
+
+Defines an input accepting CEF messages over UDP.
+
+#### Parameters
+
+The following parameters are available in the `graylog_api::input::cef_tcp` defined type.
+
+##### `ensure`
+
+Data type: `Enum['present','absent']`
+
+Whether this input should exist.
+
+Default value: 'present'
+
+##### `bind_address`
+
+Data type: `String`
+
+The IP address to listen on. Defaults to 0.0.0.0.
+
+Default value: '0.0.0.0'
+
+##### `locale`
+
+Data type: `String`
+
+The locale to use when parsing the CEF timestamps. Format can be either
+"en"-style or "en_US"-style.
+
+Default value: 'en'
+
+##### `num_worker_threads`
+
+Data type: `Integer`
+
+How many worker threads the input should use.
+
+Default value: 2
+
+##### `port`
+
+Data type: `Stdlib::Port`
+
+The port to listen on. Defaults to 514, however be aware that in many
+server setups Graylog will not be able a privileged port without additional
+configuration.
+
+Default value: 5555
+
+##### `recv_buffer_size`
+
+Data type: `Integer`
+
+The size in bytes of the recvBufferSize for network connections to this
+input. Defaults to 256 kilobytes.
+
+Default value: .to_bytes
+
+##### `scope`
+
+Data type: `Enum['global','local']`
+
+Whether this input is defined on all nodes ('global') or just this node
+('local'). Default is global.
+
+Default value: 'global'
+
+##### `static_fields`
+
+Data type: `Optional[Hash]`
+
+Static fields to assign to this input.
+
+Default value: `undef`
+
+##### `timezone`
+
+Data type: `String`
+
+The timezone of the timestamps in the CEF messages. Format is TZ Database,
+e.g. "America/New_York" or "UTC".
+
+Default value: 'UTC'
+
+##### `use_full_names`
+
+Data type: `Boolean`
+
+Whether to use full field names in CEF messages (as defined in the CEF
+specification).
+
+Default value: `false`
+
+##### `use_null_delimiter`
+
+Whether to use a null byte as a frame delimiter. If false, a newline is
+used as the delimiter instead.
+
+Default value: `false`
 
 ### graylog_api::input::gelf_http
 

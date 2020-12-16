@@ -168,8 +168,9 @@ There are a lot of different settings in Graylog that this module cannot yet
 manage. Essentially it only manages those settings that we've needed so far
 ourselves.
 
-This module aims for compatibility with both Graylog 2.x and Graylog 3.x, but
-has not been heavily tested on 3.x at this time.
+This module aims for compatibility with Graylog 3.x, and specifically has been
+tested with Graylog 3.1.x. It probably works on later versions of Graylog 3.x
+but may not work with 4.x or 2.x.
 
 If you discover any issues, please report them at
 https://github.com/magicmemories/puppet-graylog_api/issues
