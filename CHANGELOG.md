@@ -6,6 +6,11 @@ This project follows [Semantic Versioning](https://semver.org/). Since it is
 currently a 0.x release, no aspect of the public API is guaranteed to be stable
 between versions, even minor versions.
 
+## Reelase 0.4.1
+** New Features **
+* New graylog_api::inputs::cef_tcp input class.
+* New graylog_api::inputs::cef_udp input class.
+
 ## Release 0.4.0
 ** New Features **
 * New graylog_extractor type [(#2)](https://github.com/magicmemories/puppet-graylog_api/pull/2)
