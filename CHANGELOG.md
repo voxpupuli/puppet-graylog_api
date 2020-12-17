@@ -6,7 +6,11 @@ This project follows [Semantic Versioning](https://semver.org/). Since it is
 currently a 0.x release, no aspect of the public API is guaranteed to be stable
 between versions, even minor versions.
 
-## Reelase 0.4.1
+## Release 0.4.2
+** Bugfixes **
+* Fix a typo in graylog_api::inputs::cef_udp
+
+## Release 0.4.1
 ** New Features **
 * New graylog_api::inputs::cef_tcp input class.
 * New graylog_api::inputs::cef_udp input class.
