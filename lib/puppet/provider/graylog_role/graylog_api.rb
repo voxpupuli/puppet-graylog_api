@@ -7,11 +7,11 @@ Puppet::Type.type(:graylog_role).provide(:graylog_api, parent: Puppet::Provider:
   attr_writer :permission_cache
 
   def self.instances
-    cache = []    
+    cache = []
     results = get('roles')
     items = results['roles'].map do |data|
       next if ['Admin', 'Reader'].include?(data['name'])
-      
+
       permissions = permissions_to_names(data['permissions'], cache)
       role = new(
         ensure: :present,
@@ -44,7 +44,7 @@ Puppet::Type.type(:graylog_role).provide(:graylog_api, parent: Puppet::Provider:
   def set_rest_id_on_create(response)
     @rest_id = response['id']
   end
-  
+
   def self.get_ref(permission)
     permission[/^streams:\w+:(.+)/, 1]
   end
@@ -55,12 +55,12 @@ Puppet::Type.type(:graylog_role).provide(:graylog_api, parent: Puppet::Provider:
     end
   end
 
-  def self.write_cache(ref, cache)    
+  def self.write_cache(ref, cache)
     streams = get('streams')
     stream = streams['streams'].detect do |stream|
-      stream['id'] == ref || stream['title'] == ref  
+      stream['id'] == ref || stream['title'] == ref
     end
-    
+
     if !stream
       Puppet.send_log(:err, "Stream reference not found #{ref}")
       raise
@@ -73,15 +73,15 @@ Puppet::Type.type(:graylog_role).provide(:graylog_api, parent: Puppet::Provider:
 
   def self.map_permissions(list, cache, key)
     list.map do |permission|
-      if permission.match?(/^streams:/)
-        ref = get_ref(permission)        
+      if permission.match?(/^streams:\w+:/)
+        ref = get_ref(permission)
         stream = read_cache(ref, cache)
 
         if !stream
           stream = write_cache(ref, cache)
         end
 
-        
+
         permission.sub(/^(streams:\w+):(.+)/, "\\1:#{stream[key]}")
       else
         permission
