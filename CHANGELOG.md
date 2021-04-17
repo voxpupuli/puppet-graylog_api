@@ -6,6 +6,11 @@ This project follows [Semantic Versioning](https://semver.org/). Since it is
 currently a 0.x release, no aspect of the public API is guaranteed to be stable
 between versions, even minor versions.
 
+## Release 0.4.3
+** Bugfixes **
+* `graylog_role` provider no longer tries to map a stream name from permissions
+  like `streams:read`, only e.g. `streams:read:some-stream-name`.
+
 ## Release 0.4.2
 ** Bugfixes **
 * Fix a typo in graylog_api::inputs::cef_udp
