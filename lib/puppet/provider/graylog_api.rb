@@ -50,7 +50,7 @@ class Puppet::Provider::GraylogAPI < Puppet::Provider
           'Content-Type' => 'application/json',
           'X-Requested-By' => 'puppet',
         }
-        body = params.to_json
+        body = params.compact!().to_json
         query = nil
       end
       begin
