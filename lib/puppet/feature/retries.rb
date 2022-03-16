@@ -1,1 +1,3 @@
-Puppet.features.add(:retries, libs: ["retries"])
+require 'puppet/util/feature'
+
+Puppet.features.add(:retries, libs: 'retries')
