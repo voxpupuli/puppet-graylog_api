@@ -50,7 +50,7 @@ class Puppet::Provider::GraylogAPI < Puppet::Provider
           'Content-Type' => 'application/json',
           'X-Requested-By' => 'puppet',
         }
-        body = params.to_json
+        body = params.compact!().to_json
         query = nil
       end
       begin
@@ -179,14 +179,17 @@ class Puppet::Provider::GraylogAPI < Puppet::Provider
   end
 
   def simple_flush(path,params)
-    params = recursive_undef_to_nil(params)
     case @action
     when :destroy
       delete("#{path}/#{rest_id}")
     when :create
+      params.[]=(:id,nil)
+      params = recursive_undef_to_nil(params)
       response = post("#{path}",params)
       set_rest_id_on_create(response) if respond_to?(:set_rest_id_on_create)
     else
+      params.[]=(:id,rest_id)
+      params = recursive_undef_to_nil(params)
       put("#{path}/#{rest_id}",params)
     end
   end
