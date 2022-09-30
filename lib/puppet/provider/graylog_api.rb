@@ -9,7 +9,7 @@ class Puppet::Provider::GraylogAPI < Puppet::Provider
   confine feature: :retries
 
   class << self
-    attr_writer :api_password, :api_port, :api_username
+    attr_writer :api_password, :api_port, :api_username, :api_tls, :api_server
 
     def api_password
       @api_password || ENV['GRAYLOG_API_PASSWORD']
@@ -21,6 +21,14 @@ class Puppet::Provider::GraylogAPI < Puppet::Provider
 
     def api_username
       @api_username || ENV['GRAYLOG_API_USERNAME'] || 'admin'
+    end
+
+    def api_tls
+      @api_tls || false
+    end
+
+    def api_server
+      @api_server || 'localhost'
     end
 
     def version
@@ -35,6 +43,8 @@ class Puppet::Provider::GraylogAPI < Puppet::Provider
       api_password = Puppet::Provider::GraylogAPI.api_password
       api_port = Puppet::Provider::GraylogAPI.api_port
       api_username = Puppet::Provider::GraylogAPI.api_username
+      api_tls = Puppet::Provider::GraylogAPI.api_tls
+      api_server= Puppet::Provider::GraylogAPI.api_server
       fail "No Graylog_api['api'] resource defined!" unless api_password && api_port # It would be nicer to do this in the Type, but I don't see how without writing it over and over again for each type.
       case method
       when :get, :delete
@@ -54,10 +64,11 @@ class Puppet::Provider::GraylogAPI < Puppet::Provider
         query = nil
       end
       begin
-        Puppet.debug { "#{method.upcase} request for http://localhost:#{api_port}/api/#{path} with params #{params.inspect}" }
+        tls = api_tls ? 'https' : 'http'
+        Puppet.debug { "#{method.upcase} request for #{tls}://#{api_server}:#{api_port}/api/#{path} with params #{params.inspect}" }
         result = HTTParty.send(
           method,
-          "http://localhost:#{api_port}/api/#{path}",
+          "#{tls}://#{api_server}:#{api_port}/api/#{path}",
           basic_auth: {
             username: api_username,
             password: api_password,

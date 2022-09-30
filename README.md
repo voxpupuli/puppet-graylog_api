@@ -67,6 +67,8 @@ graylog_api { 'api':
   username => 'admin',
   password => $password,
   port     => 9000,
+  tls      => false,
+  server   => 'localhost'
 }
 ```
 

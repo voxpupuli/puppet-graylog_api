@@ -8,9 +8,9 @@ require_relative '../provider/graylog_api'
 Puppet::Type.newtype(:graylog_api) do
 
   desc <<-END_OF_DOC
-    @summary 
+    @summary
       Sets the API credentials used by the rest of the types in the module.
-    
+
     This sets the API credentials used by the rest of the types in the module
     to communicate with the Graylog API. It does not actually represent a
     concrete resource on the target system.
@@ -18,6 +18,8 @@ Puppet::Type.newtype(:graylog_api) do
     @example
       graylog_api { 'api':
         password => $password,
+        tls      => false,
+        server   => 'graylog.example.com',
         port     => 9000,
         username => 'admin',
       }
@@ -75,4 +77,29 @@ Puppet::Type.newtype(:graylog_api) do
     end
   end
 
+  newproperty('tls') do
+    desc 'enable tls'
+    defaultto(false)
+
+    def retrieve
+      'tls'
+    end
+
+    def insync?(is)
+      true
+    end
+  end
+
+  newproperty('server') do
+    desc 'The graylog server hostname'
+    defaultto('localhost')
+
+    def retrieve
+      'server'
+    end
+
+    def insync?(is)
+      true
+    end
+  end
 end
