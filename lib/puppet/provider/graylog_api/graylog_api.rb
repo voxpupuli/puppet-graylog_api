@@ -5,8 +5,6 @@
 
 require 'retries' if Puppet.features.retries?
 require 'httparty' if Puppet.features.httparty?
-# Shouldn't we check certificates anyway ?  Not clear where httparty finds the root certificates
-HTTParty::Basement.default_options.update(verify: false) if Puppet.features.httparty?
 
 Puppet::Type.type(:graylog_api).provide(:graylog_api) do
 
@@ -25,13 +23,25 @@ Puppet::Type.type(:graylog_api).provide(:graylog_api) do
     username = resources[:api][:username]
     tls = resources[:api][:tls]
     server = resources[:api][:server]
+    verify_tls = resources[:api][:verify_tls]
+    ssl_ca_file = resources[:api][:ssl_ca_file]
     Puppet::Provider::GraylogAPI.api_password = password
     Puppet::Provider::GraylogAPI.api_port = port
     Puppet::Provider::GraylogAPI.api_tls = tls
     Puppet::Provider::GraylogAPI.api_server = server
+    Puppet::Provider::GraylogAPI.verify_tls = verify_tls
+    Puppet::Provider::GraylogAPI.ssl_ca_file = ssl_ca_file
+
+    # Settings needed before connection to the server.  We set them on the global
+    # level, so we only need to define them once here.
+    if tls
+      HTTParty::Basement.default_options.update(verify: verify_tls)
+      # we configure this anyway, even we don't want to verify the certificate
+      HTTParty::Basement.default_options.update(ssl_ca_file: ssl_ca_file)
+    end
     wait_for_api(port, server)
     wait_for_api(port, server)
-    resources[:api].provider = new({password: password, port: port, username: username, tls: tls, server: server})
+    resources[:api].provider = new({password: password, port: port, username: username, tls: tls, server: server, verify_tls: verify_tls, ssl_ca_file: ssl_ca_file})
   end
 
   # We also make sure that the Graylog server is actually up and responding

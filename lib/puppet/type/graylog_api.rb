@@ -17,11 +17,13 @@ Puppet::Type.newtype(:graylog_api) do
 
     @example
       graylog_api { 'api':
-        password => $password,
-        tls      => false,
-        server   => 'graylog.example.com',
-        port     => 9000,
-        username => 'admin',
+        password    => $password,
+        tls         => false,
+        verify_ssl  => false,
+        ssl_ca_file => '/etc/pki/tls/certs/ca-bundle.crt',
+        server      => 'graylog.example.com',
+        port        => 9000,
+        username    => 'admin',
       }
   END_OF_DOC
 
@@ -83,6 +85,38 @@ Puppet::Type.newtype(:graylog_api) do
 
     def retrieve
       'tls'
+    end
+
+    def insync?(is)
+      true
+    end
+  end
+
+  newproperty('verify_tls') do
+    desc 'enable/disable ssl cert verification'
+    defaultto(false)
+
+    def retrieve
+      'verify_tls'
+    end
+
+    def insync?(is)
+      true
+    end
+  end
+
+  newproperty('ssl_ca_file') do
+    desc 'The certificate authority file'
+    defaultto('/etc/pki/tls/certs/ca-bundle.crt')
+
+#    validate do |value|
+#      unless Puppet::Util.absolute_path?(value)
+#        fail Puppet::Error, _("File paths must be fully qualified, not '%{path}'") % { path: value }
+#      end
+#    end
+
+    def retrieve
+      'ssl_ca_file'
     end
 
     def insync?(is)

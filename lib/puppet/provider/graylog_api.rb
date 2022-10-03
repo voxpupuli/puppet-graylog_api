@@ -9,7 +9,8 @@ class Puppet::Provider::GraylogAPI < Puppet::Provider
   confine feature: :retries
 
   class << self
-    attr_writer :api_password, :api_port, :api_username, :api_tls, :api_server
+    attr_writer :api_password, :api_port, :api_username, :api_tls, :api_server,
+                :ssl_ca_file, :verify_tls
 
     def api_password
       @api_password || ENV['GRAYLOG_API_PASSWORD']
@@ -31,6 +32,14 @@ class Puppet::Provider::GraylogAPI < Puppet::Provider
       @api_server || 'localhost'
     end
 
+    def ssl_ca_file
+      @api_ssl_ca_file || '/etc/pki/tls/certs/ca-bundle.crt'
+    end
+
+    def verify_tls
+      @api_verify_tls || false
+    end
+
     def version
       @version ||= get('system')['version']
     end
@@ -44,7 +53,9 @@ class Puppet::Provider::GraylogAPI < Puppet::Provider
       api_port = Puppet::Provider::GraylogAPI.api_port
       api_username = Puppet::Provider::GraylogAPI.api_username
       api_tls = Puppet::Provider::GraylogAPI.api_tls
-      api_server= Puppet::Provider::GraylogAPI.api_server
+      api_server = Puppet::Provider::GraylogAPI.api_server
+      api_ssl_ca_file =  Puppet::Provider::GraylogAPI.api_ssl_ca_file
+      api_verify_tls = Puppet::Provider::GraylogAPI.api_verify_tls
       fail "No Graylog_api['api'] resource defined!" unless api_password && api_port # It would be nicer to do this in the Type, but I don't see how without writing it over and over again for each type.
       case method
       when :get, :delete
