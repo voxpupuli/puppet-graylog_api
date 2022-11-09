@@ -48,6 +48,10 @@ class Puppet::Provider::GraylogAPI < Puppet::Provider
       @major_version ||= version.split('.').first.to_i
     end
 
+    def tls_opts
+      api_tls ? { verify_tls: verify_tls, ssl_ca_file: ssl_ca_file} : {}
+    end
+
     def request(method,path,params={})
       api_password = Puppet::Provider::GraylogAPI.api_password
       api_port = Puppet::Provider::GraylogAPI.api_port
@@ -75,11 +79,12 @@ class Puppet::Provider::GraylogAPI < Puppet::Provider
         query = nil
       end
       begin
-        tls = api_tls ? 'https' : 'http'
-        Puppet.debug { "#{method.upcase} request for #{tls}://#{api_server}:#{api_port}/api/#{path} with params #{params.inspect}" }
+        scheme = api_tls ? 'https' : 'http'
+
+        Puppet.debug { "#{method.upcase} request for #{scheme}://#{api_server}:#{api_port}/api/#{path} with params #{params.inspect}" }
         result = HTTParty.send(
           method,
-          "#{tls}://#{api_server}:#{api_port}/api/#{path}",
+          "#{scheme}://#{api_server}:#{api_port}/api/#{path}",
           basic_auth: {
             username: api_username,
             password: api_password,
@@ -87,6 +92,7 @@ class Puppet::Provider::GraylogAPI < Puppet::Provider
           headers: headers,
           query: query,
           body: body,
+          **tls_opts
         )
 
         if result.body
