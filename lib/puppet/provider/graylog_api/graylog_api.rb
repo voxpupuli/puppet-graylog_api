@@ -40,7 +40,6 @@ Puppet::Type.type(:graylog_api).provide(:graylog_api) do
       HTTParty::Basement.default_options.update(ssl_ca_file: ssl_ca_file)
     end
     wait_for_api(port, server)
-    wait_for_api(port, server)
     resources[:api].provider = new({password: password, port: port, username: username, tls: tls, server: server, verify_tls: verify_tls, ssl_ca_file: ssl_ca_file})
   end
 
