@@ -33,11 +33,11 @@ class Puppet::Provider::GraylogAPI < Puppet::Provider
     end
 
     def ssl_ca_file
-      @api_ssl_ca_file || '/etc/pki/tls/certs/ca-bundle.crt'
+      @ssl_ca_file || '/etc/pki/tls/certs/ca-bundle.crt'
     end
 
     def verify_tls
-      @api_verify_tls || false
+      @verify_tls || false
     end
 
     def version
@@ -58,8 +58,8 @@ class Puppet::Provider::GraylogAPI < Puppet::Provider
       api_username = Puppet::Provider::GraylogAPI.api_username
       api_tls = Puppet::Provider::GraylogAPI.api_tls
       api_server = Puppet::Provider::GraylogAPI.api_server
-      api_ssl_ca_file =  Puppet::Provider::GraylogAPI.api_ssl_ca_file
-      api_verify_tls = Puppet::Provider::GraylogAPI.api_verify_tls
+      api_ssl_ca_file =  Puppet::Provider::GraylogAPI.ssl_ca_file
+      api_verify_tls = Puppet::Provider::GraylogAPI.verify_tls
       fail "No Graylog_api['api'] resource defined!" unless api_password && api_port # It would be nicer to do this in the Type, but I don't see how without writing it over and over again for each type.
       case method
       when :get, :delete
