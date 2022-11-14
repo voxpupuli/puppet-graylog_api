@@ -6,6 +6,10 @@ This project follows [Semantic Versioning](https://semver.org/). Since it is
 currently a 0.x release, no aspect of the public API is guaranteed to be stable
 between versions, even minor versions.
 
+## Release 0.5.0
+** New Features **
+* Support for TLS connections to the Graylog API server
+
 ## Release 0.4.3
 ** Bugfixes **
 * `graylog_role` provider no longer tries to map a stream name from permissions

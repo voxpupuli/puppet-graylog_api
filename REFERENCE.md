@@ -10,7 +10,8 @@
 * [`graylog_api::grok::pattern_file`](#graylog_apigrokpattern_file): Loads a full file worth of Grok patterns into Graylog.
 * [`graylog_api::input::beats`](#graylog_apiinputbeats): Defines a (old-style) Beats input.
 * [`graylog_api::input::beats2`](#graylog_apiinputbeats2): Defines a (new-style) Beats input.
-* [`graylog_api::input::cef_tcp`](#graylog_apiinputcef_tcp): Defines a CEF-UDP input.
+* [`graylog_api::input::cef_tcp`](#graylog_apiinputcef_tcp): Defines a CEF-TCP input.
+* [`graylog_api::input::cef_udp`](#graylog_apiinputcef_udp): Defines a CEF-UDP input.
 * [`graylog_api::input::gelf_http`](#graylog_apiinputgelf_http): Defines a GELF-HTTP input.
 * [`graylog_api::input::gelf_tcp`](#graylog_apiinputgelf_tcp): Defines a GELF-TCP input.
 * [`graylog_api::input::gelf_udp`](#graylog_apiinputgelf_udp): Defines a GELF-UDP input.
@@ -560,11 +561,190 @@ Default value: ''
 
 ### graylog_api::input::cef_tcp
 
-Defines an input accepting CEF messages over UDP.
+Defines an input accepting CEF messages over TCP.
 
 #### Parameters
 
 The following parameters are available in the `graylog_api::input::cef_tcp` defined type.
+
+##### `ensure`
+
+Data type: `Enum['present','absent']`
+
+Whether this input should exist.
+
+Default value: 'present'
+
+##### `bind_address`
+
+Data type: `String`
+
+The IP address to listen on. Defaults to 0.0.0.0.
+
+Default value: '0.0.0.0'
+
+##### `locale`
+
+Data type: `String`
+
+The locale to use when parsing the CEF timestamps. Format can be either
+"en"-style or "en_US"-style.
+
+Default value: 'en'
+
+##### `max_message_size`
+
+Data type: `Integer`
+
+The maximum length of a message.
+
+Default value: .to_bytes
+
+##### `num_worker_threads`
+
+Data type: `Integer`
+
+How many worker threads the input should use.
+
+Default value: 2
+
+##### `port`
+
+Data type: `Stdlib::Port`
+
+The port to listen on. Defaults to 514, however be aware that in many
+server setups Graylog will not be able a privileged port without additional
+configuration.
+
+Default value: 5555
+
+##### `recv_buffer_size`
+
+Data type: `Integer`
+
+The size in bytes of the recvBufferSize for network connections to this
+input. Defaults to 256 kilobytes.
+
+Default value: .to_bytes
+
+##### `scope`
+
+Data type: `Enum['global','local']`
+
+Whether this input is defined on all nodes ('global') or just this node
+('local'). Default is global.
+
+Default value: 'global'
+
+##### `static_fields`
+
+Data type: `Optional[Hash]`
+
+Static fields to assign to this input.
+
+Default value: `undef`
+
+##### `tcp_keepalive`
+
+Data type: `Boolean`
+
+Whether to enable TCP keepalive packets.
+
+Default value: `false`
+
+##### `timezone`
+
+Data type: `String`
+
+The timezone of the timestamps in the CEF messages. Format is TZ Database,
+e.g. "America/New_York" or "UTC".
+
+Default value: 'UTC'
+
+##### `tls_cert_file`
+
+Data type: `String`
+
+The path to the server certificate to use when securing the connection with
+TLS. Has no effect unless tls_enable is true. Defaults to the empty string.
+Note that this must be the entire certificate chain, and that Graylog is
+sensitive to exact formatting of PEM certificates, e.g. there must be a
+trailing newline.
+
+Default value: ''
+
+##### `tls_client_auth`
+
+Data type: `String`
+
+Whether to use TLS to authenticate clients. Can be 'disabled', 'optional',
+or 'required'.
+
+Default value: 'disabled'
+
+##### `tls_client_auth_cert_file`
+
+Data type: `String`
+
+The path to the file (or directory) which stores the certificates of
+trusted clients. Has no effect if tls_client_auth is 'disabled' or
+tls_enable is false.
+
+Default value: ''
+
+##### `tls_enable`
+
+Data type: `Boolean`
+
+Whether to enable TLS for securing the input.
+
+Default value: `false`
+
+##### `tls_key_file`
+
+Data type: `String`
+
+The path to the private key which corresponds to the tls_cert_file. Has no
+effect if tls_enable is false.
+Note that for PEM private keys, Graylog is sensitive to exact formatting,
+e.g. there must be a trailing newline.
+
+Default value: ''
+
+##### `tls_key_password`
+
+Data type: `String`
+
+The password to decrypt to private key specified in tls_key_file. Leave
+blank if not using TLS, or if the key is not encrypted.
+
+Default value: ''
+
+##### `use_full_names`
+
+Data type: `Boolean`
+
+Whether to use full field names in CEF messages (as defined in the CEF
+specification).
+
+Default value: `false`
+
+##### `use_null_delimiter`
+
+Data type: `Boolean`
+
+Whether to use a null byte as a frame delimiter. If false, a newline is
+used as the delimiter instead.
+
+Default value: `false`
+
+### graylog_api::input::cef_udp
+
+Defines an input accepting CEF messages over UDP.
+
+#### Parameters
+
+The following parameters are available in the `graylog_api::input::cef_udp` defined type.
 
 ##### `ensure`
 
@@ -657,8 +837,6 @@ Default value: `false`
 
 Whether to use a null byte as a frame delimiter. If false, a newline is
 used as the delimiter instead.
-
-Default value: `false`
 
 ### graylog_api::input::gelf_http
 
@@ -1496,9 +1674,13 @@ concrete resource on the target system.
 
 ```puppet
 graylog_api { 'api':
-  password => $password,
-  port     => 9000,
-  username => 'admin',
+  password    => $password,
+  tls         => false,
+  verify_ssl  => false,
+  ssl_ca_file => '/etc/pki/tls/certs/ca-bundle.crt',
+  server      => 'graylog.example.com',
+  port        => 9000,
+  username    => 'admin',
 }
 ```
 
@@ -1519,6 +1701,30 @@ Default value: admin
 ##### `port`
 
 the api port
+
+##### `tls`
+
+enable tls
+
+Default value: false
+
+##### `verify_tls`
+
+enable/disable ssl cert verification
+
+Default value: false
+
+##### `ssl_ca_file`
+
+The certificate authority file
+
+Default value: /etc/pki/tls/certs/ca-bundle.crt
+
+##### `server`
+
+The graylog server hostname
+
+Default value: localhost
 
 #### Parameters
 
@@ -2467,15 +2673,15 @@ SSO authentication pluging configuration definition.
 
 ```puppet
 graylog_auth_sso_plugin_config { 'sso':
-  trusted_proxies: '127.0.0.1/32',
-  username_header: 'REMOTE_USER'
-  require_trusted_proxies: true
-  auto_create_user: true
-  fullname_header: 'displayName'
-  email_header: 'mail'
-  default_email_domain: 'foo.bar'
-  sync_roles: true
-  roles_header: 'fooGroup'
+  trusted_proxies         => '127.0.0.1/32',
+  username_header         => 'REMOTE_USER',
+  require_trusted_proxies => true,
+  auto_create_user        => true,
+  fullname_header         => 'displayName',
+  email_header            => 'mail',
+  default_email_domain    => 'foo.bar',
+  sync_roles              => true,
+  roles_header            => 'fooGroup',
 }
 ```
 
