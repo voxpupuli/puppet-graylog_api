@@ -31,14 +31,6 @@ Puppet::Type.type(:graylog_api).provide(:graylog_api) do
     Puppet::Provider::GraylogAPI.api_server = server
     Puppet::Provider::GraylogAPI.verify_tls = verify_tls
     Puppet::Provider::GraylogAPI.ssl_ca_file = ssl_ca_file
-
-    # Settings needed before connection to the server.  We set them on the global
-    # level, so we only need to define them once here.
-    if tls
-      HTTParty::Basement.default_options.update(verify: verify_tls)
-      # we configure this anyway, even we don't want to verify the certificate
-      HTTParty::Basement.default_options.update(ssl_ca_file: ssl_ca_file)
-    end
     wait_for_api(port, server)
     resources[:api].provider = new({password: password, port: port, username: username, tls: tls, server: server, verify_tls: verify_tls, ssl_ca_file: ssl_ca_file})
   end
@@ -46,10 +38,11 @@ Puppet::Type.type(:graylog_api).provide(:graylog_api) do
   # We also make sure that the Graylog server is actually up and responding
   # before allowing catalog application to proceed any further.
   def self.wait_for_api(port, server)
-    tls = Puppet::Provider::GraylogAPI.api_tls ? 'https' : 'http'
+    scheme = Puppet::Provider::GraylogAPI.api_tls ? 'https' : 'http'
+    tls_opts = Puppet::Provider::GraylogAPI.tls_opts
     Puppet.debug("Waiting for Graylog API")
     with_retries(max_tries: 60, base_sleep_seconds: 1, max_sleep_seconds: 1) do
-      HTTParty.head("#{tls}://#{server}:#{port}")
+      HTTParty.head("#{scheme}://#{server}:#{port}", **tls_opts)
     end
   rescue Errno::ECONNREFUSED
     fail("Graylog API didn't become available on #{server} port #{port} after 30 seconds")
