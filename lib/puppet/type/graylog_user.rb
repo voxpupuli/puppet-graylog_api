@@ -3,29 +3,29 @@
       desc <<-END_OF_DOC
         @summary
           Creates a internal user
-    
+
         A user definition. Note that the admin user is built-in an cannot be changed.
-    
+
         @example
           graylog_user { 'test':
             password    => 'B1GnbfoNp9PND6ihXfZFjg',
             full_name   => 'Test user',
-            email       => 'foo@bar',                   
+            email       => 'foo@bar',
             roles => [
-              'Reader'            
+              'Reader'
             ]
           }
       END_OF_DOC
-    
+
       ensurable
-    
+
       newparam(:name) do
-        desc 'The name of the user'      
+        desc 'The name of the user'
       end
-    
+
       newparam(:password) do
         desc 'User password'
-        sensitive        
+        sensitive
       end
 
       newproperty(:email) do
@@ -33,10 +33,20 @@
           isrequired
       end
 
+      # this proerty is only available in 3.x or older
       newproperty(:full_name) do
           desc 'Full name of the user'
           isrequired
-      end    
+      end
+
+     # next to ptoperties are onlu available in +4.x
+     newproperty(:last_name) do
+       desc 'Last name of the user'
+     end
+
+     newproperty(:first_name) do
+       desc 'first name of the user'
+     end
 
       newproperty(:roles, :array_matching => :all) do
           desc 'User roles'
@@ -62,4 +72,4 @@
       end
 
       autorequire('graylog_api') {'api'}
-    end  
+    end
