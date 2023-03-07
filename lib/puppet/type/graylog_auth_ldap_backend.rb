@@ -42,7 +42,7 @@ Puppet::Type.newtype(:graylog_auth_ldap_backend) do
   end
 
   newparam(:enabled, boolean: true, parent: Puppet::Property::Boolean) do
-    desc "Whether to activate this ldap uthentication backend. Only one backend should be enabled"
+    desc "Whether to activate this ldap authentication backend. Only one backend should be enabled"
   end
 
   newproperty(:system_user_dn) do
@@ -50,7 +50,7 @@ Puppet::Type.newtype(:graylog_auth_ldap_backend) do
     isrequired
   end
 
-  newproperty(:system_user_password) do
+  newparam(:system_user_password) do
     desc "Password to bind to LDAP server with."
     sensitive true
   end
@@ -102,7 +102,7 @@ Puppet::Type.newtype(:graylog_auth_ldap_backend) do
     isrequired
   end
 
-  newproperty(:rest_id) do
+  newparam(:rest_id) do
     desc "Read-only rest_id of the ldap authentication backend resource"
 
     def retrieve
@@ -115,7 +115,7 @@ Puppet::Type.newtype(:graylog_auth_ldap_backend) do
     end
   end
 
-  newproperty(:password_is_set, boolean: true, parent: Puppet::Property::Boolean) do
+  newparam(:password_is_set, boolean: true, parent: Puppet::Property::Boolean) do
     desc "Read-only: flag indicating if a system user password is set or not"
 
     def retrieve
