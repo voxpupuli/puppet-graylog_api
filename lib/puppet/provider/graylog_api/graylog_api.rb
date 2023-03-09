@@ -40,7 +40,7 @@ Puppet::Type.type(:graylog_api).provide(:graylog_api) do
   def self.wait_for_api(port, server)
     scheme = Puppet::Provider::GraylogAPI.api_tls ? 'https' : 'http'
     tls_opts = Puppet::Provider::GraylogAPI.tls_opts
-    Puppet.debug("Waiting for Graylog API")
+    #Puppet.debug("Waiting for Graylog API")
     with_retries(max_tries: 60, base_sleep_seconds: 1, max_sleep_seconds: 1) do
       HTTParty.head("#{scheme}://#{server}:#{port}", **tls_opts)
     end

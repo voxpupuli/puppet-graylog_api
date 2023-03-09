@@ -32,17 +32,18 @@ Puppet::Type.newtype(:graylog_auth_ldap_backend) do
   ensurable
 
   newparam(:description) do
-    desc 'Destinctive name of the authosrisation backend. Will be placed in the description field'
+    desc 'Destinctive name of the authorisation backend. Will be placed in the description field'
     isnamevar
   end
 
-  newparam(:reset_password, boolean: true, parent: Puppet::Property::Boolean) do
+  newproperty(:reset_password, boolean: true, parent: Puppet::Property::Boolean) do
     desc "Whether to reset the password with the value of system_password"
     defaultto(false)
   end
 
-  newparam(:enabled, boolean: true, parent: Puppet::Property::Boolean) do
+  newproperty(:enabled, boolean: true, parent: Puppet::Property::Boolean) do
     desc "Whether to activate this ldap authentication backend. Only one backend should be enabled"
+    defaultto(false)
   end
 
   newproperty(:system_user_dn) do
@@ -50,7 +51,7 @@ Puppet::Type.newtype(:graylog_auth_ldap_backend) do
     isrequired
   end
 
-  newparam(:system_user_password) do
+  newproperty(:system_user_password) do
     desc "Password to bind to LDAP server with."
     sensitive true
   end

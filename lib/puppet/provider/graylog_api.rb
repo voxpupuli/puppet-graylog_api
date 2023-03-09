@@ -80,7 +80,7 @@ class Puppet::Provider::GraylogAPI < Puppet::Provider
       begin
         scheme = api_tls ? 'https' : 'http'
 
-        Puppet.debug { "#{method.upcase} request for #{scheme}://#{api_server}:#{api_port}/api/#{path} with params #{params.inspect}" }
+        #Puppet.debug { "#{method.upcase} request for #{scheme}://#{api_server}:#{api_port}/api/#{path} with params #{params.inspect}" }
         result = HTTParty.send(
           method,
           "#{scheme}://#{api_server}:#{api_port}/api/#{path}",
@@ -100,7 +100,7 @@ class Puppet::Provider::GraylogAPI < Puppet::Provider
             raise
           end
 
-          Puppet.debug("Got result #{result.body}")
+          #Puppet.debug("Got result #{result.body}")
         end
 
       rescue HTTParty::ResponseError => e

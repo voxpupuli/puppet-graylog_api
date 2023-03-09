@@ -6,7 +6,7 @@ Puppet::Type.type(:graylog_dashboard_layout).provide(:graylog_api, parent: Puppe
 
   def self.instances
     dashboards = get('dashboards')['dashboards']
-    
+
     dashboards.map do |dashboard|
       dashboard_name = dashboard['title']
       widgets_data = dashboard['widgets']
@@ -26,7 +26,7 @@ Puppet::Type.type(:graylog_dashboard_layout).provide(:graylog_api, parent: Puppe
         }
       end
 
-      Puppet.debug("Final Layout for '#{dashboard_name}': #{positions.inspect}")
+      #Puppet.debug("Final Layout for '#{dashboard_name}': #{positions.inspect}")
 
       new(
         name: dashboard_name,
