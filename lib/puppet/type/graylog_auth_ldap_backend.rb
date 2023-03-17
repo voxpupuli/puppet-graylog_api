@@ -3,20 +3,20 @@ require 'puppet/property/boolean'
 Puppet::Type.newtype(:graylog_auth_ldap_backend) do
 
   desc <<-END_OF_DOC
-    @summary Configures ldap system authentication backend.
+    @summary Configures ldap/active directory system authentication backend.
 
-    Configures ldap system authentication backends, including the mapping mapping of users
-    and Graylog Roles. Any custom graylog_role type should also be configured.
+    Configures a ldap and/or active directory system authentication backends, including the mapping mapping of users
+    and Graylog Roles. Any custom graylog_role type should also be managed by puppet.
 
     @see graylog_role
 
     @example
       graylog_auth_ldap_backend{ 'company ldap':
         ensure               => present,
-        enabled              => true,
+        activated            => true,
         type                 => 'ldap',
         system_user_dn       => 'CN=Graylog,OU=ServiceAccounts,DC=example,DC=com',
-        system_user_password => $password,
+        system_user_password => 'secret pasword',
         reset_password       => false,
         server_address       => ['ldap://1.2.3.4:389/'],
         transport_security   => 'none',
@@ -29,25 +29,65 @@ Puppet::Type.newtype(:graylog_auth_ldap_backend) do
       }
   END_OF_DOC
 
+  feature :activateable, "The provider can activate and deactivate the backend.", :methods => [:activate, :deactivate, :activated?]
+  feature :recreateable, "The provider can recreate (remove/create) the backend.", :methods => [:recreate]
+
   ensurable
 
   newparam(:description) do
-    desc 'Destinctive name of the authorisation backend. Will be placed in the description field'
+    desc 'Distinctive name of the authorisation backend. Will be placed in the description field.'
     isnamevar
   end
 
-  newproperty(:reset_password, boolean: true, parent: Puppet::Property::Boolean) do
-    desc "Whether to reset the password with the value of system_password"
+  newparam(:reset_password, boolean: true, parent: Puppet::Property::Boolean) do
+    desc "Whether to reset the password with the value of system_password."
     defaultto(false)
   end
 
-  newproperty(:enabled, boolean: true, parent: Puppet::Property::Boolean) do
-    desc "Whether to activate this ldap authentication backend. Only one backend should be enabled"
-    defaultto(false)
+  newproperty(:type, :required_features => :activateable) do
+    desc "The type of the authorisation backend, can be one of 'active-directory', 'ldap'"
+    isrequired
+
+    newvalues('ldap', :event => :backend_recreate) do
+      Puppet.debug('in type property - value ldap')
+      provider.recreate
+    end
+
+    newvalues('active-directory', :event => :backend_recreate) do
+      Puppet.debug('in type property - value active-directory')
+      provider.recreate
+    end
+
+    def insync?(current)
+      return provider.type_insync?(current) if provider.respond_to?(:type_insync?)
+      super(current)
+    end
+  end
+
+  newproperty(:activated, :required_features => :activateable) do
+    desc <<-END_OF_DOC
+      Whether to activate this ldap authentication backend. Only one backend should be enabled.
+      If multipple backends are activated, the last one applied will win.
+    END_OF_DOC
+
+    isrequired
+
+    newvalue(:true, :event => :backend_activated) do
+      provider.activate
+    end
+
+    newvalue(:false, :event => :backend_deactivated) do
+      provider.deactivate
+    end
+
+    def insync?(current)
+      return provider.activated_insync?(current) if provider.respond_to?(:activated_insync?)
+      super(current)
+    end
   end
 
   newproperty(:system_user_dn) do
-    desc "Username to bind to LDAP server as."
+    desc "Username to bind to the LDAP server."
     isrequired
   end
 
@@ -62,7 +102,7 @@ Puppet::Type.newtype(:graylog_auth_ldap_backend) do
   end
 
   newproperty(:transport_security) do
-    desc "Which transport security to use, can be one of 'none', 'tls', 'start_tls'"
+    desc "The transport security to use, can be one of 'none', 'tls', 'start_tls'"
     defaultto('tls')
     newvalues('none', 'tls', 'start_tls')
   end
@@ -70,12 +110,6 @@ Puppet::Type.newtype(:graylog_auth_ldap_backend) do
   newproperty(:verify_certificates, boolean: true, parent: Puppet::Property::Boolean) do
     desc "Whether to automatically trust all certificates when using StartTLS or LDAPS."
     defaultto(false)
-  end
-
-  newproperty(:type) do
-    desc "The type of the authorisation backend, can be one of 'active-directory', 'ldap'"
-    isrequired
-    newvalues('ldap', 'active-directory')
   end
 
   newproperty(:search_base_dn) do
@@ -104,7 +138,7 @@ Puppet::Type.newtype(:graylog_auth_ldap_backend) do
   end
 
   newparam(:rest_id) do
-    desc "Read-only rest_id of the ldap authentication backend resource"
+    desc "Read-only rest_id of the ldap authentication backend resource."
 
     def retrieve
       current_value = nil
@@ -117,7 +151,7 @@ Puppet::Type.newtype(:graylog_auth_ldap_backend) do
   end
 
   newparam(:password_is_set, boolean: true, parent: Puppet::Property::Boolean) do
-    desc "Read-only: flag indicating if a system user password is set or not"
+    desc "Read-only: flag indicating if the system user password is set or not"
 
     def retrieve
       current_value = false
