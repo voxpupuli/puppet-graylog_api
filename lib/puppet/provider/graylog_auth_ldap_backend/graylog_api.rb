@@ -3,7 +3,6 @@ require_relative '../graylog_api'
 Puppet::Type.type(:graylog_auth_ldap_backend).provide(:graylog_api, parent: Puppet::Provider::GraylogAPI) do
 
   has_feature :activateable
-  has_feature :recreatable
 
   mk_resource_methods
 
@@ -12,7 +11,6 @@ Puppet::Type.type(:graylog_auth_ldap_backend).provide(:graylog_api, parent: Pupp
   attr_accessor :roles_map
 
   def self.instances
-    Puppet.debug('In provider self.instances')
     if major_version < 4
       fail('graylog_auth_ldap_backend type is not supported in Graylog versions older then 4.x')
     end
@@ -94,35 +92,12 @@ Puppet::Type.type(:graylog_auth_ldap_backend).provide(:graylog_api, parent: Pupp
     end
   end
 
-  def type
-    Puppet.debug('In provider getter type')
-    @property_hash[:type]
-  end
-
-  def type_insync?(current)
-    Puppet.debug('In provider type_insync?')
-    current == @resource[:type]
-  end
-
-  def recreate
-    # whenever the type is switched, we need to remove the old and recreate
-    # class org.graylog.security.authservice.backend.AutoValue_LDAPAuthServiceBackendConfig cannot be cast to class
-    # org.graylog.security.authservice.backend.ADAuthServiceBackendConfig
-
-    Puppet.debug('In provider recreate')
-  end
-
   def flush
-    Puppet.debug('In provider flush')
-    if @action == :destroy
-      # we cannot remove an active backend, so we deactivate it first
-      deactivate
-    end
 
     data = {
       default_roles: self.class.roles_to_ids(@resource[:default_roles]),
       description: @resource[:description],
-      title: @resource[:type] == 'ldap' ? 'LDAP' : 'Active Directory',
+      title: @resource[:type] == :ldap ? 'LDAP' : 'Active Directory',
       config: {
         type: @resource[:type],
         servers: @resource[:server_address].map { |uri|
@@ -143,7 +118,33 @@ Puppet::Type.type(:graylog_auth_ldap_backend).provide(:graylog_api, parent: Pupp
       }
     }
 
-    simple_flush('system/authentication/services/backends', data)
+    if @action == :destroy
+      # we cannot remove an active backend, so we deactivate it first
+      deactivate
+    end
+
+    if @action.nil? and type != @initial_params[:type]
+      # the type cannot be changed, so we remove backend first, and then create a new one
+      # needs to be deactivated before removal
+      if activated? == :true
+        deactivate
+      end
+      delete("system/authentication/services/backends/#{rest_id}")
+      response = post('system/authentication/services/backends', data)
+      set_rest_id_on_create(response) if respond_to?(:set_rest_id_on_create)
+      # and set it activated after recreation if needed
+      if @resource[:activated] == :true
+        @property_hash[:rest_id] = @rest_id
+        activate
+      end
+    else
+      simple_flush('system/authentication/services/backends', data)
+      if @action == :create and @resource[:activated]
+        # new created backends should be activated after initial creation if needed
+        @property_hash[:rest_id] = @rest_id
+        activate
+      end
+    end
   end
 
   def set_rest_id_on_create(response)

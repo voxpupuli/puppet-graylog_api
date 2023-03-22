@@ -30,7 +30,6 @@ Puppet::Type.newtype(:graylog_auth_ldap_backend) do
   END_OF_DOC
 
   feature :activateable, "The provider can activate and deactivate the backend.", :methods => [:activate, :deactivate, :activated?]
-  feature :recreateable, "The provider can recreate (remove/create) the backend.", :methods => [:recreate]
 
   ensurable
 
@@ -44,24 +43,11 @@ Puppet::Type.newtype(:graylog_auth_ldap_backend) do
     defaultto(false)
   end
 
-  newproperty(:type, :required_features => :activateable) do
+  newproperty(:type) do
     desc "The type of the authorisation backend, can be one of 'active-directory', 'ldap'"
     isrequired
 
-    newvalues('ldap', :event => :backend_recreate) do
-      Puppet.debug('in type property - value ldap')
-      provider.recreate
-    end
-
-    newvalues('active-directory', :event => :backend_recreate) do
-      Puppet.debug('in type property - value active-directory')
-      provider.recreate
-    end
-
-    def insync?(current)
-      return provider.type_insync?(current) if provider.respond_to?(:type_insync?)
-      super(current)
-    end
+    newvalues('ldap', 'active-directory')
   end
 
   newproperty(:activated, :required_features => :activateable) do
