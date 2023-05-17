@@ -30,28 +30,31 @@ Puppet::Type.newtype(:graylog_extractor) do
     end
 
     newproperty(:input) do
-        desc 'Title of the input this extractor is attached to.'
-        isrequired
+      desc 'Title of the input this extractor is attached to.'
+      isrequired
     end
 
     newproperty(:type) do
-        desc 'The type of the Extractor. Must be the Java enum constant for the extractor, such as REGEX'
-        isrequired
+      desc 'The type of the Extractor. Must be the Java enum constant for the extractor, such as REGEX'
+      isrequired
+      munge do |value|
+        value.downcase
+      end
     end
 
     newproperty(:source_field) do
-        desc 'Source field'
-        isrequired
+      desc 'Source field'
+      isrequired
     end
 
     newproperty(:target_field) do
-        desc 'Choose a field name to store the extracted value. It can only contain alphanumeric characters and underscores. Example: http_response_code.'
-        isrequired
+      desc 'Choose a field name to store the extracted value. It can only contain alphanumeric characters and underscores. Example: http_response_code.'
+      isrequired
     end
 
     newproperty(:configuration) do
-        desc 'A hash of configuration values for the extractor; structure varies by extractor type.'
-        isrequired
+      desc 'A hash of configuration values for the extractor; structure varies by extractor type.'
+      isrequired
     end
 
     newproperty(:cut_or_copy) do
@@ -61,14 +64,14 @@ Puppet::Type.newtype(:graylog_extractor) do
     end
 
     newproperty(:condition_type) do
-        desc 'Extracting only from messages that match a certain condition helps you avoiding wrong or unnecessary extractions and can also save CPU resources.'
-        newvalues(:none, :regex, :string)
-        defaultto(:none)
+      desc 'Extracting only from messages that match a certain condition helps you avoiding wrong or unnecessary extractions and can also save CPU resources.'
+      newvalues(:none, :regex, :string)
+      defaultto(:none)
     end
 
     newproperty(:condition_value) do
-        desc 'Condition value'
-        defaultto('')
+      desc 'Condition value'
+      defaultto('')
     end
 
     newproperty(:converters) do
