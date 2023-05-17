@@ -5,16 +5,16 @@ Puppet::Type.type(:graylog_extractor).provide(:graylog_api, parent: Puppet::Prov
   EXTRACTOR_TYPES = {
     copy_input: 'COPY_INPUT',
     grok: 'GROK',
-    json: 'JSON', 
+    json: 'JSON',
     regex: 'REGEX',
     regex_replace: 'REGEX_REPLACE',
     split_and_index: 'SPLIT_AND_INDEX',
-    substring: 'SUBSTRING'    
+    substring: 'SUBSTRING'
   }
 
   mk_resource_methods
-  
-  def self.instances    
+
+  def self.instances
     results = get('system/inputs')
     input_list = results['inputs']
 
@@ -22,30 +22,43 @@ Puppet::Type.type(:graylog_extractor).provide(:graylog_api, parent: Puppet::Prov
       results = get("system/inputs/#{input_data['id']}/extractors")
 
       extractors = results['extractors'].map do |data|
+        if major_version < 4
+          _type = data['extractor_type']
+        else
+          _type = data['type']
+        end
         extractor = new(
           ensure: :present,
           input: input_data['title'],
           name: data['title'],
-          cut_or_copy: data['cut_or_copy'],
+          cut_or_copy: if data['cut_or_copy'].nil?
+                         :copy
+                       else
+                         data['cut_or_copy'].to_sym
+                       end,
           source_field: data['source_field'],
           target_field: data['target_field'],
-          type: data['extractor_type'],
+          type: _type,
           configuration: data['extractor_config'],
-          converters: data['converters'],
+          converters: if data['converters'] == []
+                        {}
+                      else
+                        data['converters']
+                      end,
           condition_type: data['condition_type'],
           condition_value: data['condition_value'],
           order: data['order']
         )
         extractor.rest_id = data['id']
         extractor
-      end      
+      end
 
-      acc.concat(extractors)      
+      acc.concat(extractors)
     end
 
     extractors
   end
-  
+
   def flush
     input_rest_id = get_input_rest_id(resource[:input])
 
@@ -54,7 +67,7 @@ Puppet::Type.type(:graylog_extractor).provide(:graylog_api, parent: Puppet::Prov
       cut_or_copy: resource[:cut_or_copy],
       source_field: resource[:source_field],
       target_field: resource[:target_field],
-      extractor_type: resource[:type],
+      extractor_type: resource[:type].downcase,
       extractor_config: resource[:configuration],
       condition_type: resource[:condition_type],
       condition_value: resource[:condition_value],
@@ -73,7 +86,7 @@ Puppet::Type.type(:graylog_extractor).provide(:graylog_api, parent: Puppet::Prov
     id_list = results['inputs']
     .select {|data|data['title'] == name}
     .map {|data|data['id']}
-    
+
     if id_list.length == 0
       raise "Input #{name} doesn't exist"
     end
