@@ -54,10 +54,7 @@
   "requirements": [
     {
       "name": "puppet",
-      "version_requirement": ">= 4.7.0 < 7.0.0"
+      "version_requirement": ">= 7.0.0 < 8.0.0"
     }
-  ],
-  "pdk-version": "1.10.0",
-  "template-url": "https://github.com/puppetlabs/pdk-templates#1.10.0",
-  "template-ref": "1.10.0-0-gbba9ac3"
+  ]
 }
