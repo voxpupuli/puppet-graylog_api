@@ -78,7 +78,7 @@
 # @param use_null_delimiter
 #   Whether to use a null byte as a frame delimiter. If false, a newline is
 #   used as the delimiter instead.
-define graylog_api::input::cef_tcp(
+define graylog_api::input::cef_tcp (
   Enum['present','absent']  $ensure                    = 'present',
   String                    $bind_address              = '0.0.0.0',
   String                    $locale                    = 'en',
@@ -98,7 +98,7 @@ define graylog_api::input::cef_tcp(
   String                    $tls_key_password          = '',
   Boolean                   $use_full_names            = false,
   Boolean                   $use_null_delimiter        = false,
-){
+) {
   graylog_input { $name:
     ensure        => $ensure,
     type          => 'org.graylog.plugins.cef.input.CEFTCPInput',

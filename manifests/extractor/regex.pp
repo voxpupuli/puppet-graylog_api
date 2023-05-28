@@ -31,7 +31,7 @@
 # @param order
 #   Sort index for this extractor.
 #
-define graylog_api::extractor::regex(
+define graylog_api::extractor::regex (
   Enum['present','absent']  $ensure                    = 'present',
   String                    $input                     = '',
   String                    $source_field              = '',
@@ -42,20 +42,20 @@ define graylog_api::extractor::regex(
   Optional[String]          $condition_value           = undef,
   Optional[Array]           $converters                = undef,
   Optional[Integer]         $order                     = undef
-){
+) {
   graylog_extractor { $name:
-    ensure        => $ensure,
-    input         => $input,
-    type          => 'REGEX',
-    source_field  => $source_field,
-    target_field  => $target_field,
-    cut_or_copy   => $cut_or_copy,
+    ensure          => $ensure,
+    input           => $input,
+    type            => 'REGEX',
+    source_field    => $source_field,
+    target_field    => $target_field,
+    cut_or_copy     => $cut_or_copy,
     condition_type  => $condition_type,
     condition_value => $condition_value,
     converters      => $converters,
     order           => $order,
     configuration   => {
-        regex_value => $regex_value
-    }
+      regex_value => $regex_value,
+    },
   }
 }

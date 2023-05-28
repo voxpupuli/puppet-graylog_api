@@ -82,7 +82,7 @@
 # @param use_null_delimiter
 #   Whether to use a null byte as a frame delimiter. If false, a newline is
 #   used as the delimiter instead.
-define graylog_api::input::syslog_tcp(
+define graylog_api::input::syslog_tcp (
   Enum['present','absent']  $ensure                    = 'present',
   String                    $bind_address              = '0.0.0.0',
   Optional[String]          $override_source           = undef,
@@ -97,21 +97,21 @@ define graylog_api::input::syslog_tcp(
   Boolean                   $tls_enable                = false,
   String                    $tls_key_file              = '',
   String                    $tls_key_password          = ''
-){
+) {
   graylog_input { $name:
     ensure        => $ensure,
     type          => 'org.graylog2.inputs.syslog.tcp.SyslogTCPInput',
     scope         => $scope,
     static_fields => $static_fields,
     configuration => {
-      allow_override_date    => $allow_override_date,
-      bind_address           => $bind_address,
-      expand_structured_data => $expand_structured_data,
-      force_rdns             => $force_rdns,
-      recv_buffer_size       => $recv_buffer_size,
-      override_source        => $override_source,
-      port                   => $port,
-      store_full_message     => $store_full_message,
+      allow_override_date       => $allow_override_date,
+      bind_address              => $bind_address,
+      expand_structured_data    => $expand_structured_data,
+      force_rdns                => $force_rdns,
+      recv_buffer_size          => $recv_buffer_size,
+      override_source           => $override_source,
+      port                      => $port,
+      store_full_message        => $store_full_message,
       tcp_keepalive             => $tcp_keepalive,
       tls_cert_file             => $tls_cert_file,
       tls_client_auth           => $tls_client_auth,
@@ -119,7 +119,7 @@ define graylog_api::input::syslog_tcp(
       tls_enable                => $tls_enable,
       tls_key_file              => $tls_key_file,
       tls_key_password          => $tls_key_password,
-      use_null_delimiter        => $use_null_delimiter,      
+      use_null_delimiter        => $use_null_delimiter,
     },
   }
 }

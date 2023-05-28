@@ -30,7 +30,7 @@
 #
 # @param static_fields
 #   Static fields to assign to this input.
-define graylog_api::input::gelf_udp(
+define graylog_api::input::gelf_udp (
   Enum['present','absent']  $ensure                    = 'present',
   String                    $bind_address              = '0.0.0.0',
   Integer                   $decompress_size_limit     = '8 MB'.to_bytes,
@@ -39,7 +39,7 @@ define graylog_api::input::gelf_udp(
   Integer                   $recv_buffer_size          = '256 kB'.to_bytes,
   Enum['global','local']    $scope                     = 'global',
   Optional[Hash]            $static_fields             = undef,
-){
+) {
   graylog_input { $name:
     ensure        => $ensure,
     type          => 'org.graylog2.inputs.gelf.udp.GELFUDPInput',
