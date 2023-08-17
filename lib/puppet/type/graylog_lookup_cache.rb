@@ -1,5 +1,4 @@
 Puppet::Type.newtype(:graylog_lookup_cache) do
-
   desc <<-END_OF_DOC
     @summary
       Creates a Lookup Table Cache.
@@ -23,13 +22,13 @@ Puppet::Type.newtype(:graylog_lookup_cache) do
         },
       }
   END_OF_DOC
-  
+
   ensurable
 
   newparam(:name) do
     desc 'The unique name of the Lookup Cache. Must consist of only letters, numbers and dashes.'
     validate do |value|
-      raise ArgumentError, "#{value} is not a valid name." unless value =~ /^[a-z0-9-]+$/
+      raise ArgumentError, "#{value} is not a valid name." unless value =~ %r{^[a-z0-9-]+$}
     end
   end
 
@@ -45,5 +44,5 @@ Puppet::Type.newtype(:graylog_lookup_cache) do
     desc 'A hash of configuration for the Lookup Cache. The exact properties will vary depending on the type of cache being managed.'
   end
 
-  autorequire('graylog_api') {'api'}
+  autorequire('graylog_api') { 'api' }
 end

@@ -1,9 +1,8 @@
 Puppet::Type.newtype(:graylog_dashboard_layout) do
-
   desc <<-END_OF_DOC
     @summary
       Lays out the widgets on a dashboard.
-      
+    #{'  '}
     @see graylog_dashboard
     @see graylog_dashboard_widget
 
@@ -31,7 +30,7 @@ Puppet::Type.newtype(:graylog_dashboard_layout) do
         * h - The height of this widget
     END_OF_PROPERTY
     validate do |all_widgets|
-      all_widgets.each_pair do |key,value|
+      all_widgets.each_pair do |key, value|
         raise ArgumentError, "Widget #{key} must have a x-position," unless value.has_key?('x')
         raise Argumenterror, "Widget #{key} must have a y-position." unless value.has_key?('y')
         raise ArgumentError, "Widget #{key} must have a width." unless value.has_key?('w')
@@ -40,7 +39,7 @@ Puppet::Type.newtype(:graylog_dashboard_layout) do
     end
   end
 
-  autorequire('graylog_api') {'api'}
+  autorequire('graylog_api') { 'api' }
   autorequire('graylog_dashboard') { self[:name] }
-  autorequire('graylog_dashboard_widget') { self[:positions].keys.map {|widget_name| "#{self[:name]}!!!#{widget_name}" } }
+  autorequire('graylog_dashboard_widget') { self[:positions].keys.map { |widget_name| "#{self[:name]}!!!#{widget_name}" } }
 end

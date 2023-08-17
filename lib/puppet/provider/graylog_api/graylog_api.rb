@@ -7,7 +7,6 @@ require 'retries' if Puppet.features.retries?
 require 'httparty' if Puppet.features.httparty?
 
 Puppet::Type.type(:graylog_api).provide(:graylog_api) do
-
   confine feature: :retries
   confine feature: :httparty
 
@@ -32,7 +31,7 @@ Puppet::Type.type(:graylog_api).provide(:graylog_api) do
     Puppet::Provider::GraylogAPI.verify_tls = verify_tls
     Puppet::Provider::GraylogAPI.ssl_ca_file = ssl_ca_file
     wait_for_api(port, server)
-    resources[:api].provider = new({password: password, port: port, username: username, tls: tls, server: server, verify_tls: verify_tls, ssl_ca_file: ssl_ca_file})
+    resources[:api].provider = new({ password: password, port: port, username: username, tls: tls, server: server, verify_tls: verify_tls, ssl_ca_file: ssl_ca_file })
   end
 
   # We also make sure that the Graylog server is actually up and responding
@@ -40,11 +39,11 @@ Puppet::Type.type(:graylog_api).provide(:graylog_api) do
   def self.wait_for_api(port, server)
     scheme = Puppet::Provider::GraylogAPI.api_tls ? 'https' : 'http'
     tls_opts = Puppet::Provider::GraylogAPI.tls_opts
-    Puppet.debug("Waiting for Graylog API")
+    Puppet.debug('Waiting for Graylog API')
     with_retries(max_tries: 60, base_sleep_seconds: 1, max_sleep_seconds: 1) do
       HTTParty.head("#{scheme}://#{server}:#{port}", **tls_opts)
     end
   rescue Errno::ECONNREFUSED
-    fail("Graylog API didn't become available on #{server} port #{port} after 30 seconds")
+    raise("Graylog API didn't become available on #{server} port #{port} after 30 seconds")
   end
 end

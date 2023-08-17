@@ -1,11 +1,10 @@
 require 'puppet/property/boolean'
 
 Puppet::Type.newtype(:graylog_pipeline) do
-
   desc <<-END_OF_DOC
     @summary
       Creates a processing pipleine.
-    
+
     Creates a processing pipeline. This type takes the pipeline definition as
     source text; note that the pipeline name in the source text must match the
     resource title. Overall, you may find it more convenient to use the
@@ -52,10 +51,11 @@ Puppet::Type.newtype(:graylog_pipeline) do
   end
 
   validate do
-    match_data = self[:source].match(/\A\s*pipeline\s+"(.+?)"/)
-    fail("Pipeline source does not appear to begin with a pipeline-title declaration!") unless match_data
+    match_data = self[:source].match(%r{\A\s*pipeline\s+"(.+?)"})
+    raise('Pipeline source does not appear to begin with a pipeline-title declaration!') unless match_data
+
     inline_name = match_data.captures[0]
-    fail("Name in pipeline source (#{inline_name}) doesn't match resource title (#{self[:name]})!") unless inline_name == self[:name]
+    raise("Name in pipeline source (#{inline_name}) doesn't match resource title (#{self[:name]})!") unless inline_name == self[:name]
   end
 
   autorequire('graylog_api') { 'api' }

@@ -2,7 +2,7 @@ Puppet::Type.newtype(:graylog_grok_pattern) do
   desc <<~END_OF_DOC
     @summary
        Installs a Grok pattern.
-    
+
     Installs a Grok pattern. Note that when representing Grok patterns in
     Puppet code or YAML-formatted Hiera data, extra escaping is necessary for
     many regex characters. Thus, it is often more convenient to use the
@@ -22,7 +22,7 @@ Puppet::Type.newtype(:graylog_grok_pattern) do
   newparam(:name) do
     desc 'The token that represents the pattern. Must be in all-caps.'
     validate do |value|
-      raise ArgumentError, "Pattern token must match /[A-Z0-9_]+/" unless value =~ /[A-Z0-9_]+/
+      raise ArgumentError, 'Pattern token must match /[A-Z0-9_]+/' unless value =~ %r{[A-Z0-9_]+}
     end
   end
 
@@ -30,5 +30,5 @@ Puppet::Type.newtype(:graylog_grok_pattern) do
     desc 'The literal pattern string.'
   end
 
-  autorequire('graylog_api') {'api'}
+  autorequire('graylog_api') { 'api' }
 end

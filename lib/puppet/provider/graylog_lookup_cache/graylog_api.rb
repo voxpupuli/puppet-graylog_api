@@ -1,7 +1,6 @@
 require_relative '../graylog_api'
 
 Puppet::Type.type(:graylog_lookup_cache).provide(:graylog_api, parent: Puppet::Provider::GraylogAPI) do
-
   mk_resource_methods
 
   def self.instances
@@ -12,7 +11,7 @@ Puppet::Type.type(:graylog_lookup_cache).provide(:graylog_api, parent: Puppet::P
         name: data['name'],
         description: data['description'],
         display_name: data['title'],
-        configuration: recursive_undef_to_nil(data['config']),
+        configuration: recursive_undef_to_nil(data['config'])
       )
       cache.rest_id = data['id']
       cache
@@ -27,7 +26,6 @@ Puppet::Type.type(:graylog_lookup_cache).provide(:graylog_api, parent: Puppet::P
       config: resource[:configuration],
     }
     data[:id] = rest_id if rest_id
-    simple_flush("system/lookup/caches", data)
+    simple_flush('system/lookup/caches', data)
   end
-
 end

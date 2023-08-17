@@ -1,12 +1,11 @@
 require_relative '../graylog_api'
 
 Puppet::Type.type(:graylog_dashboard_layout).provide(:graylog_api, parent: Puppet::Provider::GraylogAPI) do
-
   mk_resource_methods
 
   def self.instances
     dashboards = get('dashboards')['dashboards']
-    
+
     dashboards.map do |dashboard|
       dashboard_name = dashboard['title']
       widgets_data = dashboard['widgets']
@@ -15,7 +14,7 @@ Puppet::Type.type(:graylog_dashboard_layout).provide(:graylog_api, parent: Puppe
       positions = {}
 
       positions_data.each_pair do |widget_id, position_data|
-        widget_data = widgets_data.find {|widget| widget['id'] == widget_id }
+        widget_data = widgets_data.find { |widget| widget['id'] == widget_id }
         Puppet.err("Could not find widget #{widget_id} on dashboard #{dashboard_name}") unless widget_data
         widget_name = widget_data ? widget_data['description'] : 'MISSING WIDGET'
         positions[widget_name] = {
@@ -30,18 +29,18 @@ Puppet::Type.type(:graylog_dashboard_layout).provide(:graylog_api, parent: Puppe
 
       new(
         name: dashboard_name,
-        positions: positions,
+        positions: positions
       )
     end
   end
 
   def flush
-    dashboards = get("dashboards")['dashboards']
-    dashboard = dashboards.find {|db| db['title'] == resource[:name] }
+    dashboards = get('dashboards')['dashboards']
+    dashboard = dashboards.find { |db| db['title'] == resource[:name] }
     dashboard_id = dashboard['id']
 
-    positions_data = resource[:positions].map do |widget_name,position|
-      widget_data = dashboard['widgets'].find {|widget| widget['description'] == widget_name }
+    positions_data = resource[:positions].map do |widget_name, position|
+      widget_data = dashboard['widgets'].find { |widget| widget['description'] == widget_name }
       {
         id: widget_data['id'],
         col: position['x'],
@@ -51,6 +50,6 @@ Puppet::Type.type(:graylog_dashboard_layout).provide(:graylog_api, parent: Puppe
       }
     end
 
-    put("dashboards/#{dashboard_id}/positions",{positions: positions_data})
+    put("dashboards/#{dashboard_id}/positions", { positions: positions_data })
   end
 end

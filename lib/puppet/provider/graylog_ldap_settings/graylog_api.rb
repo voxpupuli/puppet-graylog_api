@@ -1,7 +1,6 @@
 require_relative '../graylog_api'
 
 Puppet::Type.type(:graylog_ldap_settings).provide(:graylog_api, parent: Puppet::Provider::GraylogAPI) do
-
   mk_resource_methods
 
   def self.instances
@@ -10,9 +9,8 @@ Puppet::Type.type(:graylog_ldap_settings).provide(:graylog_api, parent: Puppet::
   end
 
   def flush
-    Puppet.info("Flushing graylog_ldap_settings")
-    data = @property_hash.reject {|k,v| k == :name }
-    put('system/ldap/settings',recursive_undef_to_nil(data))
+    Puppet.info('Flushing graylog_ldap_settings')
+    data = @property_hash.reject { |k, _v| k == :name }
+    put('system/ldap/settings', recursive_undef_to_nil(data))
   end
-
 end

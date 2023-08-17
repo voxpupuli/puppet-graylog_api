@@ -1,7 +1,6 @@
 require 'puppet/property/boolean'
 
 Puppet::Type.newtype(:graylog_plugin_auth_sso) do
-
   desc <<-END_OF_DOC
     @summary
       SSO authentication plugin configuration
@@ -80,5 +79,5 @@ Puppet::Type.newtype(:graylog_plugin_auth_sso) do
     defaultto('')
   end
 
-  autorequire('graylog_api') {'api'}
+  autorequire('graylog_api') { 'api' }
 end

@@ -1,7 +1,6 @@
 require_relative '../graylog_api'
 
 Puppet::Type.type(:graylog_dashboard).provide(:graylog_api, parent: Puppet::Provider::GraylogAPI) do
-
   mk_resource_methods
 
   attr_accessor :widgets
@@ -12,10 +11,10 @@ Puppet::Type.type(:graylog_dashboard).provide(:graylog_api, parent: Puppet::Prov
       item = new(
         ensure: :present,
         name: data['title'],
-        description: data['description'],
+        description: data['description']
       )
       item.rest_id = data['id']
-      item.widgets = data['widgets'].map {|w| {name: w['description'], id: w['id']} }
+      item.widgets = data['widgets'].map { |w| { name: w['description'], id: w['id'] } }
       item
     end
   end
@@ -28,29 +27,28 @@ Puppet::Type.type(:graylog_dashboard).provide(:graylog_api, parent: Puppet::Prov
 
   def widgets_in_catalog
     @widgets_in_catalog ||= resource.catalog.resources.find_all do |res|
-      res.class.to_s == 'Puppet::Type::Graylog_dashboard_widget' &&
-      res[:name].split('!!!',2).first == resource[:name]
+      res.instance_of?(Puppet::Type::Graylog_dashboard_widget) &&
+        res[:name].split('!!!', 2).first == resource[:name]
     end
   end
 
   def widgets_to_purge
     @widgets_to_purge ||= widgets.select do |widget|
-      widgets_in_catalog.none? {|w| w[:name].split('!!!',2)[1] == widget[:name] }
+      widgets_in_catalog.none? { |w| w[:name].split('!!!', 2)[1] == widget[:name] }
     end
   end
 
   def flush
-    simple_flush("dashboards",{
-      title: resource[:name],
-      description: resource[:description],
-    })
+    simple_flush('dashboards', {
+                   title: resource[:name],
+                   description: resource[:description],
+                 })
     Puppet.debug("@action = '#{@action}'")
-    if @action.nil? && resource[:purge]
-      widgets_to_purge.each do |widget|
-        Puppet.notice("Purging widget '#{widget[:name]}' from Dashboard #{resource[:name]}.")
-        delete("dashboards/#{rest_id}/widgets/#{widget[:id]}")
-      end
+    return unless @action.nil? && resource[:purge]
+
+    widgets_to_purge.each do |widget|
+      Puppet.notice("Purging widget '#{widget[:name]}' from Dashboard #{resource[:name]}.")
+      delete("dashboards/#{rest_id}/widgets/#{widget[:id]}")
     end
   end
-
 end

@@ -1,1 +1,1 @@
-Puppet.features.add(:httparty, libs: ["httparty"])
+Puppet.features.add(:httparty, libs: ['httparty'])
