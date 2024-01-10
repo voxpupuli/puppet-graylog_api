@@ -23,7 +23,7 @@ Puppet::Type.type(:graylog_stream).provide(:graylog_api, parent: Puppet::Provide
   end
 
   def self.index_set_prefix_from_id(index_set_id)
-    get("system/indices/index_sets/#{index_set_id}")['prefix']
+    get("system/indices/index_sets/#{index_set_id}")['index_prefix']
   end
 
   RULE_TYPES = %w{equals matches greater_than less_than field_presence contain always_match}
