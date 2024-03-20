@@ -259,7 +259,7 @@ Default value: `''`
 
 ##### <a name="-graylog_api--extractor--regex_replace--replace_all"></a>`replace_all`
 
-Data type: `Optional[Boolean]`
+Data type: `Boolean`
 
 
 

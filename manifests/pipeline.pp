@@ -70,8 +70,8 @@
 #   the Message Filter Chain, then the only stream that will have messages at
 #   processing time will be the 'All messages' stream.
 define graylog_api::pipeline (
-  String                                     $description = '',
   Array[Graylog_api::Pipeline::Stage::Loose] $stages,
+  String                                     $description = '',
   Variant[String,Array[String]]              $streams     = [],
 ) {
   $stage_bodies = $stages.map |$index,$stage| {
