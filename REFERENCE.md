@@ -32,7 +32,7 @@
 * [`graylog_index_set`](#graylog_index_set): Defines an Index Set.
 * [`graylog_input`](#graylog_input): Creates an Input.
 * [`graylog_ldap_settings`](#graylog_ldap_settings): Configures LDAP authentication.
-* [`graylog_lookup_adapter`](#graylog_lookup_adapter): Creates a Lookup Table Data Adapter.
+* [`graylog_lookup_adapter`](#graylog_lookup_adapter): @summary#{' '}   Creates a Lookup Table Data Adapter.  Creates a Data Adapter for use with a Lookup table. At present all configuration must 
 * [`graylog_lookup_cache`](#graylog_lookup_cache): Creates a Lookup Table Cache.
 * [`graylog_lookup_table`](#graylog_lookup_table): Configures a Lookup Table.
 * [`graylog_pipeline`](#graylog_pipeline): Creates a processing pipleine.
@@ -1930,7 +1930,7 @@ usually discover the appropriate provider for your platform.
 
 ### <a name="graylog_dashboard"></a>`graylog_dashboard`
 
-Creates an Dashboard.
+#{'  '}
 
 * **See also**
   * graylog_dashboard_widget
@@ -1987,7 +1987,7 @@ usually discover the appropriate provider for your platform.
 
 ### <a name="graylog_dashboard_layout"></a>`graylog_dashboard_layout`
 
-Lays out the widgets on a dashboard.
+#{'  '}
 
 * **See also**
   * graylog_dashboard
@@ -2042,6 +2042,7 @@ Puppet will usually discover the appropriate provider for your platform.
 
 The title of this resource should be the name of the dashboard on which the
 widget appears, followed by !!!, followed by the name of the widget.
+#{'  '}
 
 * **See also**
   * graylog_dashboard
@@ -2387,6 +2388,7 @@ usually discover the appropriate provider for your platform.
 
 ### <a name="graylog_input"></a>`graylog_input`
 
+#{'  '}
 This type covers the raw API and is agnostic to the type of input being
 created. In most cases, you should declare inputs using the
 graylog_api::input::* defined types, which wrap this type and provide
@@ -2594,6 +2596,9 @@ The specific backend to use for this `graylog_ldap_settings` resource. You will 
 will usually discover the appropriate provider for your platform.
 
 ### <a name="graylog_lookup_adapter"></a>`graylog_lookup_adapter`
+
+@summary#{' '}
+  Creates a Lookup Table Data Adapter.
 
 Creates a Data Adapter for use with a Lookup table. At present all
 configuration must be done manually, there are not yet any convenience
@@ -3145,7 +3150,7 @@ graylog_stream { 'example':
       type  => 'equals',
       value => 'bar',
     },
-  ],
+  ],#{'    '}
 }
 ```
 
@@ -3232,9 +3237,9 @@ A user definition. Note that the admin user is built-in an cannot be changed.
 graylog_user { 'test':
   password    => 'B1GnbfoNp9PND6ihXfZFjg',
   full_name   => 'Test user',
-  email       => 'foo@bar',
+  email       => 'foo@bar',#{'                   '}
   roles => [
-    'Reader'
+    'Reader'#{'            '}
   ]
 }
 ```
