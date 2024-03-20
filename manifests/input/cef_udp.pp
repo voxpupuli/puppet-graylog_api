@@ -40,9 +40,6 @@
 #   Whether to use full field names in CEF messages (as defined in the CEF
 #   specification).
 #
-# @param use_null_delimiter
-#   Whether to use a null byte as a frame delimiter. If false, a newline is
-#   used as the delimiter instead.
 define graylog_api::input::cef_udp (
   Enum['present','absent']  $ensure                    = 'present',
   String                    $bind_address              = '0.0.0.0',

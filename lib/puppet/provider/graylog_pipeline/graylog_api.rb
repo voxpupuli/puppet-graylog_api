@@ -1,6 +1,7 @@
 require_relative '../graylog_api'
 
 Puppet::Type.type(:graylog_pipeline).provide(:graylog_api, parent: Puppet::Provider::GraylogAPI) do
+  @doc = 'graylog api type for graylog pipeline'
   mk_resource_methods
 
   def self.api_prefix

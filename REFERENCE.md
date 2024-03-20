@@ -44,8 +44,8 @@
 
 ### Data types
 
-* [`Graylog_api::Pipeline::Stage`](#Graylog_api--Pipeline--Stage)
-* [`Graylog_api::Pipeline::Stage::Loose`](#Graylog_api--Pipeline--Stage--Loose)
+* [`Graylog_api::Pipeline::Stage`](#Graylog_api--Pipeline--Stage): Custom Type for Graylog_api pipeline stage
+* [`Graylog_api::Pipeline::Stage::Loose`](#Graylog_api--Pipeline--Stage--Loose): custom type for graylog_api pipeline stage loose
 
 ## Defined types
 
@@ -160,13 +160,12 @@ The following parameters are available in the `graylog_api::extractor::regex_rep
 * [`input`](#-graylog_api--extractor--regex_replace--input)
 * [`source_field`](#-graylog_api--extractor--regex_replace--source_field)
 * [`target_field`](#-graylog_api--extractor--regex_replace--target_field)
-* [`regex_value`](#-graylog_api--extractor--regex_replace--regex_value)
+* [`regex`](#-graylog_api--extractor--regex_replace--regex)
 * [`cut_or_copy`](#-graylog_api--extractor--regex_replace--cut_or_copy)
 * [`condition_type`](#-graylog_api--extractor--regex_replace--condition_type)
 * [`condition_value`](#-graylog_api--extractor--regex_replace--condition_value)
 * [`converters`](#-graylog_api--extractor--regex_replace--converters)
 * [`order`](#-graylog_api--extractor--regex_replace--order)
-* [`regex`](#-graylog_api--extractor--regex_replace--regex)
 * [`replacement`](#-graylog_api--extractor--regex_replace--replacement)
 * [`replace_all`](#-graylog_api--extractor--regex_replace--replace_all)
 
@@ -202,9 +201,13 @@ Choose a field name to store the extracted value. It can only contain alphanumer
 
 Default value: `''`
 
-##### <a name="-graylog_api--extractor--regex_replace--regex_value"></a>`regex_value`
+##### <a name="-graylog_api--extractor--regex_replace--regex"></a>`regex`
+
+Data type: `String`
 
 Title of the input this extractor is attached to.
+
+Default value: `''`
 
 ##### <a name="-graylog_api--extractor--regex_replace--cut_or_copy"></a>`cut_or_copy`
 
@@ -245,14 +248,6 @@ Data type: `Optional[Integer]`
 Sort index for this extractor.
 
 Default value: `undef`
-
-##### <a name="-graylog_api--extractor--regex_replace--regex"></a>`regex`
-
-Data type: `String`
-
-
-
-Default value: `''`
 
 ##### <a name="-graylog_api--extractor--regex_replace--replacement"></a>`replacement`
 
@@ -840,7 +835,6 @@ The following parameters are available in the `graylog_api::input::cef_udp` defi
 * [`static_fields`](#-graylog_api--input--cef_udp--static_fields)
 * [`timezone`](#-graylog_api--input--cef_udp--timezone)
 * [`use_full_names`](#-graylog_api--input--cef_udp--use_full_names)
-* [`use_null_delimiter`](#-graylog_api--input--cef_udp--use_null_delimiter)
 
 ##### <a name="-graylog_api--input--cef_udp--ensure"></a>`ensure`
 
@@ -928,11 +922,6 @@ Whether to use full field names in CEF messages (as defined in the CEF
 specification).
 
 Default value: `false`
-
-##### <a name="-graylog_api--input--cef_udp--use_null_delimiter"></a>`use_null_delimiter`
-
-Whether to use a null byte as a frame delimiter. If false, a newline is
-used as the delimiter instead.
 
 ### <a name="graylog_api--input--gelf_http"></a>`graylog_api::input::gelf_http`
 
@@ -1396,16 +1385,12 @@ Defines an input accepting Syslog messages over TCP.
 The following parameters are available in the `graylog_api::input::syslog_tcp` defined type:
 
 * [`ensure`](#-graylog_api--input--syslog_tcp--ensure)
-* [`allow_override_date`](#-graylog_api--input--syslog_tcp--allow_override_date)
 * [`bind_address`](#-graylog_api--input--syslog_tcp--bind_address)
-* [`expand_structured_data`](#-graylog_api--input--syslog_tcp--expand_structured_data)
-* [`force_rdns`](#-graylog_api--input--syslog_tcp--force_rdns)
 * [`override_source`](#-graylog_api--input--syslog_tcp--override_source)
 * [`port`](#-graylog_api--input--syslog_tcp--port)
 * [`recv_buffer_size`](#-graylog_api--input--syslog_tcp--recv_buffer_size)
 * [`scope`](#-graylog_api--input--syslog_tcp--scope)
 * [`static_fields`](#-graylog_api--input--syslog_tcp--static_fields)
-* [`store_full_message`](#-graylog_api--input--syslog_tcp--store_full_message)
 * [`tcp_keepalive`](#-graylog_api--input--syslog_tcp--tcp_keepalive)
 * [`tls_cert_file`](#-graylog_api--input--syslog_tcp--tls_cert_file)
 * [`tls_client_auth`](#-graylog_api--input--syslog_tcp--tls_client_auth)
@@ -1413,7 +1398,6 @@ The following parameters are available in the `graylog_api::input::syslog_tcp` d
 * [`tls_enable`](#-graylog_api--input--syslog_tcp--tls_enable)
 * [`tls_key_file`](#-graylog_api--input--syslog_tcp--tls_key_file)
 * [`tls_key_password`](#-graylog_api--input--syslog_tcp--tls_key_password)
-* [`use_null_delimiter`](#-graylog_api--input--syslog_tcp--use_null_delimiter)
 
 ##### <a name="-graylog_api--input--syslog_tcp--ensure"></a>`ensure`
 
@@ -1423,11 +1407,6 @@ Whether this input should exist.
 
 Default value: `'present'`
 
-##### <a name="-graylog_api--input--syslog_tcp--allow_override_date"></a>`allow_override_date`
-
-Whether to allow setting the message timestamp to the current server time,
-if the timstamp in the message failed to parse. Defaults to true.
-
 ##### <a name="-graylog_api--input--syslog_tcp--bind_address"></a>`bind_address`
 
 Data type: `String`
@@ -1435,18 +1414,6 @@ Data type: `String`
 The IP address to listen on. Defaults to 0.0.0.0.
 
 Default value: `'0.0.0.0'`
-
-##### <a name="-graylog_api--input--syslog_tcp--expand_structured_data"></a>`expand_structured_data`
-
-Whether to expand structured data elements by prefixing attributes with
-their SD-ID. Defaults to true.
-
-##### <a name="-graylog_api--input--syslog_tcp--force_rdns"></a>`force_rdns`
-
-Whether to force reverse DNS resolution of sender's hostname. Use if the
-hostname in the message cannot be parsed. Default value is false.
-NOTE: Be careful with this setting if you are sending DNS server logs into
-this input as it can cause a feedback loop.
 
 ##### <a name="-graylog_api--input--syslog_tcp--override_source"></a>`override_source`
 
@@ -1492,11 +1459,6 @@ Data type: `Optional[Hash]`
 Static fields to assign to this input.
 
 Default value: `undef`
-
-##### <a name="-graylog_api--input--syslog_tcp--store_full_message"></a>`store_full_message`
-
-Whether to store the full original syslog message as full_message. Defaults
-to true.
 
 ##### <a name="-graylog_api--input--syslog_tcp--tcp_keepalive"></a>`tcp_keepalive`
 
@@ -1564,11 +1526,6 @@ The password to decrypt to private key specified in tls_key_file. Leave
 blank if not using TLS, or if the key is not encrypted.
 
 Default value: `''`
-
-##### <a name="-graylog_api--input--syslog_tcp--use_null_delimiter"></a>`use_null_delimiter`
-
-Whether to use a null byte as a frame delimiter. If false, a newline is
-used as the delimiter instead.
 
 ### <a name="graylog_api--input--syslog_udp"></a>`graylog_api::input::syslog_udp`
 
@@ -3313,7 +3270,7 @@ usually discover the appropriate provider for your platform.
 
 ### <a name="Graylog_api--Pipeline--Stage"></a>`Graylog_api::Pipeline::Stage`
 
-The Graylog_api::Pipeline::Stage data type.
+Custom Type for Graylog_api pipeline stage
 
 Alias of
 
@@ -3326,7 +3283,7 @@ Struct[{
 
 ### <a name="Graylog_api--Pipeline--Stage--Loose"></a>`Graylog_api::Pipeline::Stage::Loose`
 
-The Graylog_api::Pipeline::Stage::Loose data type.
+custom type for graylog_api pipeline stage loose
 
 Alias of `Variant[Graylog_api::Pipeline::Stage, Array[String,1], String]`
 

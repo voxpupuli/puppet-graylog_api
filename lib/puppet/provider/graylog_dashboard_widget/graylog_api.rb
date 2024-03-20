@@ -1,6 +1,7 @@
 require_relative '../graylog_api'
 
 Puppet::Type.type(:graylog_dashboard_widget).provide(:graylog_api, parent: Puppet::Provider::GraylogAPI) do
+  @doc = 'graylog api type for graylog dashboard widget'
   mk_resource_methods
 
   def self.instances

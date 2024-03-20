@@ -1,6 +1,7 @@
 require_relative '../graylog_api'
 
 Puppet::Type.type(:graylog_plugin_auth_sso).provide(:graylog_api, parent: Puppet::Provider::GraylogAPI) do
+  @doc = 'graylog api type for graylog plugin auth sso'
   mk_resource_methods
 
   def self.instances

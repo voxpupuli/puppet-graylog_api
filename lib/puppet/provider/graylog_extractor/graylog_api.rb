@@ -1,6 +1,7 @@
 require_relative '../graylog_api'
 
 Puppet::Type.type(:graylog_extractor).provide(:graylog_api, parent: Puppet::Provider::GraylogAPI) do
+  @doc = 'graylog api type for graylog extractor'
   EXTRACTOR_TYPES = {
     copy_input: 'COPY_INPUT',
     grok: 'GROK',

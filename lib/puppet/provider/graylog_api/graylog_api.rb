@@ -7,6 +7,7 @@ require 'retries' if Puppet.features.retries?
 require 'httparty' if Puppet.features.httparty?
 
 Puppet::Type.type(:graylog_api).provide(:graylog_api) do
+  @doc = 'Graylog Api base type'
   confine feature: :retries
   confine feature: :httparty
 

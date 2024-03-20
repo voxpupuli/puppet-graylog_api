@@ -2,6 +2,7 @@ require_relative '../graylog_api'
 require 'date'
 
 Puppet::Type.type(:graylog_index_set).provide(:graylog_api, parent: Puppet::Provider::GraylogAPI) do
+  @doc = 'graylog api type for graylog index set'
   mk_resource_methods
 
   def self.instances

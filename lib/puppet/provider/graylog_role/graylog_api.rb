@@ -1,6 +1,7 @@
 require_relative '../graylog_api'
 
 Puppet::Type.type(:graylog_role).provide(:graylog_api, parent: Puppet::Provider::GraylogAPI) do
+  @doc = 'graylog api type for graylog role'
   mk_resource_methods
 
   attr_writer :permission_cache

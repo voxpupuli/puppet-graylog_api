@@ -13,7 +13,7 @@
 # @param target_field
 #   Choose a field name to store the extracted value. It can only contain alphanumeric characters and underscores. Example: http_response_code.
 #
-# @param regex_value
+# @param regex
 #   Title of the input this extractor is attached to.
 #
 # @param cut_or_copy
