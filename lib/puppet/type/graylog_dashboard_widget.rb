@@ -1,12 +1,11 @@
 Puppet::Type.newtype(:graylog_dashboard_widget) do
-
   desc <<-END_OF_DOC
     @summary
       Creates an Dashboard Widget.
 
     The title of this resource should be the name of the dashboard on which the
     widget appears, followed by !!!, followed by the name of the widget.
-      
+    #{'  '}
     @see graylog_dashboard
     @see graylog_dashboard_layout
 
@@ -34,7 +33,7 @@ Puppet::Type.newtype(:graylog_dashboard_widget) do
   newparam(:name) do
     desc 'The name of the dashboard on which this widget appears, followed by !!!, followed by the name of the widget.'
     validate do |value|
-      raise ArgumentError, "name parameter must include both dashboard name and widget name, separated by !!!; instead was '#{value}'" unless value =~ /.+!!!.+/
+      raise ArgumentError, "name parameter must include both dashboard name and widget name, separated by !!!; instead was '#{value}'" unless value =~ %r{.+!!!.+}
     end
   end
 
@@ -50,7 +49,6 @@ Puppet::Type.newtype(:graylog_dashboard_widget) do
     desc 'The type of widget.'
   end
 
-
-  autorequire('graylog_api') {'api'}
-  autorequire('graylog_dashboard') { self[:name].split('!!!',2).first }
+  autorequire('graylog_api') { 'api' }
+  autorequire('graylog_dashboard') { self[:name].split('!!!', 2).first }
 end

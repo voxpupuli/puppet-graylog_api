@@ -75,7 +75,7 @@
 # @param tls_key_password
 #   The password to decrypt to private key specified in tls_key_file. Leave
 #   blank if not using TLS, or if the key is not encrypted.
-define graylog_api::input::gelf_http(
+define graylog_api::input::gelf_http (
   Enum['present','absent']  $ensure                    = 'present',
   String                    $bind_address              = '0.0.0.0',
   Integer                   $decompress_size_limit     = '8 MB'.to_bytes,
@@ -94,7 +94,7 @@ define graylog_api::input::gelf_http(
   Boolean                   $tls_enable                = false,
   String                    $tls_key_file              = '',
   String                    $tls_key_password          = '',
-){
+) {
   graylog_input { $name:
     ensure        => $ensure,
     type          => 'org.graylog2.inputs.gelf.http.GELFHttpInput',

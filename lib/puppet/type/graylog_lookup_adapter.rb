@@ -1,7 +1,6 @@
 Puppet::Type.newtype(:graylog_lookup_adapter) do
-
   desc <<-END_OF_DOC
-    @summary 
+    @summary#{' '}
       Creates a Lookup Table Data Adapter.
 
     Creates a Data Adapter for use with a Lookup table. At present all
@@ -33,7 +32,7 @@ Puppet::Type.newtype(:graylog_lookup_adapter) do
   newparam(:name) do
     desc 'The unique name of the Data Adapter. Must consist of only letters, numbers and dashes.'
     validate do |value|
-      raise ArgumentError, "#{value} is not a valid name." unless value =~ /^[a-z0-9-]+$/
+      raise ArgumentError, "#{value} is not a valid name." unless value =~ %r{^[a-z0-9-]+$}
     end
   end
 
@@ -49,5 +48,5 @@ Puppet::Type.newtype(:graylog_lookup_adapter) do
     desc 'A hash of configuration for the Data Adapter. The exact configuration properties support will vary depending on the type of adapter being used.'
   end
 
-  autorequire('graylog_api') {'api'}
+  autorequire('graylog_api') { 'api' }
 end

@@ -6,7 +6,6 @@
 require_relative '../provider/graylog_api'
 
 Puppet::Type.newtype(:graylog_api) do
-
   desc <<-END_OF_DOC
     @summary
       Sets the API credentials used by the rest of the types in the module.
@@ -37,18 +36,18 @@ Puppet::Type.newtype(:graylog_api) do
     isrequired
 
     def retrieve
-      "password"
+      'password'
     end
 
-    def should_to_s(newvalue)
-      "password"
+    def should_to_s(_newvalue)
+      'password'
     end
 
-    def is_to_s(value)
-      "password"
+    def is_to_s(_value)
+      'password'
     end
 
-    def insync?(is)
+    def insync?(_is)
       true
     end
   end
@@ -61,7 +60,7 @@ Puppet::Type.newtype(:graylog_api) do
       'username'
     end
 
-    def insync?(is)
+    def insync?(_is)
       true
     end
   end
@@ -71,10 +70,10 @@ Puppet::Type.newtype(:graylog_api) do
     isrequired
 
     def retrieve
-      "port"
+      'port'
     end
 
-    def insync?(is)
+    def insync?(_is)
       true
     end
   end
@@ -87,7 +86,7 @@ Puppet::Type.newtype(:graylog_api) do
       'tls'
     end
 
-    def insync?(is)
+    def insync?(_is)
       true
     end
   end
@@ -100,7 +99,7 @@ Puppet::Type.newtype(:graylog_api) do
       'verify_tls'
     end
 
-    def insync?(is)
+    def insync?(_is)
       true
     end
   end
@@ -109,17 +108,17 @@ Puppet::Type.newtype(:graylog_api) do
     desc 'The certificate authority file'
     defaultto('/etc/pki/tls/certs/ca-bundle.crt')
 
-#    validate do |value|
-#      unless Puppet::Util.absolute_path?(value)
-#        fail Puppet::Error, _("File paths must be fully qualified, not '%{path}'") % { path: value }
-#      end
-#    end
+    #    validate do |value|
+    #      unless Puppet::Util.absolute_path?(value)
+    #        fail Puppet::Error, _("File paths must be fully qualified, not '%{path}'") % { path: value }
+    #      end
+    #    end
 
     def retrieve
       'ssl_ca_file'
     end
 
-    def insync?(is)
+    def insync?(_is)
       true
     end
   end
@@ -132,7 +131,7 @@ Puppet::Type.newtype(:graylog_api) do
       'server'
     end
 
-    def insync?(is)
+    def insync?(_is)
       true
     end
   end

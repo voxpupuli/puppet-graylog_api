@@ -1,7 +1,7 @@
 require_relative '../graylog_api'
 
 Puppet::Type.type(:graylog_lookup_table).provide(:graylog_api, parent: Puppet::Provider::GraylogAPI) do
-
+  @doc = 'graylog api type for graylog lookup table'
   mk_resource_methods
 
   def self.instances
@@ -10,8 +10,8 @@ Puppet::Type.type(:graylog_lookup_table).provide(:graylog_api, parent: Puppet::P
     caches = get('system/lookup/caches')['caches']
 
     tables.map do |data|
-      cache_name = caches.find {|cache| cache['id'] == data['cache_id'] }['name']
-      adapter_name = adapters.find {|adapter| adapter['id'] == data['data_adapter_id'] }['name']
+      cache_name = caches.find { |cache| cache['id'] == data['cache_id'] }['name']
+      adapter_name = adapters.find { |adapter| adapter['id'] == data['data_adapter_id'] }['name']
       table = new(
         ensure: :present,
         name: data['name'],
@@ -22,7 +22,7 @@ Puppet::Type.type(:graylog_lookup_table).provide(:graylog_api, parent: Puppet::P
         default_single_value: data['default_single_value'],
         default_single_value_type: data['default_single_value_type'],
         default_multi_value: data['default_multi_value'],
-        default_multi_value_type: data['default_multi_value_type'],
+        default_multi_value_type: data['default_multi_value_type']
       )
       table.rest_id = data['id']
       table
@@ -44,7 +44,6 @@ Puppet::Type.type(:graylog_lookup_table).provide(:graylog_api, parent: Puppet::P
       default_multi_value_type: resource[:default_multi_value_type],
     }
     data[:id] = rest_id if rest_id
-    simple_flush("system/lookup/tables",data)
+    simple_flush('system/lookup/tables', data)
   end
-
 end

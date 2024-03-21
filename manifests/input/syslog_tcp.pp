@@ -6,22 +6,8 @@
 # @param ensure
 #   Whether this input should exist.
 #
-# @param allow_override_date
-#   Whether to allow setting the message timestamp to the current server time,
-#   if the timstamp in the message failed to parse. Defaults to true.
-#
 # @param bind_address
 #   The IP address to listen on. Defaults to 0.0.0.0.
-#
-# @param expand_structured_data
-#   Whether to expand structured data elements by prefixing attributes with
-#   their SD-ID. Defaults to true.
-#
-# @param force_rdns
-#   Whether to force reverse DNS resolution of sender's hostname. Use if the 
-#   hostname in the message cannot be parsed. Default value is false.
-#   NOTE: Be careful with this setting if you are sending DNS server logs into
-#   this input as it can cause a feedback loop.
 #
 # @param override_source
 #   The source is a hostname derived from the received packet by default. Set
@@ -42,10 +28,6 @@
 #
 # @param static_fields
 #   Static fields to assign to this input.
-#
-# @param store_full_message
-#   Whether to store the full original syslog message as full_message. Defaults
-#   to true.
 #
 # @param tcp_keepalive
 #   Whether to enable TCP keepalive packets.
@@ -79,10 +61,7 @@
 #   The password to decrypt to private key specified in tls_key_file. Leave
 #   blank if not using TLS, or if the key is not encrypted.
 #
-# @param use_null_delimiter
-#   Whether to use a null byte as a frame delimiter. If false, a newline is
-#   used as the delimiter instead.
-define graylog_api::input::syslog_tcp(
+define graylog_api::input::syslog_tcp (
   Enum['present','absent']  $ensure                    = 'present',
   String                    $bind_address              = '0.0.0.0',
   Optional[String]          $override_source           = undef,
@@ -97,21 +76,17 @@ define graylog_api::input::syslog_tcp(
   Boolean                   $tls_enable                = false,
   String                    $tls_key_file              = '',
   String                    $tls_key_password          = ''
-){
+) {
   graylog_input { $name:
     ensure        => $ensure,
     type          => 'org.graylog2.inputs.syslog.tcp.SyslogTCPInput',
     scope         => $scope,
     static_fields => $static_fields,
     configuration => {
-      allow_override_date    => $allow_override_date,
-      bind_address           => $bind_address,
-      expand_structured_data => $expand_structured_data,
-      force_rdns             => $force_rdns,
-      recv_buffer_size       => $recv_buffer_size,
-      override_source        => $override_source,
-      port                   => $port,
-      store_full_message     => $store_full_message,
+      bind_address              => $bind_address,
+      recv_buffer_size          => $recv_buffer_size,
+      override_source           => $override_source,
+      port                      => $port,
       tcp_keepalive             => $tcp_keepalive,
       tls_cert_file             => $tls_cert_file,
       tls_client_auth           => $tls_client_auth,
@@ -119,7 +94,6 @@ define graylog_api::input::syslog_tcp(
       tls_enable                => $tls_enable,
       tls_key_file              => $tls_key_file,
       tls_key_password          => $tls_key_password,
-      use_null_delimiter        => $use_null_delimiter,      
     },
   }
 }

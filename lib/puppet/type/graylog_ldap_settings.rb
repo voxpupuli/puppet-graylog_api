@@ -1,7 +1,6 @@
 require 'puppet/property/boolean'
 
 Puppet::Type.newtype(:graylog_ldap_settings) do
-
   desc <<-END_OF_DOC
     @summary Configures LDAP authentication.
 
@@ -41,76 +40,76 @@ Puppet::Type.newtype(:graylog_ldap_settings) do
   end
 
   newproperty(:enabled, boolean: true, parent: Puppet::Property::Boolean) do
-    desc "Whether to enable LDAP authentication."
+    desc 'Whether to enable LDAP authentication.'
   end
 
   newproperty(:system_username) do
-    desc "Username to bind to LDAP server as."
+    desc 'Username to bind to LDAP server as.'
   end
 
   newproperty(:system_password) do
-    desc "Password to bind to LDAP server with."
-    def should_to_s(value)
-      "[REDACTED]"
+    desc 'Password to bind to LDAP server with.'
+    def should_to_s(_value)
+      '[REDACTED]'
     end
 
-    def is_to_s(value)
-      "[REDACTED]"
+    def is_to_s(_value)
+      '[REDACTED]'
     end
   end
 
   newproperty(:ldap_uri) do
-    desc "URI of LDAP server, including protocol and port."
+    desc 'URI of LDAP server, including protocol and port.'
   end
 
   newproperty(:use_start_tls) do
-    desc "Whether to use StartTLS"
+    desc 'Whether to use StartTLS'
   end
 
   newproperty(:trust_all_certificates, boolean: true, parent: Puppet::Property::Boolean) do
-    desc "Whether to automatically trust all certificates when using StartTLS or LDAPS."
+    desc 'Whether to automatically trust all certificates when using StartTLS or LDAPS.'
   end
 
   newproperty(:active_directory, boolean: true, parent: Puppet::Property::Boolean) do
-    desc "Whether the LDAP server is an active directory server."
+    desc 'Whether the LDAP server is an active directory server.'
   end
 
   newproperty(:search_base) do
-    desc "The search base for user lookups."
+    desc 'The search base for user lookups.'
   end
 
   newproperty(:search_pattern) do
-    desc "The LDAP filter for user lookups."
+    desc 'The LDAP filter for user lookups.'
   end
 
   newproperty(:default_group) do
-    desc "The default group users are mapped to."
+    desc 'The default group users are mapped to.'
   end
 
   newproperty(:group_mapping) do
-    desc "A hash mapping LDAP groups to Graylog roles."
+    desc 'A hash mapping LDAP groups to Graylog roles.'
   end
 
   newproperty(:group_search_base) do
-    desc "The search base for group lookups."
+    desc 'The search base for group lookups.'
   end
 
   newproperty(:group_id_attribute) do
-    desc "The attribute by which LDAP groups are identified."
+    desc 'The attribute by which LDAP groups are identified.'
   end
 
   newproperty(:additional_default_groups, array_matching: :all) do
-    desc "Additional groups to apply by default to all users."
+    desc 'Additional groups to apply by default to all users.'
   end
 
   newproperty(:group_search_pattern) do
-    desc "The LDAP filter for group lookups."
+    desc 'The LDAP filter for group lookups.'
   end
 
   newproperty(:display_name_attribute) do
-    desc "The attribute for user display names."
+    desc 'The attribute for user display names.'
   end
 
-  autorequire('graylog_api') {'api'}
+  autorequire('graylog_api') { 'api' }
   autorequire('graylog_role') { self[:group_mapping].values + [self[:default_group]] }
 end

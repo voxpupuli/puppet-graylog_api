@@ -1,12 +1,13 @@
 require_relative '../graylog_api'
 
 Puppet::Type.type(:graylog_pipeline_rule).provide(:graylog_api, parent: Puppet::Provider::GraylogAPI) do
-
+  @doc = 'graylog api type for graylog pipeline rule'
   mk_resource_methods
 
   def self.api_prefix
     major_version == 2 ? 'plugins/org.graylog.plugins.pipelineprocessor/' : ''
   end
+
   def api_prefix
     self.class.api_prefix
   end
@@ -18,7 +19,7 @@ Puppet::Type.type(:graylog_pipeline_rule).provide(:graylog_api, parent: Puppet::
         ensure: :present,
         name: data['title'],
         description: data['description'],
-        source: data['source'],
+        source: data['source']
       )
       item.rest_id = data['id']
       item
@@ -26,11 +27,10 @@ Puppet::Type.type(:graylog_pipeline_rule).provide(:graylog_api, parent: Puppet::
   end
 
   def flush
-    simple_flush("#{api_prefix}system/pipelines/rule",{
-      title: resource[:name],
-      description: resource[:description],
-      source: resource[:source],
-    })
+    simple_flush("#{api_prefix}system/pipelines/rule", {
+                   title: resource[:name],
+                   description: resource[:description],
+                   source: resource[:source],
+                 })
   end
-
 end

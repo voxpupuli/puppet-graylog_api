@@ -22,7 +22,7 @@
 #   are safely skipped. Actual pattern lines begin with the pattern name in
 #   all-caps, followed by a space, followed by the pattern itself. See the
 #   Graylog documentation for a full description of the Grok pattern format.
-define graylog_api::grok::pattern_file(
+define graylog_api::grok::pattern_file (
   String $contents,
 ) {
   $contents.split("\n").each |$line| {

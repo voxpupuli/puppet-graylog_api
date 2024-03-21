@@ -1,5 +1,4 @@
 Puppet::Type.newtype(:graylog_lookup_table) do
-
   desc <<-END_OF_DOC
     @summary
       Configures a Lookup Table.
@@ -23,7 +22,7 @@ Puppet::Type.newtype(:graylog_lookup_table) do
   newparam(:name) do
     desc 'The unique name of the Lookup Table. Must consist of only letters, numbers and dashes.'
     validate do |value|
-      raise ArgumentError, "#{value} is not a valid name." unless value =~ /^[a-z0-9-]+$/
+      raise ArgumentError, "#{value} is not a valid name." unless value =~ %r{^[a-z0-9-]+$}
     end
   end
 
@@ -59,7 +58,7 @@ Puppet::Type.newtype(:graylog_lookup_table) do
     desc 'The name of the Lookup Cache used for this Lookup Table.'
   end
 
-  autorequire('graylog_api') {'api'}
+  autorequire('graylog_api') { 'api' }
   autorequire('graylog_lookup_adapter') { self[:ensure] == 'absent' ? [] : self[:adapter] }
   autorequire('graylog_lookup_cache') { self[:ensure] == 'absent' ? [] : self[:cache] }
   autobefore('graylog_lookup_adapter') { self[:ensure] == 'absent' ? self[:adapter] : [] }

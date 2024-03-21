@@ -1,7 +1,7 @@
 require_relative '../graylog_api'
 
 Puppet::Type.type(:graylog_stream).provide(:graylog_api, parent: Puppet::Provider::GraylogAPI) do
-
+  @doc = 'graylog api type for graylog stream'
   mk_resource_methods
 
   def self.instances
@@ -13,9 +13,9 @@ Puppet::Type.type(:graylog_stream).provide(:graylog_api, parent: Puppet::Provide
         description: data['description'],
         matching_type: data['matching_type'],
         enabled: !data['disabled'],
-        rules: data['rules'].map {|defn| rule_from_data(defn) },
+        rules: data['rules'].map { |defn| rule_from_data(defn) },
         remove_matches_from_default_stream: data['remove_matches_from_default_stream'],
-        index_set: index_set_prefix_from_id(data['index_set_id']),
+        index_set: index_set_prefix_from_id(data['index_set_id'])
       )
       stream.rest_id = data['id']
       stream
@@ -26,7 +26,7 @@ Puppet::Type.type(:graylog_stream).provide(:graylog_api, parent: Puppet::Provide
     get("system/indices/index_sets/#{index_set_id}")['prefix']
   end
 
-  RULE_TYPES = %w{equals matches greater_than less_than field_presence contain always_match}
+  RULE_TYPES = %w[equals matches greater_than less_than field_presence contain always_match]
 
   def self.rule_from_data(d)
     data = recursive_undef_to_nil(d)
@@ -40,23 +40,23 @@ Puppet::Type.type(:graylog_stream).provide(:graylog_api, parent: Puppet::Provide
   end
 
   def flush
-    simple_flush('streams',{
-      title: resource[:name],
-      description: resource[:description],
-      matching_type: resource[:matching_type],
-      rules: resource[:rules].map {|defn| data_from_rule(defn) },
-      remove_matches_from_default_stream: resource[:remove_matches_from_default_stream],
-      index_set_id: index_set_id_from_prefix(resource[:index_set])
-    })
+    simple_flush('streams', {
+                   title: resource[:name],
+                   description: resource[:description],
+                   matching_type: resource[:matching_type],
+                   rules: resource[:rules].map { |defn| data_from_rule(defn) },
+                   remove_matches_from_default_stream: resource[:remove_matches_from_default_stream],
+                   index_set_id: index_set_id_from_prefix(resource[:index_set])
+                 })
 
-    if exists?
-      update_rules()
+    return unless exists?
 
-      if resource[:enabled]
-        post("streams/#{rest_id}/resume")
-      else
-        post("streams/#{rest_id}/pause")
-      end
+    update_rules
+
+    if resource[:enabled]
+      post("streams/#{rest_id}/resume")
+    else
+      post("streams/#{rest_id}/pause")
     end
   end
 
@@ -64,19 +64,19 @@ Puppet::Type.type(:graylog_stream).provide(:graylog_api, parent: Puppet::Provide
     @rest_id = response['stream_id']
   end
 
-  def update_rules()
-    rules_res = resource[:rules].map {|defn| data_from_rule(defn) }
+  def update_rules
+    rules_res = resource[:rules].map { |defn| data_from_rule(defn) }
     rules_gl = get("streams/#{rest_id}/rules")
 
-    rules_res.each {|rule_res|
-      rule_gl = rules_gl['stream_rules'].find {|rule_gl| rule_res['description'] == rule_gl['description']}
+    rules_res.each do |rule_res|
+      rule_gl = rules_gl['stream_rules'].find { |rule_gl| rule_res['description'] == rule_gl['description'] }
 
       if rule_gl
         put("streams/#{rest_id}/rules/#{rule_gl['id']}", rule_res)
       else
         post("streams/#{rest_id}/rules", rule_res)
       end
-    }
+    end
   end
 
   def data_from_rule(rule)
@@ -90,13 +90,12 @@ Puppet::Type.type(:graylog_stream).provide(:graylog_api, parent: Puppet::Provide
   end
 
   def index_set_id_from_prefix(index_set_prefix)
-    index_sets = get("system/indices/index_sets")['index_sets']
+    index_sets = get('system/indices/index_sets')['index_sets']
     index_set = if index_set_prefix
-      index_sets.find {|set| set['index_prefix'] == index_set_prefix }
-    else
-      index_sets.find {|set| set['default'] }
-    end
+                  index_sets.find { |set| set['index_prefix'] == index_set_prefix }
+                else
+                  index_sets.find { |set| set['default'] }
+                end
     index_set['id']
   end
-
 end

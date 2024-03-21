@@ -69,7 +69,7 @@
 # @param use_null_delimiter
 #   Whether to use a null byte as a frame delimiter. If false, a newline is
 #   used as the delimiter instead.
-define graylog_api::input::gelf_tcp(
+define graylog_api::input::gelf_tcp (
   Enum['present','absent']  $ensure                    = 'present',
   String                    $bind_address              = '0.0.0.0',
   Integer                   $decompress_size_limit     = '8 MB'.to_bytes,
@@ -87,7 +87,7 @@ define graylog_api::input::gelf_tcp(
   String                    $tls_key_file              = '',
   String                    $tls_key_password          = '',
   Boolean                   $use_null_delimiter        = true,
-){
+) {
   graylog_input { $name:
     ensure        => $ensure,
     type          => 'org.graylog2.inputs.gelf.tcp.GELFTCPInput',

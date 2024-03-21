@@ -21,7 +21,7 @@
 # @param action
 #   The action to take if the rule matches. Defaults to the empty string (e.g.
 #   no action is taken when the rule matches). 
-define graylog_api::pipeline::rule(
+define graylog_api::pipeline::rule (
   String $description = '',
   String $condition   = 'true', # lint:ignore:quoted_booleans
   String $action      = '',

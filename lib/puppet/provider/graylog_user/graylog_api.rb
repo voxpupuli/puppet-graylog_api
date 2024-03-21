@@ -1,13 +1,14 @@
 require_relative '../graylog_api'
 
 Puppet::Type.type(:graylog_user).provide(:graylog_api, parent: Puppet::Provider::GraylogAPI) do
-
+  @doc = 'graylog api type for graylog user'
   mk_resource_methods
 
   def self.instances
     results = get('users')
     items = results['users'].map do |data|
       next if data['username'] == 'admin' || data['external'] == true
+
       new(
         ensure: :present,
         name: data['username'],
@@ -36,12 +37,11 @@ Puppet::Type.type(:graylog_user).provide(:graylog_api, parent: Puppet::Provider:
 
     if @action
       simple_flush('users', params.merge({
-        username: resource[:name],
-        password: resource[:password]
-      }))
+                                           username: resource[:name],
+                                           password: resource[:password]
+                                         }))
     else
       simple_flush('users', params)
     end
   end
-
 end

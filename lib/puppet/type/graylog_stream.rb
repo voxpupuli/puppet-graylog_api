@@ -1,7 +1,6 @@
 require 'puppet/property/boolean'
 
 Puppet::Type.newtype(:graylog_stream) do
-
   desc <<-END_OF_DOC
     @summary
       Creates a Stream configuration.
@@ -15,7 +14,7 @@ Puppet::Type.newtype(:graylog_stream) do
             type  => 'equals',
             value => 'bar',
           },
-        ],    
+        ],#{'    '}
       }
   END_OF_DOC
 
@@ -30,13 +29,12 @@ Puppet::Type.newtype(:graylog_stream) do
   end
 
   newproperty(:enabled, boolean: true, parent: Puppet::Property::Boolean) do
-    desc "Whether this stream is enabled."
+    desc 'Whether this stream is enabled.'
     defaultto(true)
   end
 
-
   newproperty(:matching_type) do
-    desc "Whether messages must match all rules, or any rule, to belong to the stream."
+    desc 'Whether messages must match all rules, or any rule, to belong to the stream.'
     newvalues(:AND, :OR)
     aliasvalue(:and, :AND)
     aliasvalue(:or, :OR)
@@ -62,17 +60,16 @@ Puppet::Type.newtype(:graylog_stream) do
   end
 
   newproperty(:remove_matches_from_default_stream, boolean: true, parent: Puppet::Property::Boolean) do
-    desc "Whether messages that appear in this stream get removed from the default stream."
+    desc 'Whether messages that appear in this stream get removed from the default stream.'
     defaultto(false)
   end
 
   newproperty(:index_set) do
-    desc "The prefix of the index set that stream operates on."
+    desc 'The prefix of the index set that stream operates on.'
   end
   # TODO: Implement alert_conditions
   # TODO: Implement alert_receivers
   # TODO: Implement outputs
 
-
-  autorequire('graylog_api') {'api'}
+  autorequire('graylog_api') { 'api' }
 end

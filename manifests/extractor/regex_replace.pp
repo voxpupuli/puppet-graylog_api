@@ -13,7 +13,7 @@
 # @param target_field
 #   Choose a field name to store the extracted value. It can only contain alphanumeric characters and underscores. Example: http_response_code.
 #
-# @param regex_value
+# @param regex
 #   Title of the input this extractor is attached to.
 #
 # @param cut_or_copy
@@ -31,35 +31,35 @@
 # @param order
 #   Sort index for this extractor.
 #
-define graylog_api::extractor::regex_replace(
+define graylog_api::extractor::regex_replace (
   Enum['present','absent']  $ensure                    = 'present',
   String                    $input                     = '',
   String                    $source_field              = '',
   String                    $target_field              = '',
-  String                    $regex                = '',
+  String                    $regex                     = '',
   String                    $replacement               = '',
-  Optional[Boolean]         $replace_all               = false,
+  Boolean                   $replace_all               = false,
   Optional[String]          $cut_or_copy               = undef,
   Optional[String]          $condition_type            = undef,
   Optional[String]          $condition_value           = undef,
   Optional[Array]           $converters                = undef,
   Optional[Integer]         $order                     = undef
-){
+) {
   graylog_extractor { $name:
-    ensure        => $ensure,
-    input         => $input,
-    type          => 'REGEX_REPLACE',
-    source_field  => $source_field,
-    target_field  => $target_field,
-    cut_or_copy   => $cut_or_copy,
+    ensure          => $ensure,
+    input           => $input,
+    type            => 'REGEX_REPLACE',
+    source_field    => $source_field,
+    target_field    => $target_field,
+    cut_or_copy     => $cut_or_copy,
     condition_type  => $condition_type,
     condition_value => $condition_value,
     converters      => $converters,
     order           => $order,
     configuration   => {
-        regex => $regex,
-        replacement => $replacement,
-        replace_all => $replace_all
-    }
+      regex       => $regex,
+      replacement => $replacement,
+      replace_all => $replace_all,
+    },
   }
 }

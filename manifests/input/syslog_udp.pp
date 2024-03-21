@@ -46,7 +46,7 @@
 # @param store_full_message
 #   Whether to store the full original syslog message as full_message. Defaults
 #   to true.
-define graylog_api::input::syslog_udp(
+define graylog_api::input::syslog_udp (
   Enum['present','absent']  $ensure                    = 'present',
   Boolean                   $allow_override_date       = true,
   String                    $bind_address              = '0.0.0.0',
@@ -58,7 +58,7 @@ define graylog_api::input::syslog_udp(
   Enum['global','local']    $scope                     = 'global',
   Optional[Hash]            $static_fields             = undef,
   Boolean                   $store_full_message        = true,
-){
+) {
   graylog_input { $name:
     ensure        => $ensure,
     type          => 'org.graylog2.inputs.syslog.udp.SyslogUDPInput',

@@ -66,7 +66,7 @@
 # @param tls_key_password
 #   The password to decrypt to private key specified in tls_key_file. Leave
 #   blank if not using TLS, or if the key is not encrypted.
-define graylog_api::input::beats2(
+define graylog_api::input::beats2 (
   Enum['present','absent']  $ensure                    = 'present',
   String                    $bind_address              = '0.0.0.0',
   Boolean                   $include_beats_prefix      = false,
@@ -82,7 +82,7 @@ define graylog_api::input::beats2(
   Boolean                   $tls_enable                = false,
   String                    $tls_key_file              = '',
   String                    $tls_key_password          = '',
-){
+) {
   graylog_input { $name:
     ensure        => $ensure,
     type          => 'org.graylog.plugins.beats.Beats2Input',

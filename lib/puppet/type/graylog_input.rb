@@ -1,9 +1,8 @@
 Puppet::Type.newtype(:graylog_input) do
-
   desc <<-END_OF_DOC
     @summary
       Creates an Input.
-      
+    #{'  '}
     This type covers the raw API and is agnostic to the type of input being
     created. In most cases, you should declare inputs using the
     graylog_api::input::* defined types, which wrap this type and provide
@@ -48,13 +47,13 @@ Puppet::Type.newtype(:graylog_input) do
   end
 
   newproperty(:configuration) do
-    desc "A hash of configuration values for the input; structure varies by input type."
+    desc 'A hash of configuration values for the input; structure varies by input type.'
     isrequired
   end
 
   newproperty(:static_fields) do
-    desc "A hash of static fields to apply to messages ingested by this input."
+    desc 'A hash of static fields to apply to messages ingested by this input.'
   end
 
-  autorequire('graylog_api') {'api'}
+  autorequire('graylog_api') { 'api' }
 end
