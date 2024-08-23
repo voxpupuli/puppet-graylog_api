@@ -71,7 +71,7 @@
 #   processing time will be the 'All messages' stream.
 define graylog_api::pipeline (
   Array[Graylog_api::Pipeline::Stage::Loose] $stages,
-  String                                     $description = '',
+  Optional[String]                           $description = undef,
   Variant[String,Array[String]]              $streams     = [],
 ) {
   $stage_bodies = $stages.map |$index,$stage| {

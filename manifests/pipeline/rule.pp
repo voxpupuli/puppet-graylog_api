@@ -22,9 +22,9 @@
 #   The action to take if the rule matches. Defaults to the empty string (e.g.
 #   no action is taken when the rule matches). 
 define graylog_api::pipeline::rule (
-  String $description = '',
-  String $condition   = 'true', # lint:ignore:quoted_booleans
-  String $action      = '',
+  Optional[String] $description = undef,
+  String $condition             = 'true', # lint:ignore:quoted_booleans
+  Optional[String] $action      = undef
 ) {
   $rule_body = @("END_OF_RULE")
     rule "${title}"

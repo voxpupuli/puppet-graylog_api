@@ -78,35 +78,35 @@ Default value: `'present'`
 
 ##### <a name="-graylog_api--extractor--regex--input"></a>`input`
 
-Data type: `String`
+Data type: `Optional[String]`
 
 Title of the input this extractor is attached to.
 
-Default value: `''`
+Default value: `undef`
 
 ##### <a name="-graylog_api--extractor--regex--source_field"></a>`source_field`
 
-Data type: `String`
+Data type: `Optional[String]`
 
 Source field
 
-Default value: `''`
+Default value: `undef`
 
 ##### <a name="-graylog_api--extractor--regex--target_field"></a>`target_field`
 
-Data type: `String`
+Data type: `Optional[String]`
 
 Choose a field name to store the extracted value. It can only contain alphanumeric characters and underscores. Example: http_response_code.
 
-Default value: `''`
+Default value: `undef`
 
 ##### <a name="-graylog_api--extractor--regex--regex_value"></a>`regex_value`
 
-Data type: `String`
+Data type: `Optional[String]`
 
 Title of the input this extractor is attached to.
 
-Default value: `''`
+Default value: `undef`
 
 ##### <a name="-graylog_api--extractor--regex--cut_or_copy"></a>`cut_or_copy`
 
@@ -179,35 +179,35 @@ Default value: `'present'`
 
 ##### <a name="-graylog_api--extractor--regex_replace--input"></a>`input`
 
-Data type: `String`
+Data type: `Optional[String]`
 
 Title of the input this extractor is attached to.
 
-Default value: `''`
+Default value: `undef`
 
 ##### <a name="-graylog_api--extractor--regex_replace--source_field"></a>`source_field`
 
-Data type: `String`
+Data type: `Optional[String]`
 
 Source field
 
-Default value: `''`
+Default value: `undef`
 
 ##### <a name="-graylog_api--extractor--regex_replace--target_field"></a>`target_field`
 
-Data type: `String`
+Data type: `Optional[String]`
 
 Choose a field name to store the extracted value. It can only contain alphanumeric characters and underscores. Example: http_response_code.
 
-Default value: `''`
+Default value: `undef`
 
 ##### <a name="-graylog_api--extractor--regex_replace--regex"></a>`regex`
 
-Data type: `String`
+Data type: `Optional[String]`
 
 Title of the input this extractor is attached to.
 
-Default value: `''`
+Default value: `undef`
 
 ##### <a name="-graylog_api--extractor--regex_replace--cut_or_copy"></a>`cut_or_copy`
 
@@ -251,11 +251,11 @@ Default value: `undef`
 
 ##### <a name="-graylog_api--extractor--regex_replace--replacement"></a>`replacement`
 
-Data type: `String`
+Data type: `Optional[String]`
 
 
 
-Default value: `''`
+Default value: `undef`
 
 ##### <a name="-graylog_api--extractor--regex_replace--replace_all"></a>`replace_all`
 
@@ -396,7 +396,7 @@ Default value: `false`
 
 ##### <a name="-graylog_api--input--beats--tls_cert_file"></a>`tls_cert_file`
 
-Data type: `String`
+Data type: `Optional[String]`
 
 The path to the server certificate to use when securing the connection with
 TLS. Has no effect unless tls_enable is true.
@@ -405,7 +405,7 @@ Note that this must be the entire certificate chain, and that Graylog is
 sensitive to exact formatting of PEM certificates, e.g. there must be a
 trailing newline.
 
-Default value: `''`
+Default value: `undef`
 
 ##### <a name="-graylog_api--input--beats--tls_client_auth"></a>`tls_client_auth`
 
@@ -418,13 +418,13 @@ Default value: `'disabled'`
 
 ##### <a name="-graylog_api--input--beats--tls_client_auth_cert_file"></a>`tls_client_auth_cert_file`
 
-Data type: `String`
+Data type: `Optional[String]`
 
 The path to the file (or directory) which stores the certificates of
 trusted clients. Has no effect if tls_client_auth is 'disabled' or
 tls_enable is false.
 
-Default value: `''`
+Default value: `undef`
 
 ##### <a name="-graylog_api--input--beats--tls_enable"></a>`tls_enable`
 
@@ -436,7 +436,7 @@ Default value: `false`
 
 ##### <a name="-graylog_api--input--beats--tls_key_file"></a>`tls_key_file`
 
-Data type: `String`
+Data type: `Optional[String]`
 
 The path to the private key which corresponds to the tls_cert_file. Has no
 effect if tls_enable is false.
@@ -444,16 +444,16 @@ effect if tls_enable is false.
 Note that for PEM private keys, Graylog is sensitive to exact formatting,
 e.g. there must be a trailing newline.
 
-Default value: `''`
+Default value: `undef`
 
 ##### <a name="-graylog_api--input--beats--tls_key_password"></a>`tls_key_password`
 
-Data type: `String`
+Data type: `Optional[String]`
 
 The password to decrypt to private key specified in tls_key_file. Leave
 blank if not using TLS, or if the key is not encrypted.
 
-Default value: `''`
+Default value: `undef`
 
 ### <a name="graylog_api--input--beats2"></a>`graylog_api::input::beats2`
 
@@ -559,7 +559,7 @@ Default value: `false`
 
 ##### <a name="-graylog_api--input--beats2--tls_cert_file"></a>`tls_cert_file`
 
-Data type: `String`
+Data type: `Optional[String]`
 
 The path to the server certificate to use when securing the connection with
 TLS. Has no effect unless tls_enable is true.
@@ -568,7 +568,7 @@ Note that this must be the entire certificate chain, and that Graylog is
 sensitive to exact formatting of PEM certificates, e.g. there must be a
 trailing newline.
 
-Default value: `''`
+Default value: `undef`
 
 ##### <a name="-graylog_api--input--beats2--tls_client_auth"></a>`tls_client_auth`
 
@@ -581,13 +581,13 @@ Default value: `'disabled'`
 
 ##### <a name="-graylog_api--input--beats2--tls_client_auth_cert_file"></a>`tls_client_auth_cert_file`
 
-Data type: `String`
+Data type: `Optional[String]`
 
 The path to the file (or directory) which stores the certificates of
 trusted clients. Has no effect if tls_client_auth is 'disabled' or
 tls_enable is false.
 
-Default value: `''`
+Default value: `undef`
 
 ##### <a name="-graylog_api--input--beats2--tls_enable"></a>`tls_enable`
 
@@ -599,7 +599,7 @@ Default value: `false`
 
 ##### <a name="-graylog_api--input--beats2--tls_key_file"></a>`tls_key_file`
 
-Data type: `String`
+Data type: `Optional[String]`
 
 The path to the private key which corresponds to the tls_cert_file. Has no
 effect if tls_enable is false.
@@ -607,16 +607,16 @@ effect if tls_enable is false.
 Note that for PEM private keys, Graylog is sensitive to exact formatting,
 e.g. there must be a trailing newline.
 
-Default value: `''`
+Default value: `undef`
 
 ##### <a name="-graylog_api--input--beats2--tls_key_password"></a>`tls_key_password`
 
-Data type: `String`
+Data type: `Optional[String]`
 
 The password to decrypt to private key specified in tls_key_file. Leave
 blank if not using TLS, or if the key is not encrypted.
 
-Default value: `''`
+Default value: `undef`
 
 ### <a name="graylog_api--input--cef_tcp"></a>`graylog_api::input::cef_tcp`
 
@@ -742,7 +742,7 @@ Default value: `'UTC'`
 
 ##### <a name="-graylog_api--input--cef_tcp--tls_cert_file"></a>`tls_cert_file`
 
-Data type: `String`
+Data type: `Optional[String]`
 
 The path to the server certificate to use when securing the connection with
 TLS. Has no effect unless tls_enable is true. Defaults to the empty string.
@@ -750,7 +750,7 @@ Note that this must be the entire certificate chain, and that Graylog is
 sensitive to exact formatting of PEM certificates, e.g. there must be a
 trailing newline.
 
-Default value: `''`
+Default value: `undef`
 
 ##### <a name="-graylog_api--input--cef_tcp--tls_client_auth"></a>`tls_client_auth`
 
@@ -763,13 +763,13 @@ Default value: `'disabled'`
 
 ##### <a name="-graylog_api--input--cef_tcp--tls_client_auth_cert_file"></a>`tls_client_auth_cert_file`
 
-Data type: `String`
+Data type: `Optional[String]`
 
 The path to the file (or directory) which stores the certificates of
 trusted clients. Has no effect if tls_client_auth is 'disabled' or
 tls_enable is false.
 
-Default value: `''`
+Default value: `undef`
 
 ##### <a name="-graylog_api--input--cef_tcp--tls_enable"></a>`tls_enable`
 
@@ -781,23 +781,23 @@ Default value: `false`
 
 ##### <a name="-graylog_api--input--cef_tcp--tls_key_file"></a>`tls_key_file`
 
-Data type: `String`
+Data type: `Optional[String]`
 
 The path to the private key which corresponds to the tls_cert_file. Has no
 effect if tls_enable is false.
 Note that for PEM private keys, Graylog is sensitive to exact formatting,
 e.g. there must be a trailing newline.
 
-Default value: `''`
+Default value: `undef`
 
 ##### <a name="-graylog_api--input--cef_tcp--tls_key_password"></a>`tls_key_password`
 
-Data type: `String`
+Data type: `Optional[String]`
 
 The password to decrypt to private key specified in tls_key_file. Leave
 blank if not using TLS, or if the key is not encrypted.
 
-Default value: `''`
+Default value: `undef`
 
 ##### <a name="-graylog_api--input--cef_tcp--use_full_names"></a>`use_full_names`
 
@@ -1054,7 +1054,7 @@ Default value: `false`
 
 ##### <a name="-graylog_api--input--gelf_http--tls_cert_file"></a>`tls_cert_file`
 
-Data type: `String`
+Data type: `Optional[String]`
 
 The path to the server certificate to use when securing the connection with
 TLS. Has no effect unless tls_enable is true.
@@ -1063,7 +1063,7 @@ Note that this must be the entire certificate chain, and that Graylog is
 sensitive to exact formatting of PEM certificates, e.g. there must be a
 trailing newline.
 
-Default value: `''`
+Default value: `undef`
 
 ##### <a name="-graylog_api--input--gelf_http--tls_client_auth"></a>`tls_client_auth`
 
@@ -1076,13 +1076,13 @@ Default value: `'disabled'`
 
 ##### <a name="-graylog_api--input--gelf_http--tls_client_auth_cert_file"></a>`tls_client_auth_cert_file`
 
-Data type: `String`
+Data type: `Optional[String]`
 
 The path to the file (or directory) which stores the certificates of
 trusted clients. Has no effect if tls_client_auth is 'disabled' or
 tls_enable is false.
 
-Default value: `''`
+Default value: `undef`
 
 ##### <a name="-graylog_api--input--gelf_http--tls_enable"></a>`tls_enable`
 
@@ -1094,7 +1094,7 @@ Default value: `false`
 
 ##### <a name="-graylog_api--input--gelf_http--tls_key_file"></a>`tls_key_file`
 
-Data type: `String`
+Data type: `Optional[String]`
 
 The path to the private key which corresponds to the tls_cert_file. Has no
 effect if tls_enable is false.
@@ -1102,16 +1102,16 @@ effect if tls_enable is false.
 Note that for PEM private keys, Graylog is sensitive to exact formatting,
 e.g. there must be a trailing newline.
 
-Default value: `''`
+Default value: `undef`
 
 ##### <a name="-graylog_api--input--gelf_http--tls_key_password"></a>`tls_key_password`
 
-Data type: `String`
+Data type: `Optional[String]`
 
 The password to decrypt to private key specified in tls_key_file. Leave
 blank if not using TLS, or if the key is not encrypted.
 
-Default value: `''`
+Default value: `undef`
 
 ### <a name="graylog_api--input--gelf_tcp"></a>`graylog_api::input::gelf_tcp`
 
@@ -1225,7 +1225,7 @@ Default value: `false`
 
 ##### <a name="-graylog_api--input--gelf_tcp--tls_cert_file"></a>`tls_cert_file`
 
-Data type: `String`
+Data type: `Optional[String]`
 
 The path to the server certificate to use when securing the connection with
 TLS. Has no effect unless tls_enable is true. Defaults to the empty string.
@@ -1233,7 +1233,7 @@ Note that this must be the entire certificate chain, and that Graylog is
 sensitive to exact formatting of PEM certificates, e.g. there must be a
 trailing newline.
 
-Default value: `''`
+Default value: `undef`
 
 ##### <a name="-graylog_api--input--gelf_tcp--tls_client_auth"></a>`tls_client_auth`
 
@@ -1246,13 +1246,13 @@ Default value: `'disabled'`
 
 ##### <a name="-graylog_api--input--gelf_tcp--tls_client_auth_cert_file"></a>`tls_client_auth_cert_file`
 
-Data type: `String`
+Data type: `Optional[String]`
 
 The path to the file (or directory) which stores the certificates of
 trusted clients. Has no effect if tls_client_auth is 'disabled' or
 tls_enable is false.
 
-Default value: `''`
+Default value: `undef`
 
 ##### <a name="-graylog_api--input--gelf_tcp--tls_enable"></a>`tls_enable`
 
@@ -1264,23 +1264,23 @@ Default value: `false`
 
 ##### <a name="-graylog_api--input--gelf_tcp--tls_key_file"></a>`tls_key_file`
 
-Data type: `String`
+Data type: `Optional[String]`
 
 The path to the private key which corresponds to the tls_cert_file. Has no
 effect if tls_enable is false.
 Note that for PEM private keys, Graylog is sensitive to exact formatting,
 e.g. there must be a trailing newline.
 
-Default value: `''`
+Default value: `undef`
 
 ##### <a name="-graylog_api--input--gelf_tcp--tls_key_password"></a>`tls_key_password`
 
-Data type: `String`
+Data type: `Optional[String]`
 
 The password to decrypt to private key specified in tls_key_file. Leave
 blank if not using TLS, or if the key is not encrypted.
 
-Default value: `''`
+Default value: `undef`
 
 ##### <a name="-graylog_api--input--gelf_tcp--use_null_delimiter"></a>`use_null_delimiter`
 
@@ -1470,7 +1470,7 @@ Default value: `false`
 
 ##### <a name="-graylog_api--input--syslog_tcp--tls_cert_file"></a>`tls_cert_file`
 
-Data type: `String`
+Data type: `Optional[String]`
 
 The path to the server certificate to use when securing the connection with
 TLS. Has no effect unless tls_enable is true. Defaults to the empty string.
@@ -1478,7 +1478,7 @@ Note that this must be the entire certificate chain, and that Graylog is
 sensitive to exact formatting of PEM certificates, e.g. there must be a
 trailing newline.
 
-Default value: `''`
+Default value: `undef`
 
 ##### <a name="-graylog_api--input--syslog_tcp--tls_client_auth"></a>`tls_client_auth`
 
@@ -1491,13 +1491,13 @@ Default value: `'disabled'`
 
 ##### <a name="-graylog_api--input--syslog_tcp--tls_client_auth_cert_file"></a>`tls_client_auth_cert_file`
 
-Data type: `String`
+Data type: `Optional[String]`
 
 The path to the file (or directory) which stores the certificates of
 trusted clients. Has no effect if tls_client_auth is 'disabled' or
 tls_enable is false.
 
-Default value: `''`
+Default value: `undef`
 
 ##### <a name="-graylog_api--input--syslog_tcp--tls_enable"></a>`tls_enable`
 
@@ -1509,23 +1509,23 @@ Default value: `false`
 
 ##### <a name="-graylog_api--input--syslog_tcp--tls_key_file"></a>`tls_key_file`
 
-Data type: `String`
+Data type: `Optional[String]`
 
 The path to the private key which corresponds to the tls_cert_file. Has no
 effect if tls_enable is false.
 Note that for PEM private keys, Graylog is sensitive to exact formatting,
 e.g. there must be a trailing newline.
 
-Default value: `''`
+Default value: `undef`
 
 ##### <a name="-graylog_api--input--syslog_tcp--tls_key_password"></a>`tls_key_password`
 
-Data type: `String`
+Data type: `Optional[String]`
 
 The password to decrypt to private key specified in tls_key_file. Leave
 blank if not using TLS, or if the key is not encrypted.
 
-Default value: `''`
+Default value: `undef`
 
 ### <a name="graylog_api--input--syslog_udp"></a>`graylog_api::input::syslog_udp`
 
@@ -1714,11 +1714,11 @@ The following parameters are available in the `graylog_api::pipeline` defined ty
 
 ##### <a name="-graylog_api--pipeline--description"></a>`description`
 
-Data type: `String`
+Data type: `Optional[String]`
 
 The description of the pipeline.
 
-Default value: `''`
+Default value: `undef`
 
 ##### <a name="-graylog_api--pipeline--stages"></a>`stages`
 
@@ -1775,11 +1775,11 @@ The following parameters are available in the `graylog_api::pipeline::rule` defi
 
 ##### <a name="-graylog_api--pipeline--rule--description"></a>`description`
 
-Data type: `String`
+Data type: `Optional[String]`
 
 A description of the rule.
 
-Default value: `''`
+Default value: `undef`
 
 ##### <a name="-graylog_api--pipeline--rule--condition"></a>`condition`
 
@@ -1792,12 +1792,12 @@ Default value: `'true'`
 
 ##### <a name="-graylog_api--pipeline--rule--action"></a>`action`
 
-Data type: `String`
+Data type: `Optional[String]`
 
 The action to take if the rule matches. Defaults to the empty string (e.g.
 no action is taken when the rule matches).
 
-Default value: `''`
+Default value: `undef`
 
 ## Resource types
 

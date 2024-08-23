@@ -33,11 +33,11 @@
 #
 define graylog_api::extractor::regex_replace (
   Enum['present','absent']  $ensure                    = 'present',
-  String                    $input                     = '',
-  String                    $source_field              = '',
-  String                    $target_field              = '',
-  String                    $regex                     = '',
-  String                    $replacement               = '',
+  Optional[String]          $input                     = undef,
+  Optional[String]          $source_field              = undef,
+  Optional[String]          $target_field              = undef,
+  Optional[String]          $regex                     = undef,
+  Optional[String]          $replacement               = undef,
   Boolean                   $replace_all               = false,
   Optional[String]          $cut_or_copy               = undef,
   Optional[String]          $condition_type            = undef,

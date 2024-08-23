@@ -33,10 +33,10 @@
 #
 define graylog_api::extractor::regex (
   Enum['present','absent']  $ensure                    = 'present',
-  String                    $input                     = '',
-  String                    $source_field              = '',
-  String                    $target_field              = '',
-  String                    $regex_value               = '',
+  Optional[String]          $input                     = undef,
+  Optional[String]          $source_field              = undef,
+  Optional[String]          $target_field              = undef,
+  Optional[String]          $regex_value               = undef,
   Optional[String]          $cut_or_copy               = undef,
   Optional[String]          $condition_type            = undef,
   Optional[String]          $condition_value           = undef,

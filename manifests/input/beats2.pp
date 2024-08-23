@@ -76,12 +76,12 @@ define graylog_api::input::beats2 (
   Enum['global','local']    $scope                     = 'global',
   Optional[Hash]            $static_fields             = undef,
   Boolean                   $tcp_keepalive             = false,
-  String                    $tls_cert_file             = '',
+  Optional[String]          $tls_cert_file             = undef,
   String                    $tls_client_auth           = 'disabled',
-  String                    $tls_client_auth_cert_file = '',
+  Optional[String]          $tls_client_auth_cert_file = undef,
   Boolean                   $tls_enable                = false,
-  String                    $tls_key_file              = '',
-  String                    $tls_key_password          = '',
+  Optional[String]          $tls_key_file              = undef,
+  Optional[String]          $tls_key_password          = undef,
 ) {
   graylog_input { $name:
     ensure        => $ensure,
