@@ -94,7 +94,7 @@ class Puppet::Provider::GraylogAPI < Puppet::Provider
           **tls_opts
         )
 
-        if result.body
+        if result.body && !result.body.empty?
           if result.body.include? '"type":"ApiError"'
             Puppet.send_log(:err, "Got error response #{result.body}")
             raise
@@ -106,7 +106,7 @@ class Puppet::Provider::GraylogAPI < Puppet::Provider
         Puppet.send_log(:err, "Got error response #{e.response}")
         raise e
       end
-      recursive_nil_to_undef(JSON.parse(result.body)) unless result.nil?
+      recursive_nil_to_undef(JSON.parse(result.body)) if result.body && !result.body.empty?
     end
 
     # Under Puppet Apply, undef in puppet-lang becomes :undef instead of nil
