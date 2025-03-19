@@ -4,4 +4,3 @@
 --fail-on-warnings
 --no-parameter_documentation-check
 --no-parameter_types-check
---no-params-empty-string-assignment-check
