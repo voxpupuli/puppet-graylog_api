@@ -253,7 +253,7 @@ Default value: `undef`
 
 Data type: `String`
 
-
+The replacement string to use for the regex replace operation.
 
 Default value: `''`
 
@@ -261,7 +261,7 @@ Default value: `''`
 
 Data type: `Boolean`
 
-
+Whether to replace all occurrences of the regex pattern or just the first occurrence.
 
 Default value: `false`
 
@@ -3276,8 +3276,8 @@ Alias of
 
 ```puppet
 Struct[{
-    match => Enum['all','either'],
-    rules => Array[String,1],
+  match => Enum['all','either'],
+  rules => Array[String,1],
 }]
 ```
 
