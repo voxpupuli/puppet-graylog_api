@@ -31,6 +31,12 @@
 # @param order
 #   Sort index for this extractor.
 #
+# @param replacement
+#   The replacement string to use for the regex replace operation.
+#
+# @param replace_all
+#   Whether to replace all occurrences of the regex pattern or just the first occurrence.
+#
 define graylog_api::extractor::regex_replace (
   Enum['present','absent']  $ensure                    = 'present',
   String                    $input                     = '',
