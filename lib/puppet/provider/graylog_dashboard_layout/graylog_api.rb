@@ -30,7 +30,7 @@ Puppet::Type.type(:graylog_dashboard_layout).provide(:graylog_api, parent: Puppe
 
       new(
         name: dashboard_name,
-        positions: positions
+        positions: positions,
       )
     end
   end

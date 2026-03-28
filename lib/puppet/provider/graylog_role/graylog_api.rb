@@ -17,7 +17,7 @@ Puppet::Type.type(:graylog_role).provide(:graylog_api, parent: Puppet::Provider:
         ensure: :present,
         name: data['name'],
         description: data['description'],
-        permissions: permissions
+        permissions: permissions,
       )
 
       role.rest_id = data['id']

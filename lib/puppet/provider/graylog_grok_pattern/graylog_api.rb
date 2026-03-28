@@ -10,7 +10,7 @@ Puppet::Type.type(:graylog_grok_pattern).provide(:graylog_api, parent: Puppet::P
       item = new(
         ensure: :present,
         name: data['name'],
-        pattern: data['pattern']
+        pattern: data['pattern'],
       )
       item.rest_id = data['id']
       item

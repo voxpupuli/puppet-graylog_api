@@ -91,7 +91,7 @@ class Puppet::Provider::GraylogAPI < Puppet::Provider
           headers: headers,
           query: query,
           body: body,
-          **tls_opts
+          **tls_opts,
         )
 
         if result.body

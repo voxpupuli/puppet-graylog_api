@@ -18,7 +18,7 @@ Puppet::Type.type(:graylog_dashboard_widget).provide(:graylog_api, parent: Puppe
           name: "#{dashboard_name}!!!#{data['description']}",
           cache_time: data['cache_time'],
           config: data['config'],
-          type: data['type']
+          type: data['type'],
         )
         widget.rest_id = id
         all_widgets << widget

@@ -5,7 +5,7 @@ Puppet::Type.type(:graylog_pipeline).provide(:graylog_api, parent: Puppet::Provi
   mk_resource_methods
 
   def self.api_prefix
-    major_version == 2 ? 'plugins/org.graylog.plugins.pipelineprocessor/' : ''
+    (major_version == 2) ? 'plugins/org.graylog.plugins.pipelineprocessor/' : ''
   end
 
   def api_prefix
@@ -26,7 +26,7 @@ Puppet::Type.type(:graylog_pipeline).provide(:graylog_api, parent: Puppet::Provi
         name: data['title'],
         description: data['description'],
         source: data['source'],
-        connected_streams: connected_streams
+        connected_streams: connected_streams,
       )
       item.rest_id = data['id']
       item
