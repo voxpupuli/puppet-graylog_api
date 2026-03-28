@@ -18,7 +18,7 @@ Puppet::Type.type(:graylog_user).provide(:graylog_api, parent: Puppet::Provider:
         permissions: data['permissions'],
         timezone: data['timezone'],
         session_timeout_ms: data['session_timeout_ms'],
-        startpage: data['startpage']
+        startpage: data['startpage'],
       )
     end
     items.compact
@@ -32,13 +32,13 @@ Puppet::Type.type(:graylog_user).provide(:graylog_api, parent: Puppet::Provider:
       session_timeout_ms: resource[:session_timeout_ms],
       startpage: resource[:startpage],
       permissions: resource[:permissions],
-      roles: resource[:roles]
+      roles: resource[:roles],
     }
 
     if @action
       simple_flush('users', params.merge({
                                            username: resource[:name],
-                                           password: resource[:password]
+                                           password: resource[:password],
                                          }))
     else
       simple_flush('users', params)

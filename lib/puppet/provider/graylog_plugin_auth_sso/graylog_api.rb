@@ -18,7 +18,7 @@ Puppet::Type.type(:graylog_plugin_auth_sso).provide(:graylog_api, parent: Puppet
       email_header: data['email_header'],
       default_email_domain: data['default_email_domain'],
       sync_roles: data['sync_roles'],
-      roles_header: data['roles_header']
+      roles_header: data['roles_header'],
     )]
   end
 
@@ -34,7 +34,7 @@ Puppet::Type.type(:graylog_plugin_auth_sso).provide(:graylog_api, parent: Puppet
           email_header: resource[:email_header],
           default_email_domain: resource[:default_email_domain],
           sync_roles: resource[:sync_roles],
-          roles_header: resource[:roles_header]
+          roles_header: resource[:roles_header],
         })
   end
 end

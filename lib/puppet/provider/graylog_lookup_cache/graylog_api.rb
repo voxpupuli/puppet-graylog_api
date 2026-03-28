@@ -12,7 +12,7 @@ Puppet::Type.type(:graylog_lookup_cache).provide(:graylog_api, parent: Puppet::P
         name: data['name'],
         description: data['description'],
         display_name: data['title'],
-        configuration: recursive_undef_to_nil(data['config'])
+        configuration: recursive_undef_to_nil(data['config']),
       )
       cache.rest_id = data['id']
       cache

@@ -12,7 +12,7 @@ Puppet::Type.type(:graylog_lookup_adapter).provide(:graylog_api, parent: Puppet:
         name: data['name'],
         description: data['description'],
         display_name: data['title'],
-        configuration: recursive_undef_to_nil(data['config'])
+        configuration: recursive_undef_to_nil(data['config']),
       )
       adapter.rest_id = data['id']
       adapter

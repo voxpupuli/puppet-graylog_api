@@ -21,7 +21,7 @@ Puppet::Type.type(:graylog_index_set).provide(:graylog_api, parent: Puppet::Prov
         retention_strategy_details: data['retention_strategy'].reject { |k, _v| k == 'type' },
         index_analyzer: data['index_analyzer'],
         max_segments: data['index_optimization_max_num_segments'],
-        disable_index_optimization: data['index_optimization_disabled']
+        disable_index_optimization: data['index_optimization_disabled'],
       )
       index_set.rest_id = data['id']
       index_set
@@ -50,7 +50,7 @@ Puppet::Type.type(:graylog_index_set).provide(:graylog_api, parent: Puppet::Prov
                    index_optimization_disabled: resource[:disable_index_optimization],
                    creation_date: DateTime.now.iso8601(3),
                    writable: true,
-                   field_type_refresh_interval: 5000
+                   field_type_refresh_interval: 5000,
                  })
   end
 end

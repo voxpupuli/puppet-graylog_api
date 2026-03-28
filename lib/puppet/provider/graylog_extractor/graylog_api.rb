@@ -9,7 +9,7 @@ Puppet::Type.type(:graylog_extractor).provide(:graylog_api, parent: Puppet::Prov
     regex: 'REGEX',
     regex_replace: 'REGEX_REPLACE',
     split_and_index: 'SPLIT_AND_INDEX',
-    substring: 'SUBSTRING'
+    substring: 'SUBSTRING',
   }
 
   mk_resource_methods
@@ -34,7 +34,7 @@ Puppet::Type.type(:graylog_extractor).provide(:graylog_api, parent: Puppet::Prov
           converters: data['converters'],
           condition_type: data['condition_type'],
           condition_value: data['condition_value'],
-          order: data['order']
+          order: data['order'],
         )
         extractor.rest_id = data['id']
         extractor
@@ -57,7 +57,7 @@ Puppet::Type.type(:graylog_extractor).provide(:graylog_api, parent: Puppet::Prov
                    condition_type: resource[:condition_type],
                    condition_value: resource[:condition_value],
                    converters: resource[:converters],
-                   order: resource[:order]
+                   order: resource[:order],
                  })
   end
 
@@ -68,9 +68,9 @@ Puppet::Type.type(:graylog_extractor).provide(:graylog_api, parent: Puppet::Prov
   def get_input_rest_id(name)
     results = get('system/inputs')
 
-    id_list = results['inputs'].
-              select { |data| data['title'] == name }.
-              map { |data| data['id'] }
+    id_list = results['inputs']
+              .select { |data| data['title'] == name }
+              .map { |data| data['id'] }
 
     raise "Input #{name} doesn't exist" if id_list.length == 0
 

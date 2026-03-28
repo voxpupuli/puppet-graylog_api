@@ -59,8 +59,8 @@ Puppet::Type.newtype(:graylog_lookup_table) do
   end
 
   autorequire('graylog_api') { 'api' }
-  autorequire('graylog_lookup_adapter') { self[:ensure] == 'absent' ? [] : self[:adapter] }
-  autorequire('graylog_lookup_cache') { self[:ensure] == 'absent' ? [] : self[:cache] }
-  autobefore('graylog_lookup_adapter') { self[:ensure] == 'absent' ? self[:adapter] : [] }
-  autobefore('graylog_lookup_cache') { self[:ensure] == 'absent' ? self[:cache] : [] }
+  autorequire('graylog_lookup_adapter') { (self[:ensure] == 'absent') ? [] : self[:adapter] }
+  autorequire('graylog_lookup_cache') { (self[:ensure] == 'absent') ? [] : self[:cache] }
+  autobefore('graylog_lookup_adapter') { (self[:ensure] == 'absent') ? self[:adapter] : [] }
+  autobefore('graylog_lookup_cache') { (self[:ensure] == 'absent') ? self[:cache] : [] }
 end

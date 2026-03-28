@@ -41,7 +41,7 @@ Puppet::Type.type(:graylog_input).provide(:graylog_api, parent: Puppet::Provider
         type: data['type'],
         scope: (data['global'] ? 'global' : 'local'),
         configuration: recursive_undef_to_nil(data['attributes']),
-        static_fields: data['static_fields']
+        static_fields: data['static_fields'],
       )
       input.rest_id = data['id']
       input
@@ -68,7 +68,7 @@ Puppet::Type.type(:graylog_input).provide(:graylog_api, parent: Puppet::Provider
     fields_to_add, fields_to_remove = if initial
                                         [
                                           resource[:static_fields].select { |k, v| initial[k] != v },
-                                          initial.keys - resource[:static_fields].keys
+                                          initial.keys - resource[:static_fields].keys,
                                         ]
                                       else
                                         [resource[:static_fields], []]
