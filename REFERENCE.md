@@ -32,7 +32,7 @@
 * [`graylog_index_set`](#graylog_index_set): Defines an Index Set.
 * [`graylog_input`](#graylog_input): Creates an Input.
 * [`graylog_ldap_settings`](#graylog_ldap_settings): Configures LDAP authentication.
-* [`graylog_lookup_adapter`](#graylog_lookup_adapter): @summary#{' '}   Creates a Lookup Table Data Adapter.  Creates a Data Adapter for use with a Lookup table. At present all configuration must 
+* [`graylog_lookup_adapter`](#graylog_lookup_adapter): @summary#{' '}   Creates a Lookup Table Data Adapter.  Creates a Data Adapter for use with a Lookup table. At present all configuration must
 * [`graylog_lookup_cache`](#graylog_lookup_cache): Creates a Lookup Table Cache.
 * [`graylog_lookup_table`](#graylog_lookup_table): Configures a Lookup Table.
 * [`graylog_pipeline`](#graylog_pipeline): Creates a processing pipleine.
@@ -1809,7 +1809,7 @@ concrete resource on the target system.
 
 #### Examples
 
-##### 
+#####
 
 ```puppet
 graylog_api { 'api':
@@ -1895,7 +1895,7 @@ usually discover the appropriate provider for your platform.
 
 #### Examples
 
-##### 
+#####
 
 ```puppet
 graylog_dashboard { 'Example Dashboard':
@@ -1952,7 +1952,7 @@ usually discover the appropriate provider for your platform.
 
 #### Examples
 
-##### 
+#####
 
 ```puppet
 graylog_dashboard_layout { 'Example Dashboard':
@@ -2007,7 +2007,7 @@ widget appears, followed by !!!, followed by the name of the widget.
 
 #### Examples
 
-##### 
+#####
 
 ```puppet
 graylog_dashboard_widget { 'Example Dashboard!!!Example Widget':
@@ -2080,7 +2080,7 @@ directly to configure an extractor type that doesn't have an existing wrapper.
 
 #### Examples
 
-##### 
+#####
 
 ```puppet
 graylog_extractor { 'Example Regex extractor':
@@ -2190,7 +2190,7 @@ their own dedicated file.
 
 #### Examples
 
-##### 
+#####
 
 ```puppet
 graylog_grok_pattern { 'EXAMPLE':
@@ -2239,7 +2239,7 @@ configure the pre-existing default index set created for new installations.
 
 #### Examples
 
-##### 
+#####
 
 ```puppet
 graylog_index_set { 'graylog':
@@ -2354,7 +2354,7 @@ directly to configure an input type that doesn't have an existing wrapper.
 
 #### Examples
 
-##### 
+#####
 
 ```puppet
 graylog_input { 'Example Beats input':
@@ -2438,7 +2438,7 @@ themselves using the graylog_role type.
 
 #### Examples
 
-##### 
+#####
 
 ```puppet
 graylog_ldap_settings { 'ldap':
@@ -2563,7 +2563,7 @@ wrappers for specific adapter types.
 
 #### Examples
 
-##### 
+#####
 
 ```puppet
 graylog_lookup_adapter { 'example-adapter':
@@ -2634,7 +2634,7 @@ cache called "guava_cache".
 
 #### Examples
 
-##### 
+#####
 
 ```puppet
 graylog_lookup_cache { 'example-cache':
@@ -2700,7 +2700,7 @@ Configures a Lookup Table.
 
 #### Examples
 
-##### 
+#####
 
 ```puppet
 graylog_lookup_table { 'example-data':
@@ -2791,7 +2791,7 @@ well as accepting e.g. an array of rules to apply rather than source text.
 
 #### Examples
 
-##### 
+#####
 
 ```puppet
 graylog_pipeline { 'example pipeline':
@@ -2866,7 +2866,7 @@ automatically.
 
 #### Examples
 
-##### 
+#####
 
 ```puppet
 graylog_pipeline_rule { 'example':
@@ -2926,7 +2926,7 @@ SSO authentication pluging configuration definition.
 
 #### Examples
 
-##### 
+#####
 
 ```puppet
 graylog_auth_sso_plugin_config { 'sso':
@@ -3032,7 +3032,7 @@ and cannot be modified.
 
 #### Examples
 
-##### 
+#####
 
 ```puppet
 graylog_role { 'example':
@@ -3096,7 +3096,7 @@ Creates a Stream configuration.
 
 #### Examples
 
-##### 
+#####
 
 ```puppet
 graylog_stream { 'example':
@@ -3141,7 +3141,7 @@ The prefix of the index set that stream operates on.
 
 Valid values: `AND`, `OR`, `and`, `or`, `all`, `any`
 
-Aliases: `"and"=>"AND", "or"=>"OR", "all"=>"AND", "any"=>"OR"`
+Aliases: `"and" => "AND", "or" => "OR", "all" => "AND", "any" => "OR"`
 
 Whether messages must match all rules, or any rule, to belong to the stream.
 
@@ -3188,7 +3188,7 @@ A user definition. Note that the admin user is built-in an cannot be changed.
 
 #### Examples
 
-##### 
+#####
 
 ```puppet
 graylog_user { 'test':
@@ -3286,4 +3286,3 @@ Struct[{
 custom type for graylog_api pipeline stage loose
 
 Alias of `Variant[Graylog_api::Pipeline::Stage, Array[String,1], String]`
-
